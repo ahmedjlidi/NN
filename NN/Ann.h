@@ -4,6 +4,15 @@
 
 #define BATCH_SIZE 1
 
+enum PARAM
+{
+	INPUT,
+	WEIGHTS,
+	BIAS,
+	OUTPUT,
+	ALL
+};
+
 class Layer
 {
 private:
@@ -16,6 +25,21 @@ private:
 	int outputSize, inputSize;
 	
 	float curBias;
+	float kaimingInit(int fanIn) 
+	{
+		// Create a random device and Mersenne Twister generator
+		std::random_device rd;
+		std::mt19937 gen(rd());
+
+		// Standard deviation for Kaiming initialization
+		float stddev = std::sqrt(2.0f / fanIn);
+
+		// Create a normal distribution with mean 0 and calculated stddev
+		std::normal_distribution<float> d(0.0f, stddev);
+
+		// Generate and return a random value
+		return d(gen);
+	}
 public:
 	Layer(int inputSize, int outputSize, bool useBias = false) :inputSize(inputSize), outputSize(outputSize), useBias(useBias)
 	{
@@ -28,9 +52,11 @@ public:
 
 
 		this->weights.values().resize(1);
+
+		float range = static_cast<float>(1.f) / static_cast<float>(this->inputSize);
 		for (int j = 0; j < this->inputSize; j++)
 		{
-				this->weights.values()[0].push_back(rx::Utility::randFloat(-50, 50) / static_cast<float>(100.f));
+				this->weights.values()[0].push_back(rx::Utility::randFloat(-100, 100) / static_cast<float>(100.f));
 				if (std::abs(this->weights.values()[0][j]) < 0.1)
 					this->weights.values()[0][j] *= 10.f;
 		}
@@ -43,7 +69,7 @@ public:
 		}
 		this->bias = this->bias.T();
 
-		this->curBias = rx::Utility::randFloat(-10, 10) / static_cast<float>(100.f);
+		this->curBias = 0.f;
 	}
 	void passInput(std::vector<std::vector<float>>& input)
 	{
@@ -119,6 +145,28 @@ public:
 	{
 		return std::make_pair(this->inputSize, this->outputSize);
 	}
+
+	void clear()
+	{
+		//this->input.values().clear();
+		//this->output.values().clear();
+	}
+
+	/*Tensor parameters(short type = ALL)
+	{
+		switch (type)
+		{
+		case ALL:
+			
+			
+			
+			this->w
+		}
+	}*/
+
+	
+
+	
 };
 
 class Ann
@@ -129,7 +177,14 @@ private:
 	float (*lossFun)(float z);
 
 	Tensor input, y;
+	
+
+	//Back prop temp values/////
 	Tensor grad;
+	Tensor loss_grad;
+	int count = 0;
+	std::vector<float> losses;
+	/////////////////////////////
 
 public:
 	Ann(){}
@@ -144,11 +199,12 @@ public:
 	void backProp();
 	Tensor output();
 	Tensor getGrad();
+	Tensor getLoss_grad();
 	Layer& getLayer(int index);
 	void passValues(Tensor input, Tensor output);
-	void setWeights(Layer& layer, Tensor weights);
-	void setBias(Layer& layer, Tensor bias);
-	
+	void setWeights(int index, Tensor weights);
+	void setBias(int index, float bias);
+	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 	std::vector<Layer*>& getLayers();
 
 	

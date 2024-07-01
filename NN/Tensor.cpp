@@ -193,7 +193,7 @@ Tensor Tensor::operator-(Tensor& t)
 			std::vector<float> vec;
 			for (int j = 0; j < t.values()[0].size(); j++)
 			{
-				vec.push_back(t.values()[i][j] - this->values()[i][j]);
+				vec.push_back(this->values()[i][j] - t.values()[i][j]);
 			}
 			temp->values().push_back(vec);
 		}
