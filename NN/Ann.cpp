@@ -14,6 +14,7 @@ void Ann::addLayer(int input, int output, bool bias)
 		exit(1);
 	}
 	this->layers.push_back(new Layer(input, output, bias));
+	this->layers[this->layers.size() - 1]->curBias = 0.f;
 }
 
 void Ann::forward(std::string input_actFun, std::string output_actFun)
@@ -78,35 +79,20 @@ void Ann::backProp()
 	{
 		Layer& layer = *this->layers[i];
 
-		std::vector<float> yHat = layer.getOutput().T().squeeze();
-		std::vector<float> y = this->y.squeeze();
-		y = { y[this->count] };
 
-		std::vector<float> err = rx::Utility::computeError(y, yHat);
-
-		this->loss_grad = Tensor(err);
-
-		Tensor in = Tensor(layer.input.values());
-		Tensor out = Tensor(err);
-
-		Tensor grad = Ann::gradient(out, in);
+		float loss = rx::Utility::loss(this->y.values()[0][0], layer.getOutput().values()[0][0]);
+		float gradient = gradi(this->y.values()[0][0], layer.getOutput().values()[0][0]);
+		updateWeights(layer.weights , grad_err(this->y.values()[0][0], layer.getOutput().values()[0][0],layer.input, gradient));
 		
-		this->grad = grad;
-		grad = grad.T() * 0.01;
+		auto bi_grad = [](float yHat)
+			{
+				return (1 - yHat);
+			};
 
-		//
-		// cout << layer.weights.values() << grad.values();
-		//layer.weights = layer.weights - grad;
-
-		float g = gradient(y[0], yHat[0]);
-		g *= -0.01;
-		layer.weights = layer.weights + g;
-		layer.curBias = layer.curBias -  err[0] * 0.01;
-
-
-
-		float loss = rx::Utility::loss(y[0], yHat[0]);
 		
+		layer.curBias = layer.curBias +  bi_grad(layer.getOutput().values()[0][0]) * 0.1;
+		
+
 	}
 
 	

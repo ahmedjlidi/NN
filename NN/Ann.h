@@ -94,7 +94,6 @@ public:
 		}
 
 		this->output = this->input * this->weights;
-		this->output = this->output + 0.f;
 		for (auto& e : this->output.values())
 		{
 			for (auto& k : e)
@@ -102,8 +101,9 @@ public:
 				if(actFun == "ReLU")
 					k = rx::Utility::ReLU(k);
 				else
+				{
 					k = rx::Utility::Sigmoid(k);
-
+				}
 			}
 		}
 		if (this->useBias)
@@ -115,6 +115,8 @@ public:
 			for (int j = 1; j < this->outputSize; j++)
 				this->output.values()[i].push_back(this->output.values()[i][0]);
 		}
+
+		
 	}
 
 	static void describe(Layer* layer)
@@ -133,7 +135,7 @@ public:
 	void describe()
 	{
 		std::cout <<"Input:\n" << this->input.values();
-		std::cout << "Weights:\n" << this->weights.values();
+		std::cout << "Weights :\n" << this->weights.values();
 		std::cout << "Output:\n" << this->output.values(); 
 		std::cout << "Bias :\n" << "[" << this->curBias << "]\n";
 	}
@@ -185,6 +187,34 @@ private:
 	int count = 0;
 	std::vector<float> losses;
 	/////////////////////////////
+
+
+
+	float gradi(float y, float yHat)
+	{
+		yHat += 0.000005f;
+		float v1 = (y * -1.f) / static_cast<float>(yHat);
+		float v2 = (1 - y) / static_cast<float>(1 - yHat);
+		return v1 + v2;
+	};
+	Tensor grad_err(float y, float yHat, Tensor& input, float grad)
+	{
+		Tensor temp;
+		temp.values().resize(1);
+		for (int j = 0; j < input.values()[0].size(); j++)
+		{
+			temp.values()[0].push_back(yHat * (1 - yHat) * input.values()[0][j]);
+			temp.values()[0][j] = temp.values()[0][j] * grad;
+		}
+		return temp;
+	}
+	void updateWeights(Tensor& w, Tensor n_w)
+	{
+	
+		n_w = n_w * 0.1;
+		n_w = n_w.T();
+		w = w - n_w;
+	}
 
 public:
 	Ann(){}
