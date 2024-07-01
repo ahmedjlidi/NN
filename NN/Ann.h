@@ -207,7 +207,6 @@ public:
 	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 	std::vector<Layer*>& getLayers();
 
-	
 };
 
 

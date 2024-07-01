@@ -65,6 +65,15 @@ Tensor Ann::gradient(Tensor& input, Tensor& Error)
 
 void Ann::backProp()
 {
+	auto gradient = [](float y, float yHat)
+		{
+			yHat += 0.05f;
+			float v1 = (y * -1.f) / static_cast<float>(yHat);
+			float v2 = (1 - y) / static_cast<float>(1 - yHat);
+
+			return v1 + v2;
+		};
+
 	for (int i = this->layers.size() - 1; i >= 0; i--)
 	{
 		Layer& layer = *this->layers[i];
@@ -87,10 +96,20 @@ void Ann::backProp()
 
 		//
 		// cout << layer.weights.values() << grad.values();
-		layer.weights = layer.weights - grad;
+		//layer.weights = layer.weights - grad;
+
+		float g = gradient(y[0], yHat[0]);
+		g *= -0.01;
+		layer.weights = layer.weights + g;
 		layer.curBias = layer.curBias -  err[0] * 0.01;
+
+
+
+		float loss = rx::Utility::loss(y[0], yHat[0]);
 		
 	}
+
+	
 
 }
 
@@ -136,6 +155,8 @@ std::vector<Layer*>& Ann::getLayers()
 {
 	return this->layers;
 }
+
+
 
 Tensor Ann::predict(Tensor input, std::string input_actFun, std::string output_actFun)
 {
