@@ -63,22 +63,23 @@ std::vector<float> oHat = { 0.5 };
 
 int main()
 {
-	std::vector<std::vector<float>> x = { {0, 1}, {1 ,0}, {0, 0 }, {1, 1} };
-	std::vector<float> y = {1, 1, 0, 1};
+	std::vector<std::vector<float>> x = { /*{1, 1}, {1 ,0}, {0, 1 },*/ {1,1} };
+	std::vector<float> y = {/*1, 1, 1,*/ 1};
 	Ann Model = Ann();
 	buildModel(Model);
 	setWeights(Model);
 	passInput(x, y, Model);
 	
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		Model.forward("ReLU", "Sigmoid");
 		Model.backProp();
 	}
 	//std::cout <<  Model.getGrad().values()<< Model.getBI_grad().values() << "\n";
 	//Model.describe();
-	//Model.forward();
-	std::cout << Ann::round(Model.predict(x), 0.5).values();
+	Model.forward();
+	std::cout << Model.output().values();
+	//std::cout << Ann::round(Model.predict(x), 0.5).values();
 
 
 
