@@ -4,6 +4,13 @@
 
 #define BATCH_SIZE 1
 
+enum BOOL : bool
+{
+	False,
+	True
+};
+
+
 enum PARAM
 {
 	INPUT,
@@ -58,9 +65,11 @@ public:
 		float range = static_cast<float>(1.f) / static_cast<float>(this->inputSize);
 		for (int j = 0; j < this->inputSize; j++)
 		{
-				this->weights.values()[0].push_back(rx::Utility::randFloat(-100, 100) / static_cast<float>(100.f));
+				this->weights.values()[0].push_back(rx::Utility::randFloat(-range * 100.f, range * 100.f) / static_cast<float>(100.f));
 				if (std::abs(this->weights.values()[0][j]) < 0.1)
 					this->weights.values()[0][j] *= 10.f;
+
+				
 		}
 		this->weights = this->weights.T();
 
@@ -118,8 +127,6 @@ public:
 			for (int j = 1; j < this->outputSize; j++)
 				this->output.values()[i].push_back(this->output.values()[i][0]);
 		}
-
-		
 	}
 
 	static void describe(Layer* layer)
@@ -174,12 +181,16 @@ public:
 	
 };
 
+
+
 class Ann
 {
 private:
 	std::vector<Layer*>layers;
 	float learning_rate;
 	float (*lossFun)(float z);
+	float (*actFun_hidden)(float z);
+	float (*actFun_output)(float z);
 
 	Tensor input, y;
 	
@@ -188,16 +199,17 @@ private:
 	Tensor grad;
 	Tensor bi_grad;
 	Tensor loss_grad;
+	float currLoss;
 	
 	int count = 0;
 	std::vector<float> losses;
 	/////////////////////////////
 
-
+	
 
 	float gradi(float y, float yHat)
 	{
-		yHat += 0.000005f;
+		yHat += 0.0005f;
 		float v1 = (y * -1.f) / static_cast<float>(yHat);
 		float v2 = (1 - y) / static_cast<float>(1 - yHat);
 		return v1 + v2;
@@ -216,11 +228,20 @@ private:
 	void updateWeights(Tensor& w, Tensor n_w)
 	{
 	
-		n_w = n_w * 0.1;
+		n_w = n_w * this->learning_rate;
 		n_w = n_w.T();
 		w = w - n_w;
 	}
 
+
+	struct parameters
+	{
+		std::string actFun_h;
+		std::string actFun_o;
+		std::string lossFun = "Binary-cross entropy";
+		float lr;
+	};
+	parameters param;
 public:
 	Ann(){}
 
@@ -242,8 +263,10 @@ public:
 	void setBias(int index, float bias);
 	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 	std::vector<Layer*>& getLayers();
-
 	static Tensor round(Tensor t, float threshold);
+	void train(int epochs, bool debug = False);
+
+	void setParameters(float lr, std::string actFun_hidden, std::string actFun_output);
 
 };
 
