@@ -16,7 +16,7 @@ void passInput(std::vector<std::vector<float>>& x, std::vector<float>& y, Ann& M
 
 void buildModel(Ann& Model)
 {
-	Model.addLayer(2, 1 , True);
+	Model.addLayer(2, 1 , true);
 }
 
 void setWeights(Ann& Model)
@@ -63,8 +63,8 @@ std::vector<float> oHat = { 0.5 };
 
 int main()
 {
-	std::vector<std::vector<float>> x = { {1, 1} };
-	std::vector<float> y = {0};
+	std::vector<std::vector<float>> x = { {0, 1}, {1 ,0}, {0, 0 }, {1, 1} };
+	std::vector<float> y = {1, 1, 0, 1};
 	Ann Model = Ann();
 	buildModel(Model);
 	setWeights(Model);
@@ -75,8 +75,10 @@ int main()
 		Model.forward("ReLU", "Sigmoid");
 		Model.backProp();
 	}
-	Model.describe();
-	std::cout << Model.predict(x).values();
+	//std::cout <<  Model.getGrad().values()<< Model.getBI_grad().values() << "\n";
+	//Model.describe();
+	//Model.forward();
+	std::cout << Ann::round(Model.predict(x), 0.5).values();
 
 
 

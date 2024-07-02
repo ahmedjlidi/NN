@@ -189,5 +189,6 @@ namespace rx
 		static std::vector<float> computeError(std::vector<float>& y, std::vector<float>& yHat);
 		static float sum(std::vector<float>& v);
 		
+		
 	};
 }

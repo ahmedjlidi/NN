@@ -40,6 +40,8 @@ private:
 		// Generate and return a random value
 		return d(gen);
 	}
+
+
 public:
 	Layer(int inputSize, int outputSize, bool useBias = false) :inputSize(inputSize), outputSize(outputSize), useBias(useBias)
 	{
@@ -94,6 +96,10 @@ public:
 		}
 
 		this->output = this->input * this->weights;
+		if (this->useBias)
+		{
+			this->output = this->output + this->curBias;
+		}
 		for (auto& e : this->output.values())
 		{
 			for (auto& k : e)
@@ -106,10 +112,7 @@ public:
 				}
 			}
 		}
-		if (this->useBias)
-		{	
-			this->output = this->output + this->curBias;
-		}
+		
 		for (int i = 0; i < this->output.values().size(); i++)
 		{
 			for (int j = 1; j < this->outputSize; j++)
@@ -183,7 +186,9 @@ private:
 
 	//Back prop temp values/////
 	Tensor grad;
+	Tensor bi_grad;
 	Tensor loss_grad;
+	
 	int count = 0;
 	std::vector<float> losses;
 	/////////////////////////////
@@ -229,6 +234,7 @@ public:
 	void backProp();
 	Tensor output();
 	Tensor getGrad();
+	Tensor getBI_grad();
 	Tensor getLoss_grad();
 	Layer& getLayer(int index);
 	void passValues(Tensor input, Tensor output);
@@ -236,6 +242,8 @@ public:
 	void setBias(int index, float bias);
 	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 	std::vector<Layer*>& getLayers();
+
+	static Tensor round(Tensor t, float threshold);
 
 };
 

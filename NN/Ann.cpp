@@ -68,7 +68,7 @@ void Ann::backProp()
 {
 	auto gradient = [](float y, float yHat)
 		{
-			yHat += 0.05f;
+			yHat += 0.00001f;
 			float v1 = (y * -1.f) / static_cast<float>(yHat);
 			float v2 = (1 - y) / static_cast<float>(1 - yHat);
 
@@ -84,14 +84,21 @@ void Ann::backProp()
 		float gradient = gradi(this->y.values()[0][0], layer.getOutput().values()[0][0]);
 		updateWeights(layer.weights , grad_err(this->y.values()[0][0], layer.getOutput().values()[0][0],layer.input, gradient));
 		
-		auto bi_grad = [](float yHat)
+		auto bi_grad = [](float y, float yHat)
 			{
-				return (1 - yHat);
+				return  (y - yHat);
 			};
 
 		
-		layer.curBias = layer.curBias +  bi_grad(layer.getOutput().values()[0][0]) * 0.1;
 		
+		layer.curBias = layer.curBias +  0.1 * bi_grad(this->y.values()[0][0], layer.getOutput().values()[0][0]);
+		
+		this->grad = Tensor(grad_err(this->y.values()[0][0],
+			layer.getOutput().values()[0][0], layer.input, gradient));
+
+		std::vector<float> temp = { bi_grad(this->y.values()[0][0], layer.getOutput().values()[0][0]) };
+		this->bi_grad = Tensor(temp);
+
 
 	}
 
@@ -132,6 +139,11 @@ Tensor Ann::getGrad()
 	return this->grad;
 }
 
+Tensor Ann::getBI_grad()
+{
+	return this->bi_grad;
+}
+
 Tensor Ann::getLoss_grad()
 {
 	return this->loss_grad;
@@ -140,6 +152,22 @@ Tensor Ann::getLoss_grad()
 std::vector<Layer*>& Ann::getLayers()
 {
 	return this->layers;
+}
+
+Tensor Ann::round(Tensor t, float threshold)
+{
+	for(auto&e : t.values())
+		for (auto& k : e)
+		{
+			if (k >= threshold)
+			{
+				k = std::ceil(k);
+			}
+			else
+				k = std::floor(k);
+		}
+
+	return t;
 }
 
 
