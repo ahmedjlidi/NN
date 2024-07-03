@@ -255,9 +255,13 @@ public:
 	void addLayer(int input, int output, bool bias = false);
 	void forward(std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 
-	void describe();
-	void info();
-	static Tensor gradient(Tensor& input, Tensor& Error);
+	
+	
+
+
+	
+
+
 	
 	void backProp();
 	Tensor output();
@@ -270,12 +274,21 @@ public:
 	void setBias(int index, float bias);
 	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 	std::vector<Layer*>& getLayers();
-	static Tensor round(Tensor t, float threshold);
+	
 	void train(int epochs, bool debug = False);
 	void compile(float lr, std::string actFun_hidden, std::string actFun_output);
 
-	static void passData(const Tensor& x, const Tensor& y, Ann& Model);
+	
 
+	
+	//static function////////////////////////////////
+	static void describe(Ann& Model);
+	static void info(Ann& Model);
+	static void summary(Ann& Model);
+	static Tensor gradient(Tensor& input, Tensor& Error);
+	static Tensor round(Tensor t, float threshold);
+	static void passData(const Tensor& x, const Tensor& y, Ann& Model);
+	////////////////////////////////////////////////////
 };
 
 

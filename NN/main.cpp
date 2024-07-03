@@ -8,7 +8,7 @@ int main()
 
 	//And gate Dataset
 	std::vector<std::vector<float>> x = {{1, 0}, { 0, 1 } , { 1, 1 }, {0,0} };
-	std::vector<float> y = {1, 0, 0, 0};
+	std::vector<float> y = {1, 1, 1, 0};
 	Tensor labels(y);
 
 
@@ -18,12 +18,16 @@ int main()
 	Ann::passData(x, y, Model);
 	Model.compile(0.1, "ReLU", "Sigmoid");
 
-	
-	Model.train(100, True);
+	Ann::summary(Model);
+	Ann::info(Model);
+	Ann::describe(Model);
+
+	Model.train(300, True);
 
 	std::cout << Ann::round(Model.predict(x), 0.5).values();
 	std::cout << "Accuracy: "<< 
-		rx::Utility::accuracy(labels.values(), Ann::round(Model.predict(x), 0.5).T().values()) <<"%";
+		rx::Utility::accuracy(labels.values(), Ann::round(Model.predict(x), 0.5).T().values()) <<"%\n";
+
 
 	return 0;
 

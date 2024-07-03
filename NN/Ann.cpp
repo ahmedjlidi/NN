@@ -44,32 +44,72 @@ void Ann::forward(std::string input_actFun, std::string output_actFun)
 	
 }
 
-void Ann::describe()
+void Ann::describe(Ann& Model)
 {
-	for (const auto& e : this->layers)
+	std::cout << "\n-------------------------\n";
+	for (const auto& e : Model.layers)
 	{
 		e->describe();
 	}
+	std::cout << "\n-------------------------\n";
 }
 
-void Ann::info()
+void Ann::info(Ann& Model)
 {
-	for (const auto& e : this->layers)
+	std::cout << "\n-------------------------\n";
+	for (const auto& e : Model.layers)
 	{
+		std::cout << "( ";
 		e->info();
+		std::cout << ")\n";
 	}
 
 	std::cout << "\nActivation function for hidden layers: ";
-	if (this->layers.size() > 1)
+	if (Model.layers.size() > 1)
 	{
-		std::cout << this->param.actFun_h << "\n";
+		std::cout << Model.param.actFun_h << "\n";
 	}
 	else
 		std::cout << "None.\n";
-	std::cout << "Activation function for Output layer: "<<this->param.actFun_o<<"\n";
-	std::cout << "Loss function: " << this->param.lossFun << "\n";
-	std::cout << "Learning rate: " << this->learning_rate << "\n";
+	std::cout << "Activation function for Output layer: "<< Model.param.actFun_o<<"\n";
+	std::cout << "Loss function: " << Model.param.lossFun << "\n";
+	std::cout << "Learning rate: " << Model.learning_rate << "\n";
+	std::cout << "\n-------------------------\n";
 
+}
+
+void Ann::summary(Ann& Model)
+{
+	float total = 0;
+	for (const auto& e : Model.layers)
+	{
+		total += (e->weights.values().size() * e->weights.values()[0].size()) * 4;
+		total += 4;
+	}
+	std::string size;
+	std::cout << "\n-------------------------\n";
+	std::cout << "Parameters: " << total << "\n";
+	if (total / static_cast<float>(1000000.f) < 0.1)
+	{
+		if (total / static_cast<float>(1000.f) < 0.1)
+		{
+			size = " Byte";
+		}
+		else
+		{
+			total /= static_cast<float>(1000.f);
+			size = " Kb";
+		}
+	}
+	else
+	{
+		total /= static_cast<float>(1000000.f);
+		size = " Mb";
+	}
+	std::cout << "Size: " << total << size << "\n";
+	std::cout << "In_shape: " << Model.layers[0]->input.values()[0].size() << "\n";
+	std::cout << "Output_shape: " << Model.layers[Model.layers.size() - 1]->outputSize;
+	std::cout << "\n-------------------------\n";
 }
 
 Tensor Ann::gradient(Tensor& input, Tensor& Error)
