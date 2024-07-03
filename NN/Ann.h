@@ -214,13 +214,19 @@ private:
 		float v2 = (1 - y) / static_cast<float>(1 - yHat);
 		return v1 + v2;
 	};
-	Tensor grad_err(float y, float yHat, Tensor& input, float grad)
+	Tensor grad_err(float y, float yHat, Tensor& input, float grad, int depth)
 	{
 		Tensor temp;
 		temp.values().resize(1);
 		for (int j = 0; j < input.values()[0].size(); j++)
 		{
-			temp.values()[0].push_back(yHat * (1 - yHat) * input.values()[0][j]);
+			if(this->param.actFun_h == "ReLU" && depth < this->layers.size() - 1)
+				temp.values()[0].push_back(yHat * (1 - yHat) * input.values()[0][j]);
+			else
+			{
+				float val = yHat > 0 ?  1: 0;
+				temp.values()[0].push_back(val * input.values()[0][j]);
+			}
 			temp.values()[0][j] = temp.values()[0][j] * grad;
 		}
 		return temp;
@@ -242,6 +248,7 @@ private:
 		float lr;
 	};
 	parameters param;
+	void passValues(Tensor input, Tensor output);
 public:
 	Ann(){}
 
@@ -258,16 +265,19 @@ public:
 	Tensor getBI_grad();
 	Tensor getLoss_grad();
 	Layer& getLayer(int index);
-	void passValues(Tensor input, Tensor output);
+	
 	void setWeights(int index, Tensor weights);
 	void setBias(int index, float bias);
 	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 	std::vector<Layer*>& getLayers();
 	static Tensor round(Tensor t, float threshold);
 	void train(int epochs, bool debug = False);
+	void compile(float lr, std::string actFun_hidden, std::string actFun_output);
 
-	void setParameters(float lr, std::string actFun_hidden, std::string actFun_output);
+	static void passData(const Tensor& x, const Tensor& y, Ann& Model);
 
 };
+
+
 
 

@@ -188,6 +188,8 @@ namespace rx
 		static float Bce(std::vector<float>& y, std::vector<float>& yHat);
 		static std::vector<float> computeError(std::vector<float>& y, std::vector<float>& yHat);
 		static float sum(std::vector<float>& v);
+
+		static float accuracy(std::vector<std::vector<float>>& y, std::vector<std::vector<float>>& yHat);
 		
 		
 	};

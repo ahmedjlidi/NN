@@ -178,6 +178,35 @@ float rx::Utility::sum(std::vector<float>& v)
 	return total;
 }
 
+float rx::Utility::accuracy(std::vector<std::vector<float>>& y, std::vector<std::vector<float>>& yHat)
+{
+	try
+	{
+		if (y.size() != yHat.size() || y[0].size() != yHat[0].size())
+		{
+			throw std::runtime_error("output and predicted value are not the same size. rx::Utility::accuracy.\n");
+
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << e.what();
+		exit(1);
+	}
+	float total = y.size() * y[0].size();
+	float curr = total;
+	float offset = 100.f / static_cast<float>(total);
+	for (int i = 0; i < y.size(); i++)
+	{
+		for (int j = 0; j < y[0].size(); j++)
+		{
+			if (static_cast<float>(y[i][j]) != yHat[i][j])
+				curr -= 1;
+		}
+	}
+	return curr * offset;
+}
+
 
 
 

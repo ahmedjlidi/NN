@@ -58,6 +58,18 @@ void Ann::info()
 	{
 		e->info();
 	}
+
+	std::cout << "\nActivation function for hidden layers: ";
+	if (this->layers.size() > 1)
+	{
+		std::cout << this->param.actFun_h << "\n";
+	}
+	else
+		std::cout << "None.\n";
+	std::cout << "Activation function for Output layer: "<<this->param.actFun_o<<"\n";
+	std::cout << "Loss function: " << this->param.lossFun << "\n";
+	std::cout << "Learning rate: " << this->learning_rate << "\n";
+
 }
 
 Tensor Ann::gradient(Tensor& input, Tensor& Error)
@@ -86,7 +98,8 @@ void Ann::backProp()
 		if(i == this->layers.size() - 1)
 			this->currLoss = loss;
 		float gradient = gradi(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
-		updateWeights(layer.weights , grad_err(this->y.values()[0][this->count], layer.getOutput().values()[0][0],layer.input, gradient));
+		updateWeights(layer.weights , grad_err(this->y.values()[0][this->count],
+			layer.getOutput().values()[0][0],layer.input, gradient, i));
 		
 		auto bi_grad = [](float y, float yHat)
 			{
@@ -98,15 +111,11 @@ void Ann::backProp()
 		layer.curBias = layer.curBias +  this->learning_rate * bi_grad(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
 		
 		this->grad = Tensor(grad_err(this->y.values()[0][this->count],
-			layer.getOutput().values()[0][0], layer.input, gradient));
+			layer.getOutput().values()[0][0], layer.input, gradient, i));
 
 		std::vector<float> temp = { bi_grad(this->y.values()[0][this->count], layer.getOutput().values()[0][0]) };
 		this->bi_grad = Tensor(temp);
-	}
-
-
-	
-	
+	}	
 
 }
 
@@ -243,7 +252,7 @@ void Ann::train(int epochs, bool debug)
 	}
 }
 
-void Ann::setParameters(float lr, std::string actFun_hidden, std::string actFun_output)
+void Ann::compile(float lr, std::string actFun_hidden, std::string actFun_output)
 {
 	this->learning_rate = lr;
 	if (actFun_hidden == "ReLU")
@@ -279,4 +288,9 @@ void Ann::setParameters(float lr, std::string actFun_hidden, std::string actFun_
 
 
 
+}
+
+void Ann::passData(const Tensor& x, const Tensor& y, Ann& Model)
+{
+	Model.passValues(x, y);
 }
