@@ -31,7 +31,6 @@ private:
 	bool useBias;
 	int outputSize, inputSize;
 	
-	float curBias;
 	float kaimingInit(int fanIn) 
 	{
 		// Create a random device and Mersenne Twister generator
@@ -52,35 +51,28 @@ private:
 public:
 	Layer(int inputSize, int outputSize, bool useBias = false) :inputSize(inputSize), outputSize(outputSize), useBias(useBias)
 	{
-		for (int i = 0; i < inputSize; i++)
+		this->input.values().resize(BATCH_SIZE);
+		this->input.values()[0].resize(this->inputSize);
+
+
+		
+
+		float range = std::sqrt(static_cast<float>(1.f) / static_cast<float>(this->inputSize));
+		for (int i = 0; i < this->outputSize; i++)
 		{
-			this->input.values().push_back(std::vector<float>());
-			this->input.values()[i].resize(BATCH_SIZE);
+			this->weights.values().push_back(std::vector<float>());
+			for (int j = 0; j < this->inputSize; j++)
+			{
+				this->weights.values()[i].push_back(rx::Utility::randFloat(-10, 10) / static_cast<float>(100.f));
+				if (std::abs(this->weights.values()[i][j]) < 0.1)
+					this->weights.values()[i][j] *= 10.f;
+			}
 		}
-		this->input = this->input.T();
+		//this->weights = this->weights.T();
 
+		this->bias.values().resize(1);
+		this->bias.values()[0].resize(this->outputSize);
 
-		this->weights.values().resize(1);
-
-		float range = static_cast<float>(1.f) / static_cast<float>(this->inputSize);
-		for (int j = 0; j < this->inputSize; j++)
-		{
-				this->weights.values()[0].push_back(rx::Utility::randFloat(-range * 100.f, range * 100.f) / static_cast<float>(100.f));
-				if (std::abs(this->weights.values()[0][j]) < 0.1)
-					this->weights.values()[0][j] *= 10.f;
-
-				
-		}
-		this->weights = this->weights.T();
-
-		this->bias.values().resize(this->outputSize);
-		for (auto& e : this->bias.values())
-		{
-			e.push_back(rx::Utility::randFloat(-10, 10) / static_cast<float>(100.f));
-		}
-		this->bias = this->bias.T();
-
-		this->curBias = 0.f;
 	}
 	void passInput(std::vector<std::vector<float>>& input)
 	{
@@ -103,11 +95,14 @@ public:
 			std::cout << e.what();
 			exit(1);
 		}
+		Tensor tempweight = this->weights.T();
+		this->output = this->input * tempweight;
+		
+		//std::cout << this->output.values();
 
-		this->output = this->input * this->weights;
 		if (this->useBias)
 		{
-			this->output = this->output + this->curBias;
+			this->output = this->output + this->bias;
 		}
 		for (auto& e : this->output.values())
 		{
@@ -121,12 +116,13 @@ public:
 				}
 			}
 		}
+
 		
-		for (int i = 0; i < this->output.values().size(); i++)
-		{
-			for (int j = 1; j < this->outputSize; j++)
-				this->output.values()[i].push_back(this->output.values()[i][0]);
-		}
+		
+	}
+	const bool usBias()
+	{
+		return this->useBias;
 	}
 
 	static void describe(Layer* layer)
@@ -147,7 +143,7 @@ public:
 		std::cout <<"Input:\n" << this->input.values();
 		std::cout << "Weights :\n" << this->weights.values();
 		std::cout << "Output:\n" << this->output.values(); 
-		std::cout << "Bias :\n" << "[" << this->curBias << "]\n";
+		std::cout << "Bias :\n" << this->bias.values();
 	}
 	Tensor getOutput()
 	{
@@ -164,21 +160,33 @@ public:
 		//this->output.values().clear();
 	}
 
-	/*Tensor parameters(short type = ALL)
+
+	void reset()
 	{
-		switch (type)
+		this->input.values().resize(BATCH_SIZE);
+		this->input.values()[0].resize(this->inputSize);
+
+		float range = std::sqrt(static_cast<float>(1.f) / static_cast<float>(this->inputSize));
+		for (int i = 0; i < this->outputSize; i++)
 		{
-		case ALL:
-			
-			
-			
-			this->w
+			this->weights.values().push_back(std::vector<float>());
+			for (int j = 0; j < this->inputSize; j++)
+			{
+				this->weights.values()[i].push_back(rx::Utility::randFloat(-10, 10) / static_cast<float>(100.f));
+				if (std::abs(this->weights.values()[i][j]) < 0.1)
+					this->weights.values()[i][j] *= 10.f;
+			}
 		}
-	}*/
+		this->weights = this->weights.T();
 
-	
+		this->bias.values().resize(1);
+		this->bias.values()[0].resize(this->outputSize);
 
-	
+	}
+	Tensor& getWeights()
+	{
+		return this->weights;
+	}
 };
 
 
@@ -205,29 +213,41 @@ private:
 	std::vector<float> losses;
 	/////////////////////////////
 
-	
+	float currGrad;
 
 	float gradi(float y, float yHat)
 	{
-		yHat += 0.0005f;
-		float v1 = (y * -1.f) / static_cast<float>(yHat);
-		float v2 = (1 - y) / static_cast<float>(1 - yHat);
-		return v1 + v2;
+		float v1 = yHat - y;
+		float v2 = yHat * (1 - yHat);
+
+		//std::cout << "Yhat and y" << yHat << " " << y << "\n";
+		float output = v1 / static_cast<float>(v2);	
+		return roundTo(output, 4);
 	};
-	Tensor grad_err(float y, float yHat, Tensor& input, float grad, int depth)
+	Tensor grad_err(float y, Tensor yHat, Tensor& input, float grad, int depth)
 	{
 		Tensor temp;
-		temp.values().resize(1);
-		for (int j = 0; j < input.values()[0].size(); j++)
+		static float curr_loss = 0.f;
+		for (int i = 0; i < yHat.values()[0].size(); i++)
 		{
-			if(this->param.actFun_h == "ReLU" && depth < this->layers.size() - 1)
-				temp.values()[0].push_back(yHat * (1 - yHat) * input.values()[0][j]);
-			else
+			temp.values().push_back(std::vector<float>());
+			for (int j = 0; j < input.values()[0].size(); j++)
 			{
-				float val = yHat > 0 ?  1: 0;
-				temp.values()[0].push_back(val * input.values()[0][j]);
+				if (this->param.actFun_h == "ReLU" && depth < this->layers.size() - 1)
+				{
+					float val = yHat.values()[0][i] > 0 ? 1 : 0;
+					temp.values()[i].push_back(val * input.values()[0][j]);
+				}			
+				else
+				{
+					
+					//std::cout << "\n------\n" << yHat.values() << input.values() << grad <<"\n------\n";
+
+					temp.values()[i].push_back(yHat.values()[0][i] * (1 - yHat.values()[0][i]) * input.values()[0][j]);
+				}
+
+				temp.values()[i][j] = temp.values()[i][j] * grad;
 			}
-			temp.values()[0][j] = temp.values()[0][j] * grad;
 		}
 		return temp;
 	}
@@ -235,7 +255,7 @@ private:
 	{
 	
 		n_w = n_w * this->learning_rate;
-		n_w = n_w.T();
+		//n_w = n_w.T();
 		w = w - n_w;
 	}
 
@@ -278,7 +298,13 @@ public:
 	void train(int epochs, bool debug = False);
 	void compile(float lr, std::string actFun_hidden, std::string actFun_output);
 
-	
+	void clear()
+	{
+		for (auto& e : this->layers)
+		{
+			e->reset();
+		}
+	}
 
 	
 	//static function////////////////////////////////

@@ -77,7 +77,9 @@ public:
 	Tensor operator+(float v);
 	Tensor operator+(std::vector<float> v);
 	Tensor operator-(Tensor& t);
-	Tensor operator=(std::vector<float>& v);
+	Tensor operator-(float v);
+	Tensor operator=(std::vector<float> v);
+	Tensor operator=(float v);
 	////////////////////////////
 
 	

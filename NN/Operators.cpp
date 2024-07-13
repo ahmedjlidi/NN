@@ -32,3 +32,11 @@ std::ostream& operator<<(std::ostream& os, const std::pair<int, int> v) {
     os << "(" << v.first << ", " << v.second << ")\n";
     return os;
 }
+
+double roundTo(double value, int precision)
+{
+    std::cout << std::fixed << std::setprecision(precision);
+    double rounded_value = std::round(value * std::pow(10, precision)) / std::pow(10, precision);
+
+    return rounded_value;
+}

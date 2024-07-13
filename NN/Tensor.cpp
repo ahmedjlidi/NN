@@ -207,9 +207,28 @@ Tensor Tensor::operator-(Tensor& t)
 	}
 }
 
-Tensor Tensor::operator=(std::vector<float>&v )
+Tensor Tensor::operator-(float v)
+{
+	for (auto& e : this->tensor.mat)
+	{
+		for (auto& k : e)
+		{
+			k -= v;
+		}
+	}
+	return *this;
+}
+
+Tensor Tensor::operator=(std::vector<float> v )
 {
 	this->tensor.mat.push_back(v);
+	return *this;
+}
+
+Tensor Tensor::operator=(float v)
+{
+	this->tensor.mat.resize(1);
+	this->tensor.mat[0].push_back(v);
 	return *this;
 }
 
