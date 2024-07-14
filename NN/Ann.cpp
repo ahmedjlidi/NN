@@ -163,7 +163,6 @@ void Ann::backProp()
 				Tensor gr = (error * weight_row) * dv_actfun;
 				temp.values().push_back(gr.values()[0]);
 			}
-			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
 			updateWeights(layer.weights, temp);
 		}
 
@@ -184,20 +183,29 @@ void Ann::backProp()
 
 
 				layer.bias = layer.bias - (this->learning_rate * dv_loss);
+				print(dv_loss);
 				//print(layer.bias.values(), 1);
 			}
 			else
 			{
-				//Tensor t;
-				//t.values().resize(layer.getOutput().values().size());
-				//for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
-				//{
-				//	t.values()[0].push_back(layer.getOutput().values()[0][b]> 0 ? 1 : 0);
-				//}
+				Tensor t;
+				t.values().resize(layer.getOutput().values().size());
+				for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
+				{
+					t.values()[0].push_back(layer.getOutput().values()[0][b]> 0 ? 1 : 0);
+				}
 				//print(error.values(), 1);
-				//t = t * error;
-				////nprint(t.values(), 1);
+				Tensor g_b = error * t;
+				g_b = g_b * layer.weights;
+				print(g_b.values(), 1);
+				g_b = g_b * this->learning_rate;
+				//layer.bias = layer.bias - g_b;
 			}
+		}
+
+		if (i != this->layers.size() - 1)
+		{
+			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
 		}
 	}	
 }
