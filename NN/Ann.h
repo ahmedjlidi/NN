@@ -47,7 +47,13 @@ private:
 		return d(gen);
 	}
 
-
+	int getParamNum()
+	{
+		int total = 0;
+		total += this->weights.getShape().first * this->weights.getShape().second;
+		total += this->bias.getShape().first * this->bias.getShape().second;
+		return total;
+	}
 public:
 	Layer(int inputSize, int outputSize, bool useBias = false) :inputSize(inputSize), outputSize(outputSize), useBias(useBias)
 	{
@@ -136,7 +142,6 @@ public:
 	{
 		std::cout << "In_features = " << this->input.values()[0].size()<<"\n";
 		std::cout << "Out_features = " << outputSize;
-
 	}
 	void describe()
 	{
@@ -187,6 +192,8 @@ public:
 	{
 		return this->weights;
 	}
+
+
 };
 
 
@@ -314,6 +321,7 @@ public:
 	static Tensor gradient(Tensor& input, Tensor& Error);
 	static Tensor round(Tensor t, float threshold);
 	static void passData(const Tensor& x, const Tensor& y, Ann& Model);
+	//static void summary(Ann& Model);
 	////////////////////////////////////////////////////
 };
 

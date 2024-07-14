@@ -46,13 +46,10 @@
       <Filter>Resource Files\ANN</Filter>
     </ClCompile>
     <ClCompile Include="Ann.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files\ANN</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Algorithm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DataSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,10 +72,11 @@
       <Filter>Resource Files\ANN</Filter>
     </ClInclude>
     <ClInclude Include="Ann.h">
-      <Filter>Header Files</Filter>
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="weightbmi.csv" />
+    <None Include="xor.csv" />
   </ItemGroup>
 </Project>

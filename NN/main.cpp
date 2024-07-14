@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Ann.h"
+#include "DataSet.h"
 
 void setWeights(Ann& Model)
 {
@@ -12,31 +13,34 @@ void setWeights(Ann& Model)
 int main()
 {
 
-	//Xor gate Dataset
-	std::vector<std::vector<float>> x = { {1, 1} /*,{1, 0}, {0, 0}, {0, 1}*/};
-	std::vector<float> y = { 0/*, 1, 0, 1*/};
-	Tensor labels(y);
+	rx::DataSet dataset;
+	if (!dataset.loadCsvFile("xor.csv"))
+		return 1;
 
+	std::pair<Tensor, Tensor> data = dataset.get_As_Tensor();
+	Tensor x = data.first;
+	Tensor y = data.second;
 
 	Ann Model = Ann();
-	Model.addLayer(2, 2, True);
-	Model.addLayer(2, 1, True);
-	setWeights(Model);
+	Model.addLayer(2, 8, False);
+	Model.addLayer(8, 1, True);
+
+	//setWeights(Model);
 	Ann::passData(x, y, Model);
 	Model.compile(0.1, "ReLU", "Sigmoid");
 
-	//Model.train(500, True);
-	Model.train(1);
+	Model.train(400, True);
 
+
+	////Ann::summary(Model);
+	//
+	////Ann::describe(Model);
+
+	//print(Model.predict(dataset.get_As_Tensor().first).values());
+
+	std::cout << Ann::round(Model.predict(x), 0.5).values();
 	
-	Ann::describe(Model);
-	//print(Model.predict(x).values());
-	/*std::cout << Ann::round(Model.predict(x), 0.5).values();
-	std::cout << "Accuracy: "<< 
-		rx::Utility::accuracy(labels.values(), Ann::round(Model.predict(x), 0.5).T().values()) <<"%\n";*/
-
+	
 	return 0;
-
-
 }
 

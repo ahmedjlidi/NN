@@ -431,6 +431,29 @@ FreqTable* DataSet::getFreqTableAt(std::string key)
 
 }
 
+ std::pair<Tensor, Tensor> rx::DataSet::get_As_Tensor()
+ {
+	 Tensor x, y;
+	 std::vector<std::vector<float>>data;
+	 std::vector<float>value;
+	 for (const auto& table : this->set)
+	 {
+		 std::vector<float> temp;
+		 value.push_back(atof(table.second.c_str()));
+		 for (const auto& row : table.first)
+		 {
+			 temp.push_back(atof(row.c_str()));
+		 }
+		 data.push_back(temp);
+
+	 }
+	 x = data;
+	 y = value;
+	 return std::make_pair(x, y);
+ }
+
+
+
 
  std::string DataSet::getAvgAtColumn(std::string _COLUMN_)
 {

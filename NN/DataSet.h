@@ -1,4 +1,5 @@
 #pragma once
+#include "Tensor.h"
 
 ///////////////////////////////////////////////////////////
 // Rx library
@@ -149,6 +150,7 @@ namespace rx
 		void describe(short TYPE = AVG, std::string _LABEL_ = "");
 		/*==========================================*/
 
+		std::pair<Tensor, Tensor>get_As_Tensor();
 
 		/*Returns number of rows and colums in the dataset*/
 		void info();

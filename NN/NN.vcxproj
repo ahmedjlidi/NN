@@ -142,7 +142,6 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Algorithm.h" />
     <ClInclude Include="Ann.h" />
     <ClInclude Include="DataSet.h" />
     <ClInclude Include="Layers.h" />
@@ -154,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="weightbmi.csv" />
+    <None Include="xor.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -80,35 +80,59 @@ void Ann::info(Ann& Model)
 
 void Ann::summary(Ann& Model)
 {
-	float total = 0;
+	printf("\n--------------------------------------------------------\n"
+		"	Layer (type)		Output Shape	Param #\n"
+		"========================================================\n");
+	for (int i = 0; i < Model.layers.size(); i++)
+	{
+		printf("	Layer %d:\t\t[%d, %d]\t\t%d\n", i, 1, Model.layers[i]->outputSize, Model.layers[i]->getParamNum());
+	}
+	printf("========================================================\n");
+
+
+	float total = 0, train_total = 0.f, total_size = 0.f;
+	
 	for (const auto& e : Model.layers)
 	{
-		total += (e->weights.values().size() * e->weights.values()[0].size()) * 4;
-		total += 4;
+		//Size in bytes
+		total_size += (e->weights.values().size() * e->weights.values()[0].size()) * 4;
+		total_size += (e->bias.getShape().first * e->bias.getShape().second) * 4;
+
+		//trainable params
+		train_total += (e->weights.values().size() * e->weights.values()[0].size());
+		if (e->useBias)
+		{
+			train_total += (e->bias.getShape().first * e->bias.getShape().second);
+		}
+
+		total += (e->weights.values().size() * e->weights.values()[0].size());
+		total += (e->bias.getShape().first * e->bias.getShape().second);
 	}
 	std::string size;
 	std::cout << "\n-------------------------\n";
-	std::cout << "Parameters: " << total << "\n";
-	if (total / static_cast<float>(1000000.f) < 0.1)
+	std::cout << "Total Parameters: " << total << "\n";
+	std::cout << "Trainable Parameters: " << train_total << "\n";
+	std::cout << "Non Trainable Parameters: " << total - train_total << "\n";
+	if (total_size / static_cast<float>(1000000.f) < 0.1)
 	{
-		if (total / static_cast<float>(1000.f) < 0.1)
+		if (total_size / static_cast<float>(1000.f) < 0.1)
 		{
 			size = " Byte";
 		}
 		else
 		{
-			total /= static_cast<float>(1000.f);
+			total_size /= static_cast<float>(1000.f);
 			size = " Kb";
 		}
 	}
 	else
 	{
-		total /= static_cast<float>(1000000.f);
+		total_size /= static_cast<float>(1000000.f);
 		size = " Mb";
 	}
-	std::cout << "Size: " << total << size << "\n";
-	std::cout << "In_shape: " << Model.layers[0]->input.values()[0].size() << "\n";
-	std::cout << "Output_shape: " << Model.layers[Model.layers.size() - 1]->outputSize;
+	std::cout << "Parameters Size: " << total_size << size << "\n";
+	std::cout << "Input Shape: " << Model.layers[0]->input.values()[0].size() << "\n";
+	std::cout << "Output shape: " << Model.layers[Model.layers.size() - 1]->outputSize;
 	std::cout << "\n-------------------------\n";
 }
 
@@ -122,13 +146,14 @@ void Ann::backProp()
 	
 	for (int i = this->layers.size() - 1; i >= 0; i--)
 	{
-
+		
 		Layer& layer = *this->layers[i];
 		auto err = [](Tensor yHat, float y)->Tensor
 			{
 				return yHat - y;
 			};
 		static Tensor error;
+		Tensor prev_Weights = layer.getWeights();
 		float gradient = gradi(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
 		//Backrop the output layer
 		if (i == this->layers.size() - 1)
@@ -139,6 +164,8 @@ void Ann::backProp()
 			//print(g.values(), 1);
 			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
 			updateWeights(layer.weights, g);
+
+			this->currLoss = rx::Utility::loss(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
 		}
 		//Backprop hidden layer
 		else
@@ -183,22 +210,32 @@ void Ann::backProp()
 
 
 				layer.bias = layer.bias - (this->learning_rate * dv_loss);
-				print(dv_loss);
+				//print(dv_loss, 1);
 				//print(layer.bias.values(), 1);
 			}
 			else
 			{
-				Tensor t;
-				t.values().resize(layer.getOutput().values().size());
-				for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
-				{
-					t.values()[0].push_back(layer.getOutput().values()[0][b]> 0 ? 1 : 0);
-				}
-				//print(error.values(), 1);
-				Tensor g_b = error * t;
-				g_b = g_b * layer.weights;
-				print(g_b.values(), 1);
-				g_b = g_b * this->learning_rate;
+				//Tensor t;
+				//t.values().resize(layer.getOutput().values().size());
+				//for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
+				//{
+				//	t.values()[0].push_back(layer.getOutput().values()[0][b]> 0 ? 1 : 0);
+				//}
+				////print(error.values(), 1);
+				//Tensor g_b = error * t;
+				//float avg = 0.f;
+				//for (const auto& e : layer.weights.values())
+				//{
+				//	for (const auto& k : e)
+				//	{
+				//		avg += k;
+				//	}
+				//}
+				//avg /= layer.weights.getShape().first * layer.weights.getShape().second;
+
+				//g_b = g_b * avg;
+				////print(g_b.values());
+				//g_b = g_b * this->learning_rate;
 				//layer.bias = layer.bias - g_b;
 			}
 		}
@@ -312,6 +349,7 @@ Tensor Ann::predict(Tensor input, std::string input_actFun, std::string output_a
 
 void Ann::train(int epochs, bool debug)
 {
+
 	try 
 	{
 		if (epochs <= 0)
@@ -325,6 +363,7 @@ void Ann::train(int epochs, bool debug)
 	int maxE = epochs;
 	while (epochs--)
 	{
+		float acc = rx::Utility::accuracy(this->y.values(), Ann::round(this->predict(this->input), 0.5).T().values());
 		for (int i = 0; i < this->input.values().size(); i++)
 		{
 			this->forward();
@@ -336,11 +375,11 @@ void Ann::train(int epochs, bool debug)
 				this->count++;
 
 
-			if (std::isnan(this->currLoss))
-				this->currLoss = 0.f;
+			//if (std::isnan(this->currLoss))
+				//this->currLoss = 0.f;
 		}
 		if(debug)
-			printf("%d/%d epochs:______ Loss: %f\n", maxE - epochs, maxE, this->currLoss);
+			printf("%d/%d epochs:------> Loss: %.3f   Accuracy: %f \n", maxE - epochs, maxE, this->currLoss, acc);
 	}
 }
 
