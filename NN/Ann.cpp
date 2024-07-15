@@ -143,7 +143,7 @@ Tensor Ann::gradient(Tensor& input, Tensor& Error)
 
 void Ann::backProp()
 {
-	
+	Layer prev_layer = *this->layers[this->layers.size() - 1];
 	for (int i = this->layers.size() - 1; i >= 0; i--)
 	{
 		
@@ -197,6 +197,7 @@ void Ann::backProp()
 		//Backprop Bias
 		if (layer.usBias())
 		{
+			//Bias for output layer
 			auto bi_grad = [](float y, Tensor yHat)->Tensor
 				{
 					yHat = yHat * -1.f;
@@ -215,13 +216,24 @@ void Ann::backProp()
 			}
 			else
 			{
-				//Tensor t;
-				//t.values().resize(layer.getOutput().values().size());
-				//for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
-				//{
-				//	t.values()[0].push_back(layer.getOutput().values()[0][b]> 0 ? 1 : 0);
-				//}
-				////print(error.values(), 1);
+				Tensor dv_act_fun;
+				dv_act_fun.values().resize(layer.getOutput().values().size());
+				for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
+				{
+					dv_act_fun.values()[0].push_back(layer.getOutput().values()[0][b]> 0 ? 1 : 0);
+				}
+
+				print(error.values());
+				print(dv_act_fun.values());
+				print(layer.getOutput().values());
+				print(prev_layer.weights.values());
+				prev_layer = *this->layers[i + 1];
+				
+
+				Tensor delta_hidden = error * prev_layer.weights * dv_act_fun;
+				print(delta_hidden.values());
+				exit(0);
+				//print(error.values(), 1);
 				//Tensor g_b = error * t;
 				//float avg = 0.f;
 				//for (const auto& e : layer.weights.values())
@@ -237,6 +249,8 @@ void Ann::backProp()
 				////print(g_b.values());
 				//g_b = g_b * this->learning_rate;
 				//layer.bias = layer.bias - g_b;
+
+				
 			}
 		}
 
