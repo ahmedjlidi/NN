@@ -207,6 +207,20 @@ float rx::Utility::accuracy(std::vector<std::vector<float>>& y, std::vector<std:
 	return curr * offset;
 }
 
+float rx::Utility::kaiming_init(int in)
+{
+	float n = static_cast<float>(in);
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	float start = -(std::sqrt(6.f / n)), end = start * -1.f;
+	std::uniform_real_distribution<> dis(start, end);
+
+	
+
+	return dis(gen);
+}
+
 
 
 

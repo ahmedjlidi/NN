@@ -191,6 +191,7 @@ namespace rx
 
 		static float accuracy(std::vector<std::vector<float>>& y, std::vector<std::vector<float>>& yHat);
 		
+		static float kaiming_init(int in);
 		
 	};
 }

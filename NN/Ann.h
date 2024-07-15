@@ -33,18 +33,7 @@ private:
 	
 	float kaimingInit(int fanIn) 
 	{
-		// Create a random device and Mersenne Twister generator
-		std::random_device rd;
-		std::mt19937 gen(rd());
-
-		// Standard deviation for Kaiming initialization
-		float stddev = std::sqrt(2.0f / fanIn);
-
-		// Create a normal distribution with mean 0 and calculated stddev
-		std::normal_distribution<float> d(0.0f, stddev);
-
-		// Generate and return a random value
-		return d(gen);
+		
 	}
 
 	int getParamNum()
@@ -69,9 +58,7 @@ public:
 			this->weights.values().push_back(std::vector<float>());
 			for (int j = 0; j < this->inputSize; j++)
 			{
-				this->weights.values()[i].push_back(rx::Utility::randFloat(-10, 10) / static_cast<float>(100.f));
-				if (std::abs(this->weights.values()[i][j]) < 0.1)
-					this->weights.values()[i][j] *= 10.f;
+				this->weights.values()[i].push_back(rx::Utility::kaiming_init(this->inputSize));
 			}
 		}
 		//this->weights = this->weights.T();

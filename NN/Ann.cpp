@@ -205,6 +205,7 @@ void Ann::backProp()
 				};
 			if (i == this->layers.size() - 1)
 			{
+				
 				float dv_loss = gradient * this->layers[this->layers.size() -1 ]->getOutput().values()[0][0] 
 					* (1 - this->layers[this->layers.size() - 1]->getOutput().values()[0][0]);
 				dv_loss = roundTo(dv_loss, 2);
@@ -222,35 +223,36 @@ void Ann::backProp()
 				{
 					dv_act_fun.values()[0].push_back(layer.getOutput().values()[0][b]> 0 ? 1 : 0);
 				}
-
-				print(error.values());
-				print(dv_act_fun.values());
-				print(layer.getOutput().values());
-				print(prev_layer.weights.values());
-				prev_layer = *this->layers[i + 1];
 				
+				Tensor delta_hidden;
+				delta_hidden= error * prev_layer.weights;
 
-				Tensor delta_hidden = error * prev_layer.weights * dv_act_fun;
+				Tensor mult;
+				
+				if (dv_act_fun.getShape().first == delta_hidden.getShape().first
+					&& dv_act_fun.getShape().second == delta_hidden.getShape().second)
+				{
+					for (int z = 0; z < delta_hidden.getShape().first; z++)
+					{
+						mult.values().push_back(std::vector<float>());
+						for (int y = 0; y < delta_hidden.getShape().second; y++)
+						{
+							mult.values()[z].push_back(dv_act_fun.values()[z][i] * delta_hidden.values()[z][i]);
+						}
+					}
+				}
+				else
+					mult = delta_hidden * dv_act_fun;
+
+				delta_hidden = mult;
+				/*print("-------\ngradient of bias : ");
 				print(delta_hidden.values());
-				exit(0);
-				//print(error.values(), 1);
-				//Tensor g_b = error * t;
-				//float avg = 0.f;
-				//for (const auto& e : layer.weights.values())
-				//{
-				//	for (const auto& k : e)
-				//	{
-				//		avg += k;
-				//	}
-				//}
-				//avg /= layer.weights.getShape().first * layer.weights.getShape().second;
-
-				//g_b = g_b * avg;
-				////print(g_b.values());
-				//g_b = g_b * this->learning_rate;
-				//layer.bias = layer.bias - g_b;
-
-				
+				delta_hidden = delta_hidden * this->learning_rate;*/
+				layer.bias = layer.bias - delta_hidden;
+				/*print("New bias : ");
+				print(layer.bias.values());
+				print("------\n");*/
+				prev_layer = *this->layers[i + 1];		
 			}
 		}
 

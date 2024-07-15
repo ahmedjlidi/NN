@@ -13,37 +13,36 @@ void setWeights(Ann& Model)
 int main()
 {
 
-	/*rx::DataSet dataset;
+	rx::DataSet dataset;
 	if (!dataset.loadCsvFile("xor.csv"))
-		return 1;*/
+		return 1;
 
-	/*std::pair<Tensor, Tensor> data = dataset.get_As_Tensor();
+	std::pair<Tensor, Tensor> data = dataset.get_As_Tensor();
 	Tensor x = data.first;
-	Tensor y = data.second;*/
-	std::vector<std::vector<float>> x = { {1,1}};
-	std::vector<float> y = { 0 };
+	Tensor y = data.second;
+
+	/*std::vector<std::vector<float>> x = { {1,1}};
+	std::vector<float> y = { 0 };*/
 
 
 	Ann Model = Ann();
-	Model.addLayer(2, 2, True);
-	Model.addLayer(2, 1, True);
+	Model.addLayer(2, 8, True);
+	Model.addLayer(8, 1, True);
 
-	setWeights(Model);
-	Ann::passData(x, y, Model);
+	//setWeights(Model);
+	Ann::passData(Tensor(x), Tensor(y), Model);
 	Model.compile(0.1, "ReLU", "Sigmoid");
-
-	Model.train(1);
+	Model.describe(Model);
+	//Model.forward();
 	
-
+	Model.train(1000, True);
 
 	////Ann::summary(Model);
 	//
 	////Ann::describe(Model);
+	print(Model.predict(x).values());
 
-	//print(Model.predict(dataset.get_As_Tensor().first).values());
-
-	std::cout << Ann::round(Model.predict(x), 0.5).values();
-	
+	//std::cout << Ann::round(Model.predict(x), 0.5).values();
 	
 	return 0;
 }
