@@ -13,9 +13,9 @@ enum BOOL : bool
 
 enum PARAM
 {
-	INPUT,
-	WEIGHTS,
-	BIAS,
+	GRAD_WEIGHT,
+	GRAD_BIAS,
+	WEIGHT_SUM,
 	OUTPUT,
 	ALL
 };
@@ -28,6 +28,7 @@ private:
 	Tensor weights;
 	Tensor output;
 	Tensor bias;
+	Tensor weight_sum;
 	bool useBias;
 	int outputSize, inputSize;
 	
@@ -90,6 +91,7 @@ public:
 		}
 		Tensor tempweight = this->weights.T();
 		this->output = this->input * tempweight;
+		this->weight_sum = this->output;
 		
 		//std::cout << this->output.values();
 
@@ -198,13 +200,10 @@ private:
 	
 
 	//Back prop temp values/////
-	Tensor grad;
-	Tensor bi_grad;
-	Tensor loss_grad;
-	float currLoss;
 	
+	float currLoss;
 	int count = 0;
-	std::vector<float> losses;
+	
 	/////////////////////////////
 
 	float currGrad;
@@ -249,7 +248,6 @@ private:
 	{
 	
 		n_w = n_w * this->learning_rate;
-		//n_w = n_w.T();
 		w = w - n_w;
 	}
 
@@ -261,6 +259,16 @@ private:
 		std::string lossFun = "Binary-cross entropy";
 		float lr;
 	};
+
+	struct DebugParam
+	{
+		std::map<int, Tensor> weight_grad;
+		std::map<int, Tensor> bias_grad;
+		std::map<int, Tensor> weight_sum;
+		std::map<int, Tensor> a_hidden;
+	};
+
+	DebugParam debug_parameters;
 	parameters param;
 	void passValues(Tensor input, Tensor output);
 public:
@@ -272,16 +280,15 @@ public:
 	
 	
 
+	//Functions which returns temp variables (for debug reasons)//
 
+	
 	
 
 
 	
 	void backProp();
 	Tensor output();
-	Tensor getGrad();
-	Tensor getBI_grad();
-	Tensor getLoss_grad();
 	Layer& getLayer(int index);
 	
 	void setWeights(int index, Tensor weights);
@@ -310,6 +317,9 @@ public:
 	static void passData(const Tensor& x, const Tensor& y, Ann& Model);
 	//static void summary(Ann& Model);
 	////////////////////////////////////////////////////
+
+	DebugParam debugParam();
+	void debug(short type = ALL);
 };
 
 

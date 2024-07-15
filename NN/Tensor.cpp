@@ -123,11 +123,29 @@ Tensor Tensor::operator*(Tensor& t)
 {
 	try
 	{
+
+		if (this->tensor.getColNum() == t.tensor.getColNum() && this->tensor.getRowNum() == t.tensor.getRowNum())
+		{
+			Tensor temp;
+			for (int z = 0; z < t.getShape().first; z++)
+			{
+				temp.values().push_back(std::vector<float>());
+				for (int y = 0; y < t.getShape().second; y++)
+				{
+					temp.values()[z].push_back(this->tensor.mat[z][y] * t.values()[z][y]);
+				}
+			}
+
+			return temp;
+		}
+
 		if (this->tensor.getColNum() != t.tensor.getRowNum())
 		{
-			std::cout << this->tensor.getColNum() << " " << t.tensor.getRowNum() << "\n";
-			throw std::runtime_error("mat1 and mat2 are not the same size.\n(" + std::to_string(t.tensor.getRowNum()) +"x" 
-				+ std::to_string(t.tensor.getColNum()) + ") and (" + std::to_string(t.tensor.getRowNum()) + "x" +
+			std::cout << "--------------------------------------------\n";
+			std::cout << this->tensor.mat<<"-------\n" << t.tensor.mat << "\n";
+			std::cout << "--------------------------------------------\n";
+			throw std::runtime_error("mat1 and mat2 cannot me multiplied.\n(" + std::to_string(this->tensor.getRowNum()) +"x" 
+				+ std::to_string(this->tensor.getColNum()) + ") and (" + std::to_string(t.tensor.getRowNum()) + "x" +
 				std::to_string(t.tensor.getColNum()) +")");
 		}
 	}
@@ -136,6 +154,8 @@ Tensor Tensor::operator*(Tensor& t)
 		std::cout << e.what();
 		exit(1);
 	}
+	
+
 	int rowsA = this->tensor.mat.size();
 	int colsA = this->tensor.mat[0].size();
 	int colsB = t.tensor.mat[0].size();
@@ -183,8 +203,10 @@ Tensor Tensor::operator-(Tensor& t)
 	{
 		if (t.values().size() != this->values().size())
 		{
-			throw std::runtime_error("mat1 and mat2 are not the same size.\n" + std::to_string(t.values().size()) + "and" +
-				std::to_string(this->values().size()));
+			throw std::runtime_error("Cannot operate -. mat1 and mat2 are not the same size.\n(" +
+				std::to_string(t.getShape().first) + 'x' + std::to_string(t.getShape().first) + ')' + " and " +
+
+				'('+ std::to_string(this->values().size()) + 'x' + std::to_string(this->values()[0].size()) +')');
 		}
 
 		Tensor* temp = new Tensor();
