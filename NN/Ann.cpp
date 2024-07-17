@@ -166,6 +166,7 @@ void Ann::backProp()
 			Tensor g = grad_err(this->y.values()[0][this->count], layer.getOutput(), layer.input, gradient, i);
 			//print(g.values(), 1);
 			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
+			layer.error = error;
 			updateWeights(layer.weights, g);
 			debug_parameters.weight_grad[i] = g;
 			this->currLoss = rx::Utility::loss(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
@@ -218,19 +219,37 @@ void Ann::backProp()
 				temp.values().push_back(gr.values()[0]);
 
 			}*/
-			//print("-------------\n");
-			//print(error.values());
-			//print(temp.values(),1 );
-			//print(layer.weights.values());
-			////print(dv_actfun.values());
+			Tensor hid_error;
 
-			//print("-------------\n");
-			temp = error * prev_layer.weights;
-			temp = temp.T();
-			temp = temp * next_layer.output;
-			print(temp.values());
-			updateWeights(layer.weights, temp);
-			debug_parameters.weight_grad[i] = temp;
+			if (i + 1 >= this->layers.size() - 1)
+			{
+				hid_error = this->layers[this->layers.size() - 1]->error;
+				this->layers[i]->error = hid_error;
+					//layer.error = prev_layer.error * prev_layer.weights;
+					//print(prev_layer.error.values(), 1);
+					//print(prev_layer.weights.values());
+			}
+			else
+			{
+				Tensor temp_weight = prev_layer.weights.T();
+				print("------\n");
+				print(prev_layer.weights.values(), 1);
+				print(prev_layer.error.values(), 1);
+				print("------\n");
+				hid_error = prev_layer.error * prev_layer.weights;
+				layer.error = hid_error;
+			}
+			//print(hid_error.values());
+			temp = hid_error * next_layer.output;
+			//print(temp.values(), 1);
+
+			//temp = temp.T();
+			//temp = temp * next_layer.output;
+
+			//print(prev_layer.weights.values());
+
+			//updateWeights(layer.weights, temp);
+			//debug_parameters.weight_grad[i] = temp;
 			
 		}
 
@@ -294,12 +313,13 @@ void Ann::backProp()
 				/*print("New bias : ");
 				print(layer.bias.values());
 				print("------\n");*/
-				prev_layer = *this->layers[i + 1];	
 				
+				prev_layer = *this->layers[i + 1];
 				debug_parameters.bias_grad[i] = delta_hidden;
 			}
 			
 		}
+
 		if (i != this->layers.size() - 1)
 		{
 			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);

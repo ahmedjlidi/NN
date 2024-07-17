@@ -123,6 +123,14 @@ Tensor Tensor::operator*(Tensor& t)
 {
 	try
 	{
+		if (this->getShape().first == 0 || this->getShape().second == 0 || t.getShape().first == 0
+			|| t.getShape().second == 0)
+		{
+			std::string n = (this->getShape().first == 0 || this->getShape().second == 0) ? "mat 1 " : "mat2 ";
+			throw std::runtime_error(n + "Has 0 or rows or columns." + std::to_string(this->tensor.getRowNum()) + "x"
+				+ std::to_string(this->tensor.getColNum()) + ") and (" + std::to_string(t.tensor.getRowNum()) + "x" +
+				std::to_string(t.tensor.getColNum()) + ")");
+		}
 
 		if (this->tensor.getColNum() == t.tensor.getColNum() && this->tensor.getRowNum() == t.tensor.getRowNum())
 		{
@@ -138,7 +146,6 @@ Tensor Tensor::operator*(Tensor& t)
 
 			return temp;
 		}
-
 		if (this->tensor.getColNum() != t.tensor.getRowNum())
 		{
 			std::cout << "--------------------------------------------\n";
@@ -148,6 +155,7 @@ Tensor Tensor::operator*(Tensor& t)
 				+ std::to_string(this->tensor.getColNum()) + ") and (" + std::to_string(t.tensor.getRowNum()) + "x" +
 				std::to_string(t.tensor.getColNum()) +")");
 		}
+		
 	}
 	catch (const std::exception& e)
 	{

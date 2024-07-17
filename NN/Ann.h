@@ -31,6 +31,7 @@ private:
 	Tensor weight_sum;
 	bool useBias;
 	int outputSize, inputSize;
+	Tensor error;
 	
 	float kaimingInit(int fanIn) 
 	{

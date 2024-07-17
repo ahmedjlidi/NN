@@ -37,7 +37,6 @@ int main()
 	//Model.forward();
 	
 	Model.train(1);
-	Model.debug();
 
 	////Ann::summary(Model);
 	//
