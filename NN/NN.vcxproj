@@ -128,12 +128,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="Ann.cpp" />
     <ClCompile Include="Dataset.cpp" />
-    <ClCompile Include="Layers.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NN.cpp" />
     <ClCompile Include="Operators.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -144,15 +141,12 @@
   <ItemGroup>
     <ClInclude Include="Ann.h" />
     <ClInclude Include="DataSet.h" />
-    <ClInclude Include="Layers.h" />
-    <ClInclude Include="NN.h" />
     <ClInclude Include="Operators.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tensor.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="weightbmi.csv" />
     <None Include="xor.csv" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

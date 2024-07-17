@@ -13,9 +13,9 @@ enum BOOL : bool
 
 enum PARAM
 {
-	GRAD_WEIGHT,
-	GRAD_BIAS,
-	WEIGHT_SUM,
+	INPUT,
+	WEIGHTS,
+	BIAS,
 	OUTPUT,
 	ALL
 };
@@ -28,13 +28,12 @@ private:
 	Tensor weights;
 	Tensor output;
 	Tensor bias;
-	Tensor weight_sum;
 	bool useBias;
 	int outputSize, inputSize;
-	
-	float kaimingInit(int fanIn) 
+
+	float kaimingInit(int fanIn)
 	{
-		
+
 	}
 
 	int getParamNum()
@@ -51,7 +50,7 @@ public:
 		this->input.values()[0].resize(this->inputSize);
 
 
-		
+
 
 		float range = std::sqrt(static_cast<float>(1.f) / static_cast<float>(this->inputSize));
 		for (int i = 0; i < this->outputSize; i++)
@@ -72,7 +71,7 @@ public:
 	{
 		this->input = input;
 	}
-	void passInput(Tensor &t )
+	void passInput(Tensor& t)
 	{
 		this->input = t;
 	}
@@ -91,8 +90,7 @@ public:
 		}
 		Tensor tempweight = this->weights.T();
 		this->output = this->input * tempweight;
-		this->weight_sum = this->output;
-		
+
 		//std::cout << this->output.values();
 
 		if (this->useBias)
@@ -103,7 +101,7 @@ public:
 		{
 			for (auto& k : e)
 			{
-				if(actFun == "ReLU")
+				if (actFun == "ReLU")
 					k = rx::Utility::ReLU(k);
 				else
 				{
@@ -112,8 +110,8 @@ public:
 			}
 		}
 
-		
-		
+
+
 	}
 	const bool usBias()
 	{
@@ -129,14 +127,14 @@ public:
 	}
 	void info()
 	{
-		std::cout << "In_features = " << this->input.values()[0].size()<<"\n";
+		std::cout << "In_features = " << this->input.values()[0].size() << "\n";
 		std::cout << "Out_features = " << outputSize;
 	}
 	void describe()
 	{
-		std::cout <<"Input:\n" << this->input.values();
+		std::cout << "Input:\n" << this->input.values();
 		std::cout << "Weights :\n" << this->weights.values();
-		std::cout << "Output:\n" << this->output.values(); 
+		std::cout << "Output:\n" << this->output.values();
 		std::cout << "Bias :\n" << this->bias.values();
 	}
 	Tensor getOutput()
@@ -147,13 +145,6 @@ public:
 	{
 		return std::make_pair(this->inputSize, this->outputSize);
 	}
-
-	void clear()
-	{
-		//this->input.values().clear();
-		//this->output.values().clear();
-	}
-
 
 	void reset()
 	{
@@ -197,13 +188,16 @@ private:
 	float (*actFun_output)(float z);
 
 	Tensor input, y;
-	
+
 
 	//Back prop temp values/////
-	
+	Tensor grad;
+	Tensor bi_grad;
+	Tensor loss_grad;
 	float currLoss;
+
 	int count = 0;
-	
+	std::vector<float> losses;
 	/////////////////////////////
 
 	float currGrad;
@@ -212,9 +206,7 @@ private:
 	{
 		float v1 = yHat - y;
 		float v2 = yHat * (1 - yHat);
-
-		//std::cout << "Yhat and y" << yHat << " " << y << "\n";
-		float output = v1 / static_cast<float>(v2);	
+		float output = v1 / static_cast<float>(v2);
 		return roundTo(output, 4);
 	};
 	Tensor grad_err(float y, Tensor yHat, Tensor& input, float grad, int depth)
@@ -230,10 +222,10 @@ private:
 				{
 					float val = yHat.values()[0][i] > 0 ? 1 : 0;
 					temp.values()[i].push_back(val * input.values()[0][j]);
-				}			
+				}
 				else
 				{
-					
+
 					//std::cout << "\n------\n" << yHat.values() << input.values() << grad <<"\n------\n";
 
 					temp.values()[i].push_back(yHat.values()[0][i] * (1 - yHat.values()[0][i]) * input.values()[0][j]);
@@ -246,7 +238,7 @@ private:
 	}
 	void updateWeights(Tensor& w, Tensor n_w)
 	{
-	
+
 		n_w = n_w * this->learning_rate;
 		w = w - n_w;
 	}
@@ -259,43 +251,30 @@ private:
 		std::string lossFun = "Binary-cross entropy";
 		float lr;
 	};
-
-	struct DebugParam
-	{
-		std::map<int, Tensor> weight_grad;
-		std::map<int, Tensor> bias_grad;
-		std::map<int, Tensor> weight_sum;
-		std::map<int, Tensor> a_hidden;
-	};
-
-	DebugParam debug_parameters;
 	parameters param;
 	void passValues(Tensor input, Tensor output);
 public:
-	Ann(){}
+	Ann() {}
 
 	void addLayer(int input, int output, bool bias = false);
 	void forward(std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 
-	
-	
-
-	//Functions which returns temp variables (for debug reasons)//
-
-	
-	
 
 
-	
+
+
+
+
+
+
 	void backProp();
 	Tensor output();
 	Layer& getLayer(int index);
-	
+
 	void setWeights(int index, Tensor weights);
-	void setBias(int index, float bias);
 	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 	std::vector<Layer*>& getLayers();
-	
+
 	void train(int epochs, bool debug = False);
 	void compile(float lr, std::string actFun_hidden, std::string actFun_output);
 
@@ -307,7 +286,7 @@ public:
 		}
 	}
 
-	
+
 	//static function////////////////////////////////
 	static void describe(Ann& Model);
 	static void info(Ann& Model);
@@ -317,10 +296,11 @@ public:
 	static void passData(const Tensor& x, const Tensor& y, Ann& Model);
 	//static void summary(Ann& Model);
 	////////////////////////////////////////////////////
-
-	DebugParam debugParam();
-	void debug(short type = ALL);
 };
+
+
+
+
 
 
 
