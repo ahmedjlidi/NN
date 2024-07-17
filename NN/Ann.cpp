@@ -176,6 +176,10 @@ void Ann::backProp()
 		{
 			if (i != 0)
 				next_layer = *this->layers[i - 1];
+			if (i + 1 != this->layers.size() - 1)
+			{
+				prev_layer = *this->layers[i + 1];
+			}
 			Tensor dv_actfun;
 			dv_actfun.values().resize(layer.getOutput().values().size());
 			for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
@@ -219,37 +223,41 @@ void Ann::backProp()
 				temp.values().push_back(gr.values()[0]);
 
 			}*/
-			Tensor hid_error;
 
-			if (i + 1 >= this->layers.size() - 1)
+			Tensor hid_error = this->layers[this->layers.size() -1]->error;
+			for (int l = 0; l < prev_layer.outputSize - 1; l++)
 			{
-				hid_error = this->layers[this->layers.size() - 1]->error;
-				this->layers[i]->error = hid_error;
-					//layer.error = prev_layer.error * prev_layer.weights;
-					//print(prev_layer.error.values(), 1);
-					//print(prev_layer.weights.values());
+				hid_error.values()[0].push_back(hid_error.values()[0][0]);
+			}
+			//print(hid_error.values());
+			//print(hid_error.values());
+			hid_error = hid_error.T();
+			
+			if (i != 0)
+			{
+				temp = hid_error * prev_layer.weights;
+				temp = temp.T();
+				temp = temp * next_layer.output;
+				//print(temp.values());
+				
+				
 			}
 			else
 			{
-				Tensor temp_weight = prev_layer.weights.T();
-				print("------\n");
-				print(prev_layer.weights.values(), 1);
-				print(prev_layer.error.values(), 1);
-				print("------\n");
-				hid_error = prev_layer.error * prev_layer.weights;
-				layer.error = hid_error;
+				Tensor temp_output;
+				for (int h = 0; h < prev_layer.weights.values().size(); h++)
+				{
+					temp_output.values().push_back(next_layer.output.values()[0]);
+				}
+
+				temp = prev_layer.weights * hid_error.values()[0][0];
+				temp = temp.T();
+				temp = temp * temp_output;
+					
 			}
-			//print(hid_error.values());
-			temp = hid_error * next_layer.output;
-			//print(temp.values(), 1);
 
-			//temp = temp.T();
-			//temp = temp * next_layer.output;
-
-			//print(prev_layer.weights.values());
-
-			//updateWeights(layer.weights, temp);
-			//debug_parameters.weight_grad[i] = temp;
+			updateWeights(layer.weights, temp);
+			debug_parameters.weight_grad[i] = temp;
 			
 		}
 
@@ -314,7 +322,7 @@ void Ann::backProp()
 				print(layer.bias.values());
 				print("------\n");*/
 				
-				prev_layer = *this->layers[i + 1];
+				
 				debug_parameters.bias_grad[i] = delta_hidden;
 			}
 			
@@ -323,7 +331,10 @@ void Ann::backProp()
 		if (i != this->layers.size() - 1)
 		{
 			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
+			
 		}
+
+		
 	}	
 }
 

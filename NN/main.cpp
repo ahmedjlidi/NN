@@ -36,7 +36,8 @@ int main()
 	Model.compile(0.1, "ReLU", "Sigmoid");
 	//Model.forward();
 	
-	Model.train(1);
+	Model.train(2);
+	Model.debug(GRAD_WEIGHT);
 
 	////Ann::summary(Model);
 	//
