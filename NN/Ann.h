@@ -32,11 +32,8 @@ private:
 	bool useBias;
 	int outputSize, inputSize;
 	Tensor error;
+	Tensor prev_weights;
 	
-	float kaimingInit(int fanIn) 
-	{
-		
-	}
 
 	int getParamNum()
 	{
@@ -50,8 +47,6 @@ public:
 	{
 		this->input.values().resize(BATCH_SIZE);
 		this->input.values()[0].resize(this->inputSize);
-
-
 		
 
 		float range = std::sqrt(static_cast<float>(1.f) / static_cast<float>(this->inputSize));
@@ -63,8 +58,6 @@ public:
 				this->weights.values()[i].push_back(rx::Utility::kaiming_init(this->inputSize));
 			}
 		}
-		//this->weights = this->weights.T();
-
 		this->bias.values().resize(1);
 		this->bias.values()[0].resize(this->outputSize);
 
@@ -93,8 +86,7 @@ public:
 		Tensor tempweight = this->weights.T();
 		this->output = this->input * tempweight;
 		this->weight_sum = this->output;
-		
-		//std::cout << this->output.values();
+	
 
 		if (this->useBias)
 		{
@@ -149,12 +141,6 @@ public:
 		return std::make_pair(this->inputSize, this->outputSize);
 	}
 
-	void clear()
-	{
-		//this->input.values().clear();
-		//this->output.values().clear();
-	}
-
 
 	void reset()
 	{
@@ -198,6 +184,8 @@ private:
 	float (*actFun_output)(float z);
 
 	Tensor input, y;
+	std::map<int, Tensor> avg_gradient;
+	std::map<int, Tensor> avg_bias;
 	
 
 	//Back prop temp values/////
@@ -213,8 +201,6 @@ private:
 	{
 		float v1 = yHat - y;
 		float v2 = yHat * (1 - yHat);
-
-		//std::cout << "Yhat and y" << yHat << " " << y << "\n";
 		float output = v1 / static_cast<float>(v2);	
 		return roundTo(output, 4);
 	};
@@ -234,8 +220,7 @@ private:
 				}			
 				else
 				{
-					
-					//std::cout << "\n------\n" << yHat.values() << input.values() << grad <<"\n------\n";
+				
 
 					temp.values()[i].push_back(yHat.values()[0][i] * (1 - yHat.values()[0][i]) * input.values()[0][j]);
 				}
@@ -247,7 +232,6 @@ private:
 	}
 	void updateWeights(Tensor& w, Tensor n_w)
 	{
-	
 		n_w = n_w * this->learning_rate;
 		w = w - n_w;
 	}
@@ -267,6 +251,16 @@ private:
 		std::map<int, Tensor> bias_grad;
 		std::map<int, Tensor> weight_sum;
 		std::map<int, Tensor> a_hidden;
+
+
+		/*DebugParam(int in)
+		{
+			for (int i = 0; i < in; i++)
+			{
+				this->bias_grad.push_back(std::map<int, Tensor>());
+			}
+		}*/
+		DebugParam(){}
 	};
 
 	DebugParam debug_parameters;

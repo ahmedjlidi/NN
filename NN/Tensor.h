@@ -65,6 +65,7 @@ public:
 	std::vector < std::vector<float>>& values();
 	///////////////////////////////////////////
 
+	bool empty();
 
 	std::vector<float> squeeze(bool horizontal = true);
 	Tensor T();

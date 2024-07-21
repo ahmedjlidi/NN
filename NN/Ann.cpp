@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Ann.h"
 
+#include "stdafx.h"
+#include "Ann.h"
+
 void Ann::addLayer(int input, int output, bool bias)
 {
 	try
@@ -14,7 +17,6 @@ void Ann::addLayer(int input, int output, bool bias)
 		exit(1);
 	}
 	this->layers.push_back(new Layer(input, output, bias));
-	//this->layers[this->layers.size() - 1]->curBias = 0.f;
 }
 
 void Ann::forward(std::string input_actFun, std::string output_actFun)
@@ -26,7 +28,7 @@ void Ann::forward(std::string input_actFun, std::string output_actFun)
 	}
 	Tensor temp = Tensor(this->input.values()[this->count]);
 	this->layers[0]->passInput(temp);
-	if(this->layers.size() == 1)
+	if (this->layers.size() == 1)
 		this->layers[0]->forward(this->param.actFun_o);
 	else
 		this->layers[0]->forward(this->param.actFun_h);
@@ -41,7 +43,7 @@ void Ann::forward(std::string input_actFun, std::string output_actFun)
 			this->layers[i]->forward(this->param.actFun_h);
 		}
 	}
-	
+
 }
 
 void Ann::describe(Ann& Model)
@@ -71,7 +73,7 @@ void Ann::info(Ann& Model)
 	}
 	else
 		std::cout << "None.\n";
-	std::cout << "Activation function for Output layer: "<< Model.param.actFun_o<<"\n";
+	std::cout << "Activation function for Output layer: " << Model.param.actFun_o << "\n";
 	std::cout << "Loss function: " << Model.param.lossFun << "\n";
 	std::cout << "Learning rate: " << Model.learning_rate << "\n";
 	std::cout << "\n-------------------------\n";
@@ -91,7 +93,7 @@ void Ann::summary(Ann& Model)
 
 
 	float total = 0, train_total = 0.f, total_size = 0.f;
-	
+
 	for (const auto& e : Model.layers)
 	{
 		//Size in bytes
@@ -144,124 +146,81 @@ Tensor Ann::gradient(Tensor& input, Tensor& Error)
 void Ann::backProp()
 {
 	Layer prev_layer = *this->layers[this->layers.size() - 1];
-	Layer next_layer = prev_layer;
 	for (int i = this->layers.size() - 1; i >= 0; i--)
 	{
-		
-		Layer& layer = *this->layers[i];
-		this->debug_parameters.weight_sum[i] = layer.weight_sum;
-		this->debug_parameters.a_hidden[i] = layer.getOutput();
 
+		Layer& layer = *this->layers[i];
 		auto err = [](Tensor yHat, float y)->Tensor
 			{
 				return yHat - y;
 			};
+
 		static Tensor error;
+		Tensor prev_Weights = layer.getWeights();
 		float gradient = gradi(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
+
 		//Backrop the output layer
 		if (i == this->layers.size() - 1)
 		{
 			float loss = rx::Utility::loss(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
-			
+
 			Tensor g = grad_err(this->y.values()[0][this->count], layer.getOutput(), layer.input, gradient, i);
-			//print(g.values(), 1);
 			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
-			layer.error = error;
-			updateWeights(layer.weights, g);
-			debug_parameters.weight_grad[i] = g;
+			this->layers[i - 1]->prev_weights = layer.weights;
+			//updateWeights(layer.weights, g);
+			this->debug_parameters.weight_grad[i] = g;
+
+
+			if(!this->avg_gradient[i].empty())
+				this->avg_gradient[i] = this->avg_gradient[i] + g;
+			else
+				this->avg_gradient[i] = g;
+
 			this->currLoss = rx::Utility::loss(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
 		}
 		//Backprop hidden layer
 		else
 		{
-			if (i != 0)
-				next_layer = *this->layers[i - 1];
-			if (i + 1 != this->layers.size() - 1)
-			{
-				prev_layer = *this->layers[i + 1];
-			}
-			Tensor dv_actfun;
-			dv_actfun.values().resize(layer.getOutput().values().size());
-			for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
-			{
-				dv_actfun.values()[0].push_back(layer.getOutput().values()[0][b] > 0 ? 1 : 0);
-			}
-
-			Tensor t;
+			float dv_actfun = layer.getOutput().values()[0][0] > 0 ? 1 : 0;
+			Tensor dv_actFun_values;
 			int lo_count = 0;
-			for (const auto& e : layer.getOutput().values())
+			for (const auto& e : layer.weight_sum.values())
 			{
-				t.values().push_back(std::vector<float>());
+				dv_actFun_values.values().push_back(std::vector<float>());
 				for (const auto& k : e)
 				{
-					t.values()[lo_count].push_back(k > 0 ? 1 : 0);
+					dv_actFun_values.values()[lo_count].push_back(k > 0 ? 1 : 0);
 				}
 			}
-			Tensor temp;
-			/*for(int h = 0; h < layer.weights.values().size(); h++)
+			if (i + 1 >= this->layers.size() - 1)
 			{
-				std::vector<float>rowI = layer.weights.values()[h];
-				Tensor weight_row(rowI);
-				Tensor gr;
-				if (error.getShape().first == weight_row.getShape().first
-					&& error.getShape().second == weight_row.getShape().second)
-				{
-					for (int z = 0; z < error.getShape().first; z++)
-					{
-						gr.values().push_back(std::vector<float>());
-						for (int y = 0; y < error.getShape().second; y++)
-						{
-							gr.values()[z].push_back(error.values()[z][y] * weight_row.values()[z][y]);
-						}
-					}
-				}
-				else
-				{
-					gr = error * weight_row;
-				}
-				gr = gr * dv_actfun;
-				temp.values().push_back(gr.values()[0]);
-
-			}*/
-
-			Tensor hid_error = this->layers[this->layers.size() -1]->error;
-			for (int l = 0; l < prev_layer.outputSize - 1; l++)
-			{
-				hid_error.values()[0].push_back(hid_error.values()[0][0]);
-			}
-			//print(hid_error.values());
-			//print(hid_error.values());
-			hid_error = hid_error.T();
-			
-			if (i != 0)
-			{
-				temp = hid_error * prev_layer.weights;
-				temp = temp.T();
-				temp = temp * next_layer.output;
-				//print(temp.values());
-				
-				
+				layer.error = error;
 			}
 			else
 			{
-				Tensor temp_output;
-				for (int h = 0; h < prev_layer.weights.values().size(); h++)
-				{
-					temp_output.values().push_back(next_layer.output.values()[0]);
-				}
-
-				temp = prev_layer.weights * hid_error.values()[0][0];
-				temp = temp.T();
-				temp = temp * temp_output;
-					
+				layer.error = this->layers[i + 1]->error;
 			}
-
-			updateWeights(layer.weights, temp);
-			debug_parameters.weight_grad[i] = temp;
+		
+			dv_actFun_values = dv_actFun_values.T();
+			Tensor T_weights = layer.prev_weights.T();
+			Tensor cur_error = T_weights * layer.error * dv_actFun_values;
 			
+			
+			layer.error = cur_error;
+			Tensor T_input = layer.input;
+			Tensor gradient = cur_error * T_input;
+			this->debug_parameters.weight_grad[i] = gradient;
+			if(i != 0)
+				this->layers[i - 1]->prev_weights = layer.weights;
+			//updateWeights(layer.weights, gradient);
+
+			if (!this->avg_gradient[i].empty())
+				this->avg_gradient[i] = this->avg_gradient[i] + gradient;
+			else
+				this->avg_gradient[i] = gradient;
 		}
 
-		
+
 		//Backprop Bias
 		if (layer.usBias())
 		{
@@ -273,74 +232,65 @@ void Ann::backProp()
 				};
 			if (i == this->layers.size() - 1)
 			{
-				
-				float dv_loss = gradient * this->layers[this->layers.size() -1 ]->getOutput().values()[0][0] 
+
+				float dv_loss = gradient * this->layers[this->layers.size() - 1]->getOutput().values()[0][0]
 					* (1 - this->layers[this->layers.size() - 1]->getOutput().values()[0][0]);
-				dv_loss = roundTo(dv_loss, 2);
+				dv_loss = roundTo(dv_loss, 4);
+				
+				Tensor temp; temp.values().resize(1);temp.values()[0].push_back(dv_loss);
+				this->debug_parameters.bias_grad[i] = temp;
+
+
+				if (!this->avg_gradient[i].empty())
+					this->avg_gradient[i] = this->avg_gradient[i] + g;
+				else
+					this->avg_gradient[i] = g;
 
 
 				layer.bias = layer.bias - (this->learning_rate * dv_loss);
-				debug_parameters.bias_grad[i] = dv_loss;
+				
 			}
 			else
 			{
-
 				Tensor dv_act_fun;
-				dv_act_fun.values().resize(layer.getOutput().values().size());
-				for (int b = 0; b < layer.getOutput().values()[0].size(); b++)
+				dv_act_fun.values().resize(layer.weight_sum.values().size());
+				for (int b = 0; b < layer.weight_sum.values()[0].size(); b++)
 				{
-					dv_act_fun.values()[0].push_back(layer.getOutput().values()[0][b]> 0 ? 1 : 0);
+					dv_act_fun.values()[0].push_back(layer.getOutput().values()[0][b] > 0 ? 1 : 0);
 				}
-				
-				Tensor delta_hidden;
-				delta_hidden= error * prev_layer.weights;
-				Tensor mult;
-				if (dv_act_fun.getShape().first == delta_hidden.getShape().first
-					&& dv_act_fun.getShape().second == delta_hidden.getShape().second)
+				dv_act_fun = dv_act_fun.T();
+				Tensor T_weight = layer.prev_weights.T();
+				Tensor curr_error;
+				if (i + 1 >= this->layers.size() - 1)
 				{
-					for (int z = 0; z < delta_hidden.getShape().first; z++)
-					{
-						mult.values().push_back(std::vector<float>());
-						for (int y = 0; y < delta_hidden.getShape().second; y++)
-						{
-							mult.values()[z].push_back(dv_act_fun.values()[z][y] * delta_hidden.values()[z][y]);
-						}
-					}
+					curr_error = error;
 				}
 				else
 				{
-					mult = delta_hidden * dv_act_fun;
+					curr_error = this->layers[i + 1]->error;
 				}
+				Tensor gradient = T_weight * curr_error * dv_act_fun;
+				gradient = gradient.T();
+				this->debug_parameters.bias_grad[i] = gradient;
+				gradient = gradient * this->learning_rate;
+
+				layer.bias = layer.bias - gradient;
+				prev_layer = *this->layers[i + 1];
 
 				
-				delta_hidden = mult;
-				/*print("-------\ngradient of bias : ");
-				print(delta_hidden.values());*/
-				delta_hidden = delta_hidden * this->learning_rate;
-				layer.bias = layer.bias - delta_hidden;
-				/*print("New bias : ");
-				print(layer.bias.values());
-				print("------\n");*/
-				
-				
-				debug_parameters.bias_grad[i] = delta_hidden;
 			}
-			
 		}
 
 		if (i != this->layers.size() - 1)
 		{
 			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
-			
 		}
-
-		
-	}	
+	}
 }
 
 Tensor Ann::output()
 {
-	Tensor t  = this->layers[this->layers.size() - 1]->output;
+	Tensor t = this->layers[this->layers.size() - 1]->output;
 	return t;
 }
 
@@ -349,26 +299,20 @@ Layer& Ann::getLayer(int index)
 	return *this->layers[index];
 }
 
+
+
 void Ann::passValues(Tensor input, Tensor output)
 {
 	this->input = Tensor(input.values());
 	this->y = output;
+	//this->debug_parameters = Ann::DebugParam(this->input.values().size());
 
-	
-}
-
-void Ann::setBias(int index, float bias)
-{
-	//this->layers[index]->curBias = bias;
 }
 
 void Ann::setWeights(int index, Tensor weights)
 {
 	this->layers[index]->weights = weights;
-
 }
-
-
 
 std::vector<Layer*>& Ann::getLayers()
 {
@@ -377,7 +321,7 @@ std::vector<Layer*>& Ann::getLayers()
 
 Tensor Ann::round(Tensor t, float threshold)
 {
-	for(auto&e : t.values())
+	for (auto& e : t.values())
 		for (auto& k : e)
 		{
 			if (k >= threshold)
@@ -390,7 +334,6 @@ Tensor Ann::round(Tensor t, float threshold)
 
 	return t;
 }
-
 
 
 Tensor Ann::predict(Tensor input, std::string input_actFun, std::string output_actFun)
@@ -422,13 +365,13 @@ Tensor Ann::predict(Tensor input, std::string input_actFun, std::string output_a
 
 
 	return y;
-	
+
 }
 
 void Ann::train(int epochs, bool debug)
 {
 
-	try 
+	try
 	{
 		if (epochs <= 0)
 			throw std::runtime_error("Epochs should be >= 0.\n");
@@ -445,14 +388,27 @@ void Ann::train(int epochs, bool debug)
 		for (int i = 0; i < this->input.values().size(); i++)
 		{
 			this->forward();
+
+			this->avg_gradient.clear();
 			this->backProp();
+			for (auto& e : this->avg_gradient)
+			{
+				float scaler = (1 / static_cast<float>(this->input.values().size()));
+				e.second= e.second * scaler;
+			}
+			for (int i = 0; i < this->layers.size(); i++)
+			{
+				updateWeights(this->layers[i]->weights, this->avg_gradient[i]);
+			}
+			
 
 			if (static_cast<unsigned long long>(this->count) + 1 >= this->input.values().size())
 				this->count = 0;
 			else
 				this->count++;
+
 		}
-		if(debug)
+		if (debug)
 			printf("%d/%d epochs:------> Loss: %.3f   Accuracy: %f \n", maxE - epochs, maxE, this->currLoss, acc);
 	}
 }
@@ -518,6 +474,8 @@ void Ann::debug(short type)
 			}
 		};
 	auto printBias_grad = [this]() {
+
+
 		for (const auto& e : this->debug_parameters.bias_grad)
 		{
 			Tensor temp = e.second;

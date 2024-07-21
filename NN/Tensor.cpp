@@ -27,6 +27,11 @@ std::pair<int, int> Tensor::getShape()
 
 
 
+bool Tensor::empty()
+{
+	return this->tensor.mat.size() == 0;
+}
+
 std::vector<float> Tensor::squeeze(bool horizontal)
 {
 	if(horizontal)
@@ -93,10 +98,15 @@ Tensor Tensor::operator+(Tensor& t)
 {
 	try
 	{
+		if (t.values().size() == 0 ||  this->values().size() == 0)
+		{
+			throw std::runtime_error("mat 1 and mat 2 cannot be added because one at least has size 0.\n");
+		}
 		if (t.values().size() != this->values().size())
 		{
-			throw std::runtime_error("mat1 and mat2 are not the same size.\n" + std::to_string(t.values().size()) + "and" +
-				 std::to_string(this->values().size()));
+			throw std::runtime_error("mat1 and mat2 cannot be added.Not the same size.\n(" 
+				+ std::to_string(this->tensor.mat.size())+ " x " + std::to_string(this->tensor.mat[0].size()) + ") and (" +
+				std::to_string(t.tensor.mat.size()) + " x " + std::to_string(t.tensor.mat[0].size()));
 		}
 		Tensor* temp = new Tensor();
 		for (int i = 0; i < t.values().size(); i++)
