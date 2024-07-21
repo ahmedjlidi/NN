@@ -241,13 +241,13 @@ void Ann::backProp()
 				this->debug_parameters.bias_grad[i] = temp;
 
 
-				if (!this->avg_gradient[i].empty())
-					this->avg_gradient[i] = this->avg_gradient[i] + g;
+				if (!this->avg_bias[i].empty())
+					this->avg_bias[i] = this->avg_bias[i] + temp;
 				else
-					this->avg_gradient[i] = g;
+					this->avg_bias[i] = temp;
 
 
-				layer.bias = layer.bias - (this->learning_rate * dv_loss);
+				//layer.bias = layer.bias - (this->learning_rate * dv_loss);
 				
 			}
 			else
@@ -272,10 +272,13 @@ void Ann::backProp()
 				Tensor gradient = T_weight * curr_error * dv_act_fun;
 				gradient = gradient.T();
 				this->debug_parameters.bias_grad[i] = gradient;
-				gradient = gradient * this->learning_rate;
 
-				layer.bias = layer.bias - gradient;
-				prev_layer = *this->layers[i + 1];
+				if (!this->avg_bias[i].empty())
+					this->avg_bias[i] = this->avg_bias[i] + gradient;
+				else
+					this->avg_bias[i] = gradient;
+
+				//layer.bias = layer.bias - gradient;
 
 				
 			}
@@ -390,6 +393,7 @@ void Ann::train(int epochs, bool debug)
 			this->forward();
 
 			this->avg_gradient.clear();
+			this->avg_bias.clear();
 			this->backProp();
 			for (auto& e : this->avg_gradient)
 			{
@@ -399,6 +403,18 @@ void Ann::train(int epochs, bool debug)
 			for (int i = 0; i < this->layers.size(); i++)
 			{
 				updateWeights(this->layers[i]->weights, this->avg_gradient[i]);
+			}
+
+			
+			for (auto& e : this->avg_bias)
+			{
+				float scaler = (1 / static_cast<float>(this->input.values().size()));
+				e.second = e.second * scaler;
+			}
+			for (int i = 0; i < this->layers.size(); i++)
+			{
+				if(this->layers[i]->usBias())
+					updateBias(this->layers[i]->bias, this->avg_bias[i]);
 			}
 			
 

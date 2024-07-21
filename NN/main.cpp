@@ -23,30 +23,23 @@ int main()
 	Tensor x = data.first;
 	Tensor y = data.second;*/
 
-	std::vector<std::vector<float>> x = { {1,1}, { 1, 1} /*, {1, 0}, { 0,1 }*/ };
-	std::vector<float> y = { 0, 0/*, 1, 1*/ };
+	std::vector<std::vector<float>> x = { {1,1}, { 0, 0} , {1, 0}, { 0,1 } };
+	std::vector<float> y = { 0,0, 1, 1 };
 
 
 	Ann Model = Ann();
-	Model.addLayer(2, 2, False);
-	Model.addLayer(2, 1, False);
-	Model.addLayer(1, 1, False);
+	Model.addLayer(2, 16, True);
+	Model.addLayer(16, 1, True);
 
 
-	setWeights(Model);
+	//setWeights(Model);
 	Ann::passData(x, y, Model);
 	Model.compile(0.1, "ReLU", "Sigmoid");
 
-	Model.train(100, True);
+	Model.train(1200, True);
 	Model.describe(Model);
-	
-	
 
-	////setWeights(Model);
-	//Ann::passData(Tensor(x), Tensor(y), Model);
-	//Model.compile(0.1, "ReLU", "Sigmoid");
-	//
-	//Model.train(1000);
+
 	print(Model.predict(x).values());
 
 	
