@@ -292,7 +292,6 @@ void Ann::backProp()
 				else
 					this->avg_bias[i] = gradient;
 
-				//layer.bias = layer.bias - gradient;
 
 				
 			}
@@ -421,8 +420,6 @@ void Ann::train(int epochs, bool debug, bool showAcc)
 			{
 				updateWeights(this->layers[i]->weights, this->avg_gradient[i]);
 			}
-
-			
 			for (auto& e : this->avg_bias)
 			{
 				float scaler = (1 / static_cast<float>(this->input.values().size()));

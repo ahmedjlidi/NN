@@ -194,5 +194,8 @@ namespace rx
 
 		static float kaiming_init(int in);
 		
+		static void normalize(std::vector<std::vector<float>>& v);
+		static float min(std::vector<std::vector<float>>& v, int ax);
+		static float max(std::vector<std::vector<float>>& v, int ax);
 	};
 }

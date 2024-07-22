@@ -152,6 +152,8 @@
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\Desktop\heart_failure_clinical_records_dataset.csv" />
+    <None Include="diabetes.csv" />
     <None Include="weightbmi.csv" />
     <None Include="xor.csv" />
   </ItemGroup>

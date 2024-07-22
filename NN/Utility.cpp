@@ -250,6 +250,74 @@ float rx::Utility::kaiming_init(int in)
 	return dis(gen);
 }
 
+void rx::Utility::normalize(std::vector<std::vector<float>>& v)
+{
+	int count = 0;
+	while (count < v[0].size())
+	{
+		
+		float min = rx::Utility::min(v, count), max = rx::Utility::max(v, count);
+		
+		for (int i = 0; i < v.size(); i++)
+		{;
+			for (int j = 0; j <= count; j++)
+			{
+				if (j == count)
+				{
+					v[i][j] = (v[i][j] - min) / ((static_cast<float>(max) - min) * 1.f);
+				}
+					
+			}
+		}
+		count++;
+	}
+	
+}
+
+float rx::Utility::min(std::vector<std::vector<float>>& v, int ax)
+{
+	int min = 99999;
+	int count = 0;
+	for (const auto& e : v)
+	{
+		for (const auto& k : e)
+		{
+			if (count == ax)
+			{
+				if (k < min)
+				{
+					min = k;
+				}
+			}
+			count++;
+		}
+		count = 0;
+	}
+	return min;
+}
+
+float rx::Utility::max(std::vector<std::vector<float>>& v, int ax)
+{
+	int max = -99999;
+	int count = 0;
+	for (const auto& e : v)
+	{
+		for (const auto& k : e)
+		{
+			if (count == ax)
+			{
+				if (k > max)
+				{
+					max = k;
+				}
+			}
+			count++;
+		}
+		count = 0;
+	}
+	return max;
+}
+
 
 
 
