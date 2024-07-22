@@ -46,6 +46,20 @@ void Ann::forward(std::string input_actFun, std::string output_actFun)
 
 }
 
+void Ann::setWeights(float _const_)
+{
+	for (auto& layer : this->layers)
+	{
+		for (auto& e : layer->weights.values())
+		{
+			for (auto& k : e)
+			{
+				k = _const_;
+			}
+		}
+	}
+}
+
 void Ann::describe(Ann& Model)
 {
 	std::cout << "\n-------------------------\n";
@@ -291,15 +305,15 @@ void Ann::backProp()
 	}
 }
 
-Tensor Ann::output()
-{
-	Tensor t = this->layers[this->layers.size() - 1]->output;
-	return t;
-}
 
 Layer& Ann::getLayer(int index)
 {
 	return *this->layers[index];
+}
+
+const float Ann::getCurrLoss()
+{
+	return this->currLoss;
 }
 
 
@@ -308,7 +322,6 @@ void Ann::passValues(Tensor input, Tensor output)
 {
 	this->input = Tensor(input.values());
 	this->y = output;
-	//this->debug_parameters = Ann::DebugParam(this->input.values().size());
 
 }
 
@@ -371,7 +384,7 @@ Tensor Ann::predict(Tensor input, std::string input_actFun, std::string output_a
 
 }
 
-void Ann::train(int epochs, bool debug)
+void Ann::train(int epochs, bool debug, bool showAcc)
 {
 
 	try
@@ -387,7 +400,11 @@ void Ann::train(int epochs, bool debug)
 	int maxE = epochs;
 	while (epochs--)
 	{
-		float acc = rx::Utility::accuracy(this->y.values(), Ann::round(this->predict(this->input), 0.5).T().values());
+		float acc;
+		if (showAcc)
+			acc = rx::Utility::accuracy(this->y.values(), Ann::round(this->predict(this->input), 0.5).T().values());
+		else
+			acc = -1;
 		for (int i = 0; i < this->input.values().size(); i++)
 		{
 			this->forward();
@@ -425,7 +442,10 @@ void Ann::train(int epochs, bool debug)
 
 		}
 		if (debug)
-			printf("%d/%d epochs:------> Loss: %.3f   Accuracy: %f \n", maxE - epochs, maxE, this->currLoss, acc);
+			printf("%d/%d epochs:------> Loss: %.3f   ", maxE - epochs, maxE, this->currLoss);
+		if (acc != -1)
+			printf("Accuracy: %.2f", acc);
+		printf("\n");
 	}
 }
 

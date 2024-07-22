@@ -192,7 +192,6 @@ private:
 	
 	float currLoss;
 	int count = 0;
-	
 	/////////////////////////////
 
 	float currGrad;
@@ -257,14 +256,6 @@ private:
 		std::map<int, Tensor> weight_sum;
 		std::map<int, Tensor> a_hidden;
 
-
-		/*DebugParam(int in)
-		{
-			for (int i = 0; i < in; i++)
-			{
-				this->bias_grad.push_back(std::map<int, Tensor>());
-			}
-		}*/
 		DebugParam(){}
 	};
 
@@ -276,7 +267,7 @@ public:
 
 	void addLayer(int input, int output, bool bias = false);
 	void forward(std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
-
+	void setWeights(float _const_);
 	
 	
 
@@ -287,26 +278,28 @@ public:
 
 
 	
-	void backProp();
-	Tensor output();
-	Layer& getLayer(int index);
 	
+	
+	//Setters////////////////////////////////////////
 	void setWeights(int index, Tensor weights);
 	void setBias(int index, float bias);
-	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
-	std::vector<Layer*>& getLayers();
+	///////////////////////////////////////////////
 	
-	void train(int epochs, bool debug = False);
+	
+	void train(int epochs = 1, bool debug = False, bool showAcc = False);
 	void compile(float lr, std::string actFun_hidden, std::string actFun_output);
+	void debug(short type = ALL);
+	void backProp();
+	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 
-	void clear()
-	{
-		for (auto& e : this->layers)
-		{
-			e->reset();
-		}
-	}
 
+
+	//Getters//////////////////////////////////
+	std::vector<Layer*>& getLayers();
+	DebugParam debugParam();
+	Layer& getLayer(int index);
+	const float getCurrLoss();
+	/////////////////////////////////////
 	
 	//static function////////////////////////////////
 	static void describe(Ann& Model);
@@ -318,8 +311,8 @@ public:
 	//static void summary(Ann& Model);
 	////////////////////////////////////////////////////
 
-	DebugParam debugParam();
-	void debug(short type = ALL);
+	
+	
 };
 
 

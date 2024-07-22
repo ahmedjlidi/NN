@@ -155,6 +155,9 @@ namespace rx
 		/*Returns number of rows and colums in the dataset*/
 		void info();
 		/*================================================*/
+
+
+		void normalize(int x, int y);
 	};
 }
 
