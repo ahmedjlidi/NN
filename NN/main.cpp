@@ -36,7 +36,7 @@ int main()
 	Ann::passData(x, y, Model);
 	Model.compile(0.1, "ReLU", "Sigmoid");
 
-	Model.train(250, True, False);
+	Model.train(300, True, False);
 
  	printf("Model accuracy: %.2f \% \n", rx::Utility::accuracy(y.values(), 
 		 Ann::round(Model.predict(x), 0.5).T().values()));

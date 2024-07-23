@@ -308,8 +308,11 @@ public:
 	static Tensor gradient(Tensor& input, Tensor& Error);
 	static Tensor round(Tensor t, float threshold);
 	static void passData(const Tensor& x, const Tensor& y, Ann& Model);
+	static void saveModel(Ann& Model);
 	//static void summary(Ann& Model);
 	////////////////////////////////////////////////////
+
+	
 
 	
 	

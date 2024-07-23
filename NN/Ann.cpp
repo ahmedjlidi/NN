@@ -489,6 +489,11 @@ void Ann::passData(const Tensor& x, const Tensor& y, Ann& Model)
 	Model.passValues(x, y);
 }
 
+void Ann::saveModel(Ann& Model)
+{
+
+}
+
 Ann::DebugParam Ann::debugParam()
 {
 	return this->debug_parameters;
