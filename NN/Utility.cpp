@@ -264,7 +264,7 @@ void rx::Utility::normalize(std::vector<std::vector<float>>& v)
 			{
 				if (j == count)
 				{
-					v[i][j] = (v[i][j] - min) / ((static_cast<float>(max) - min) * 1.f);
+					v[i][j] = ((v[i][j] - min) / ((static_cast<float>(max) - min) * 1.f));
 				}
 					
 			}

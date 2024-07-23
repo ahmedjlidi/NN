@@ -399,6 +399,7 @@ void Ann::train(int epochs, bool debug, bool showAcc)
 	int maxE = epochs;
 	while (epochs--)
 	{
+		this->timer.start();
 		float acc;
 		if (showAcc)
 			acc = rx::Utility::accuracy(this->y.values(), Ann::round(this->predict(this->input), 0.5).T().values());
@@ -411,22 +412,31 @@ void Ann::train(int epochs, bool debug, bool showAcc)
 			this->avg_gradient.clear();
 			this->avg_bias.clear();
 			this->backProp();
-			for (auto& e : this->avg_gradient)
+
+			auto weight_it = this->avg_gradient.begin();
+			auto bias_it = this->avg_bias.begin();
+
+			while (weight_it != avg_gradient.end() && bias_it != avg_bias.end()) {
+				float scaler = (1 / static_cast<float>(this->input.values().size()));
+				weight_it->second = weight_it->second * scaler;
+				bias_it->second = bias_it->second * scaler;
+				++weight_it;
+				++bias_it;
+			}
+
+			/*for (auto& e : this->avg_gradient)
 			{
 				float scaler = (1 / static_cast<float>(this->input.values().size()));
 				e.second= e.second * scaler;
-			}
-			for (int i = 0; i < this->layers.size(); i++)
-			{
-				updateWeights(this->layers[i]->weights, this->avg_gradient[i]);
 			}
 			for (auto& e : this->avg_bias)
 			{
 				float scaler = (1 / static_cast<float>(this->input.values().size()));
 				e.second = e.second * scaler;
-			}
+			}*/
 			for (int i = 0; i < this->layers.size(); i++)
 			{
+				updateWeights(this->layers[i]->weights, this->avg_gradient[i]);
 				if(this->layers[i]->usBias())
 					updateBias(this->layers[i]->bias, this->avg_bias[i]);
 			}
@@ -439,10 +449,12 @@ void Ann::train(int epochs, bool debug, bool showAcc)
 
 		}
 		if (debug)
-			printf("%d/%d epochs:------> Loss: %.3f   ", maxE - epochs, maxE, this->currLoss);
+			printf("%d/%d epochs:------> Loss: %.3f  Time: %.3lf", maxE - epochs, maxE,
+				this->currLoss, this->timer.elapsed_time());
 		if (acc != -1)
 			printf("Accuracy: %.2f", acc);
 		printf("\n");
+		this->timer.reset();
 	}
 }
 

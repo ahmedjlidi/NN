@@ -87,27 +87,7 @@ public:
 
 	//Operators///////////////////////
 
-	//print a vector
-	//friend std::ostream& operator<<(std::ostream& os, Tensor& t)
-	/*{
-		for (const auto& row : t.values())
-		{
-			os << "[ ";
-			for (int j = 0; j < row.size(); j++)
-			{
-				os << row[j];
-				if (j + 1 < row.size())
-				{
-					os << ", ";
-				}
-			}
-			os << "]\n";
-		}
-		return os;
-	}*/
-
-	//print a matrix
-	//friend std::ostream& operator<<(std::ostream& os, Tensor& t);
+	
 
 	/////////////////////////////////
 };

@@ -13,6 +13,7 @@ void setWeights(Ann& Model)
 	//Model.setWeights(3, Tensor(v4));
 }
 
+
 int main()
 {
 
@@ -26,7 +27,6 @@ int main()
 
 	rx::Utility::normalize(x.values());
 
-
 	Ann Model = Ann();
 	Model.addLayer(12, 64, True);
 	Model.addLayer(64, 32, True);
@@ -36,12 +36,13 @@ int main()
 	Ann::passData(x, y, Model);
 	Model.compile(0.1, "ReLU", "Sigmoid");
 
-	Model.train(300, True, False);
+	//Model.train(300, True, False);
+
+	Ann::summary(Model);
 
  	printf("Model accuracy: %.2f \% \n", rx::Utility::accuracy(y.values(), 
 		 Ann::round(Model.predict(x), 0.5).T().values()));
-
-
+	
 
 	
 	return 0;

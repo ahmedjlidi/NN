@@ -1,5 +1,6 @@
 #pragma once
 #include "Tensor.h"
+#include "Timer.h"
 #include "Utility.h"
 
 #define BATCH_SIZE 1
@@ -187,7 +188,7 @@ private:
 	std::map<int, Tensor> avg_gradient;
 	std::map<int, Tensor> avg_bias;
 	
-
+	Timer timer;
 	//Back prop temp values/////
 	
 	float currLoss;
