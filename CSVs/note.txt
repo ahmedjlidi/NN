@@ -1,0 +1,15 @@
+
+
+
+==========================================================================================
+FFN v1.2.1
+*Network only supports relu for hidden layers and sigmoid for ouptput layer
+*Network only support binary classifcation (BCE loss is used)
+*Adjust the model layers, learning rate and training epochs
+*Network uses kaiming weight inisalizations and biasies are set to 0
+*Network use batch-gradient-decsent to optimize solution 
+*Provide the csv dataset name as an argument. By default, they will be in CSVs directory
+===========================================================================================
+
+
+

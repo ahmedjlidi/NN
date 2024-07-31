@@ -1,0 +1,3 @@
+/home/ahmed/src/build/CMakeFiles/NN.dir
+/home/ahmed/src/build/CMakeFiles/edit_cache.dir
+/home/ahmed/src/build/CMakeFiles/rebuild_cache.dir

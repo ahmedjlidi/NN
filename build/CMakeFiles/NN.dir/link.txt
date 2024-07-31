@@ -1,0 +1,1 @@
+clang++ -O3 -DNDEBUG CMakeFiles/NN.dir/main.cpp.o CMakeFiles/NN.dir/Utility.cpp.o CMakeFiles/NN.dir/stdafx.cpp.o CMakeFiles/NN.dir/Timer.cpp.o CMakeFiles/NN.dir/Tensor.cpp.o CMakeFiles/NN.dir/Operators.cpp.o CMakeFiles/NN.dir/Dataset.cpp.o CMakeFiles/NN.dir/Ann.cpp.o -o NN 
