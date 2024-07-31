@@ -250,12 +250,12 @@ private:
 		temp = temp * grad;
 		return temp;
 	}
-	void updateWeights(Tensor& w, Tensor n_w)
+	void updateWeights(Tensor& w, Tensor& n_w)
 	{
 		n_w = n_w * this->learning_rate;
 		w = w - n_w;
 	}
-	void updateBias(Tensor& b, Tensor n_b)
+	void updateBias(Tensor& b, Tensor& n_b)
 	{
 		n_b = n_b * this->learning_rate;
 		b = b - n_b;

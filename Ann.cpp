@@ -156,7 +156,6 @@ Tensor Ann::gradient(Tensor& input, Tensor& Error)
 
 void Ann::backProp()
 {
-	Layer prev_layer = *this->layers[this->layers.size() - 1];
 	for (int i = this->layers.size() - 1; i >= 0; i--)
 	{
 
@@ -215,7 +214,6 @@ void Ann::backProp()
 			this->debug_parameters.weight_grad[i] = gradient;
 			if (i != 0)
 				this->layers[i - 1]->prev_weights = layer.weights;
-			//updateWeights(layer.weights, gradient);
 
 			if (!this->avg_gradient[i].empty())
 				this->avg_gradient[i] = this->avg_gradient[i] + gradient;

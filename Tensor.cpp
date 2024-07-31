@@ -49,15 +49,12 @@ std::vector<float> Tensor::squeeze(bool horizontal)
 
 Tensor Tensor::T()
 {
-	TENSOR* temp = new TENSOR();
-	
-	
+	Tensor temp;
 	for (int i = 0; i < this->tensor.getColNum(); i++)
 	{
-		temp->mat.push_back(this->tensor.getCol(i));
+		temp.values().emplace_back(this->tensor.getCol(i));
 	}
-	Tensor x = Tensor(temp->mat);
-	return x;
+	return temp;
 }
 
 Tensor Tensor::colAdd(std::vector<float>& vals)
@@ -108,17 +105,16 @@ Tensor Tensor::operator+(Tensor& t)
 				+ std::to_string(this->tensor.mat.size())+ " x " + std::to_string(this->tensor.mat[0].size()) + ") and (" +
 				std::to_string(t.tensor.mat.size()) + " x " + std::to_string(t.tensor.mat[0].size()));
 		}
-		Tensor* temp = new Tensor();
+		Tensor temp;
 		for (int i = 0; i < t.values().size(); i++)
 		{
-			std::vector<float> vec; 
+			temp.values().emplace_back(std::vector<float>());
 			for (int j = 0; j < t.values()[0].size(); j++)
 			{
-				vec.push_back(t.values()[i][j] + this->values()[i][j]);
+				temp.values()[i].push_back(t.values()[i][j] + this->values()[i][j]);
 			}
-			temp->values().push_back(vec);
 		}
-		return *temp;
+		return temp;
 	}
 
 	catch (const std::exception& e)
@@ -181,7 +177,8 @@ Tensor Tensor::operator*(Tensor& t)
 	int colsA = A[0].size();
 	int colsB = B[0].size();
 
-	std::vector<std::vector<float>> C(rowsA, std::vector<float>(colsB, 0.0f));
+	Tensor C;
+	C.values() = std::vector<std::vector<float>>(rowsA, std::vector<float>(colsB, 0.0f));
 	float sum = 0.f;
 #pragma omp parallel for
 	for (short i = 0; i < rowsA; ++i) 
@@ -192,12 +189,12 @@ Tensor Tensor::operator*(Tensor& t)
 			{
 				sum += A[i][k] * B[k][j];
 			}
-			C[i][j] = sum;
+			C.values()[i][j] = sum;
 			sum = 0.f;
 		}
 	}
 
-	return Tensor(C);
+	return C;
 }
 
 Tensor Tensor::operator*(float scalar)
