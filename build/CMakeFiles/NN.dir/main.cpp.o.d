@@ -264,11 +264,12 @@ CMakeFiles/NN.dir/main.cpp.o: \
   /usr/include/string.h /usr/include/strings.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/cassert \
   /usr/include/assert.h /home/ahmed/src/main.cpp \
-  /home/ahmed/src/Networks/BNet.h \
+  /home/ahmed/src/Networks/Network.h \
   /home/ahmed/src/Networks/Resources/Net.h \
   /home/ahmed/src/Networks/Resources/Layer.h \
   /home/ahmed/src/Networks/Resources/../../Utility.h \
   /home/ahmed/src/DataSet.h /home/ahmed/src/Tensor.h \
   /home/ahmed/src/Operators.h \
   /home/ahmed/src/Networks/Resources/../../Tensor.h \
-  /home/ahmed/src/Networks/Resources/../../Timer.h
+  /home/ahmed/src/Networks/Resources/../../Timer.h \
+  /home/ahmed/src/Networks/BNet.h /home/ahmed/src/Networks/../stdafx.h

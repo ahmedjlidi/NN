@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Networks/BNet.h"
+#include "Networks/Network.h"
 #include "DataSet.h"
 /*
 ==========================================================================================
@@ -157,20 +157,20 @@ int main()
 
 	rx::Utility::normalize(x.values());
 
-	auto Model = BNet();
-	Model.addLayer(2, 16, True);
-	Model.addLayer(16, 1, True);
+	auto Model = rx::initNet(rx::TYPE::BINARY_CLASSIFICATION);
+	Model->addLayer(2, 16, True);
+	Model->addLayer(16, 1, True);
 
 	std::cout << x.values() << y.values();
 
-	Net::passData(x, y, Model);
-	Model.setLR(0.1);
+	Net::passData(x, y, *Model);
+	Model->setLR(0.1);
 	print("Train:\n");
-	Model.train(1000, True, False);
-	print(Model.predict(x).values());
+	Model->train(1000, True, False);
+	print(Model->predict(x).values());
 
 	printf("Model accuracy: %.2f \n", rx::Utility::accuracy(y.values(),
-															Net::round(Model.predict(x), 0.5).T().values()));
+															Net::round(Model->predict(x), 0.5).T().values()));
 
 	return 0;
 }

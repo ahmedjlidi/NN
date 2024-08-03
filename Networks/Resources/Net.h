@@ -1,3 +1,6 @@
+#ifndef NET_H
+#define NET_H
+
 #include "Layer.h"
 #include "../../Timer.h"
 
@@ -83,3 +86,4 @@ public:
 
 	virtual Tensor predict(Tensor input);
 };
+#endif
