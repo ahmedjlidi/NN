@@ -181,11 +181,10 @@ namespace rx
 
 		static float mean(std::vector<float>& v);
 
-		static float loss(float y, float yHat);
+		
 		static float cost(std::vector<float>& losses);
 
 
-		static float Bce(std::vector<float>& y, std::vector<float>& yHat);
 		static std::vector<float> computeError(std::vector<float>& y, std::vector<float>& yHat);
 		static float sum(std::vector<float>& v);
 
@@ -200,8 +199,12 @@ namespace rx
 
 		static std::vector<std::vector<float>> labelEncode(rx::SET* set);
 
+		static float Bce(float y, float yHat);
+		static float Mse(float y, float yHat);
 
 		//Function deriviatives
+		static float bce_dv(float y, float yHat);
+		static float mse_dv(float y, float yHat);
 		static std::vector<std::vector<float>> relu_dv(std::vector<std::vector<float>>& v);
 		static std::vector<std::vector<float>> sigmoid_dv(std::vector<std::vector<float>>& input, std::vector<std::vector<float>>& yHat);
 	};

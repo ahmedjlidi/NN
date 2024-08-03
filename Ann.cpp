@@ -8,7 +8,7 @@ void Ann::addLayer(int input, int output, bool bias)
 		if (input <= 0 || output <= 0)
 			throw std::runtime_error("Input and output should be >= 0.\n");
 	}
-	catch (const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cout << e.what();
 		exit(1);
@@ -40,16 +40,15 @@ void Ann::forward(std::string input_actFun, std::string output_actFun)
 			this->layers[i]->forward(this->param.actFun_h);
 		}
 	}
-
 }
 
 void Ann::setWeights(float _const_)
 {
-	for (auto& layer : this->layers)
+	for (auto &layer : this->layers)
 	{
-		for (auto& e : layer->weights.values())
+		for (auto &e : layer->weights.values())
 		{
-			for (auto& k : e)
+			for (auto &k : e)
 			{
 				k = _const_;
 			}
@@ -57,20 +56,20 @@ void Ann::setWeights(float _const_)
 	}
 }
 
-void Ann::describe(Ann& Model)
+void Ann::describe(Ann &Model)
 {
 	std::cout << "\n-------------------------\n";
-	for (const auto& e : Model.layers)
+	for (const auto &e : Model.layers)
 	{
 		e->describe();
 	}
 	std::cout << "\n-------------------------\n";
 }
 
-void Ann::info(Ann& Model)
+void Ann::info(Ann &Model)
 {
 	std::cout << "\n-------------------------\n";
-	for (const auto& e : Model.layers)
+	for (const auto &e : Model.layers)
 	{
 		std::cout << "( ";
 		e->info();
@@ -88,30 +87,28 @@ void Ann::info(Ann& Model)
 	std::cout << "Loss function: " << Model.param.lossFun << "\n";
 	std::cout << "Learning rate: " << Model.learning_rate << "\n";
 	std::cout << "\n-------------------------\n";
-
 }
 
-void Ann::summary(Ann& Model)
+void Ann::summary(Ann &Model)
 {
 	printf("\n--------------------------------------------------------\n"
-		"	Layer (type)		Output Shape	Param #\n"
-		"========================================================\n");
+		   "	Layer (type)		Output Shape	Param #\n"
+		   "========================================================\n");
 	for (int i = 0; i < Model.layers.size(); i++)
 	{
 		printf("	Layer %d:\t\t[%d, %d]\t\t%d\n", i, 1, Model.layers[i]->outputSize, Model.layers[i]->getParamNum());
 	}
 	printf("========================================================\n");
 
-
 	float total = 0, train_total = 0.f, total_size = 0.f;
 
-	for (const auto& e : Model.layers)
+	for (const auto &e : Model.layers)
 	{
-		//Size in bytes
+		// Size in bytes
 		total_size += (e->weights.values().size() * e->weights.values()[0].size()) * 4;
 		total_size += (e->bias.getShape().first * e->bias.getShape().second) * 4;
 
-		//trainable params
+		// trainable params
 		train_total += (e->weights.values().size() * e->weights.values()[0].size());
 		if (e->useBias)
 		{
@@ -149,26 +146,27 @@ void Ann::summary(Ann& Model)
 	std::cout << "\n-------------------------\n";
 }
 
-Tensor Ann::gradient(Tensor& input, Tensor& Error)
+Tensor Ann::gradient(Tensor &input, Tensor &Error)
 {
 	return input * Error;
 }
 
 void Ann::backProp()
 {
+	Layer prev_layer = *this->layers[this->layers.size() - 1];
 	for (int i = this->layers.size() - 1; i >= 0; i--)
 	{
 
-		Layer& layer = *this->layers[i];
-		auto err = [](Tensor yHat, float y)->Tensor
-			{
-				return yHat - y;
-			};
+		Layer &layer = *this->layers[i];
+		auto err = [](Tensor yHat, float y) -> Tensor
+		{
+			return yHat - y;
+		};
 
 		static Tensor error;
 		float gradient = gradi(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
 
-		//Backrop the output layer
+		// Backrop the output layer
 		if (i == this->layers.size() - 1)
 		{
 
@@ -177,15 +175,14 @@ void Ann::backProp()
 			this->layers[i - 1]->prev_weights = layer.weights;
 			this->debug_parameters.weight_grad[i] = g;
 
-
 			if (!this->avg_gradient[i].empty())
 				this->avg_gradient[i] = this->avg_gradient[i] + g;
 			else
 				this->avg_gradient[i] = g;
 
-			this->currLoss = rx::Utility::loss(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
+			this->currLoss = rx::Utility::Bce(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
 		}
-		//Backprop hidden layer
+		// Backprop hidden layer
 		else
 		{
 			Tensor dv_actFun_values;
@@ -207,13 +204,13 @@ void Ann::backProp()
 			Tensor T_weights = layer.prev_weights.T();
 			Tensor cur_error = T_weights * layer.error * dv_actFun_values;
 
-
 			layer.error = cur_error;
 			Tensor T_input = layer.input;
 			Tensor gradient = cur_error * T_input;
 			this->debug_parameters.weight_grad[i] = gradient;
 			if (i != 0)
 				this->layers[i - 1]->prev_weights = layer.weights;
+			// updateWeights(layer.weights, gradient);
 
 			if (!this->avg_gradient[i].empty())
 				this->avg_gradient[i] = this->avg_gradient[i] + gradient;
@@ -221,11 +218,10 @@ void Ann::backProp()
 				this->avg_gradient[i] = gradient;
 		}
 
-
-		//Backprop Bias
+		// Backprop Bias
 		if (layer.usBias())
 		{
-			//Bias for output layer
+			// Bias for output layer
 			if (i == this->layers.size() - 1)
 			{
 
@@ -233,8 +229,7 @@ void Ann::backProp()
 
 				if (this->actFun_output == rx::Utility::Sigmoid)
 				{
-					dv_loss = gradient * this->layers[this->layers.size() - 1]->getOutput().values()[0][0]
-						* (1 - this->layers[this->layers.size() - 1]->getOutput().values()[0][0]);
+					dv_loss = gradient * this->layers[this->layers.size() - 1]->getOutput().values()[0][0] * (1 - this->layers[this->layers.size() - 1]->getOutput().values()[0][0]);
 				}
 				else if (this->actFun_output == rx::Utility::ReLU)
 				{
@@ -243,15 +238,15 @@ void Ann::backProp()
 
 				dv_loss = roundTo(dv_loss, 4);
 
-				Tensor temp; temp.values().resize(1); temp.values()[0].push_back(dv_loss);
+				Tensor temp;
+				temp.values().resize(1);
+				temp.values()[0].push_back(dv_loss);
 				this->debug_parameters.bias_grad[i] = temp;
 
 				if (!this->avg_bias[i].empty())
 					this->avg_bias[i] = this->avg_bias[i] + temp;
 				else
 					this->avg_bias[i] = temp;
-
-
 			}
 			else
 			{
@@ -262,7 +257,8 @@ void Ann::backProp()
 				}
 				else if (this->actFun_hidden == rx::Utility::Sigmoid)
 				{
-					Tensor& inp = layer.input; Tensor& out = layer.output;
+					Tensor &inp = layer.input;
+					Tensor &out = layer.output;
 					dv_act_fun.values() = rx::Utility::sigmoid_dv(inp.values(), out.values());
 				}
 				dv_act_fun = dv_act_fun.T();
@@ -284,9 +280,6 @@ void Ann::backProp()
 					this->avg_bias[i] = this->avg_bias[i] + gradient;
 				else
 					this->avg_bias[i] = gradient;
-
-
-
 			}
 		}
 
@@ -297,8 +290,7 @@ void Ann::backProp()
 	}
 }
 
-
-Layer& Ann::getLayer(int index)
+Layer &Ann::getLayer(int index)
 {
 	return *this->layers[index];
 }
@@ -308,36 +300,34 @@ const float Ann::getCurrLoss()
 	return this->currLoss;
 }
 
-
-
 void Ann::passValues(Tensor input, Tensor output)
 {
 	this->input = Tensor(input.values());
 	this->y = output;
-
 }
 
-Ann::Ann() {
-	this->learning_rate = 0.01;
-	this->actFun_hidden = rx::Utility::ReLU;
-	this->actFun_output = rx::Utility::Sigmoid;
-	this->currGrad = 0.f;
-}
+// Ann::Ann()
+// {
+// 	this->learning_rate = 0.01;
+// 	this->actFun_hidden = rx::Utility::ReLU;
+// 	////this->actFun_output = rx::Utility::Sigmoid;
+// 	//this->currGrad = 0.f;
+// }
 
 void Ann::setWeights(int index, Tensor weights)
 {
 	this->layers[index]->weights = weights;
 }
 
-std::vector<Layer*>& Ann::getLayers()
+std::vector<Layer *> &Ann::getLayers()
 {
 	return this->layers;
 }
 
 Tensor Ann::round(Tensor t, float threshold)
 {
-	for (auto& e : t.values())
-		for (auto& k : e)
+	for (auto &e : t.values())
+		for (auto &k : e)
 		{
 			if (k >= threshold)
 			{
@@ -349,7 +339,6 @@ Tensor Ann::round(Tensor t, float threshold)
 
 	return t;
 }
-
 
 Tensor Ann::predict(Tensor input, std::string input_actFun, std::string output_actFun)
 {
@@ -378,53 +367,51 @@ Tensor Ann::predict(Tensor input, std::string input_actFun, std::string output_a
 		c++;
 	}
 
-
 	return y;
-
 }
 
 void Ann::train(int epochs, bool debug, bool showAcc)
 {
-	//Function to zero the gradients to prevent accumulation
-	auto zero_grad = [this](std::map<int, Tensor>& grad_weight, std::map<int, Tensor>& grad_bias) 
-		{
+	// Function to zero the gradients to prevent accumulation
+	auto zero_grad = [this](std::map<int, Tensor> &grad_weight, std::map<int, Tensor> &grad_bias)
+	{
 		grad_weight.clear();
 		grad_bias.clear();
-		};
+	};
 
-	//Check if epochs are less or equal to 0
+	// Check if epochs are less or equal to 0
 	try
 	{
 		if (epochs <= 0)
 			throw std::runtime_error("Epochs should be >= 0.\n");
 	}
-	catch (const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cout << e.what();
 		exit(1);
 	}
 
-	//Start training, each epoch finishes when done processing all samples in the dataset (Fpropagation, Backpropagation)
+	// Start training, each epoch finishes when done processing all samples in the dataset (Fpropagation, Backpropagation)
 	const int maxE = epochs;
 	while (epochs--)
 	{
-		//Use timer to measure epoch perfomance
+		// Use timer to measure epoch perfomance
 		this->timer.start();
 		float acc = 0.f;
 		if (showAcc)
 			acc = rx::Utility::accuracy(this->y.values(), Ann::round(this->predict(this->input), 0.5).T().values());
 		for (int i = 0; i < this->input.values().size(); i++)
 		{
-			//Forward propagation
+			// Forward propagation
 			this->forward();
 
-			//Zero the grads
+			// Zero the grads
 			zero_grad(this->avg_gradient, this->avg_bias);
 
-			//Calculate the loss and backpropagate
+			// Calculate the loss and backpropagate
 			this->backProp();
 
-			//Average the gradients (batch gradient descent)
+			// Average the gradients (batch gradient descent)
 			auto weight_it = this->avg_gradient.begin();
 			auto bias_it = this->avg_bias.begin();
 
@@ -438,7 +425,7 @@ void Ann::train(int epochs, bool debug, bool showAcc)
 				++bias_it;
 			}
 
-			//Update the weights (IF CODE WORKS DON'T TOUCH IT!!!!!)
+			// Update the weights (IF CODE WORKS DON'T TOUCH IT!!!!!)
 			for (int i = 0; i < this->layers.size(); i++)
 			{
 				updateWeights(this->layers[i]->weights, this->avg_gradient[i]);
@@ -446,18 +433,17 @@ void Ann::train(int epochs, bool debug, bool showAcc)
 					updateBias(this->layers[i]->bias, this->avg_bias[i]);
 			}
 
-			//count is used to keep track of the current sample processed. Once reached the end reset it
+			// count is used to keep track of the current sample processed. Once reached the end reset it
 			if (static_cast<unsigned long long>(this->count) + 1 >= this->input.values().size())
 				this->count = 0;
 			else
 				this->count++;
-
 		}
 
-		//Print debug messages
+		// Print debug messages
 		if (debug)
 			printf("%d/%d epochs:------> Loss: %.3f  Time: %.3lf", maxE - epochs, maxE,
-				this->currLoss, this->timer.elapsed_time());
+				   this->currLoss, this->timer.elapsed_time());
 		if (showAcc)
 			printf("Accuracy: %.2f", acc);
 		printf("\n");
@@ -499,14 +485,13 @@ void Ann::compile(float lr, std::string actFun_hidden, std::string actFun_output
 	this->param.lr = this->learning_rate;
 }
 
-void Ann::passData(const Tensor& x, const Tensor& y, Ann& Model)
+void Ann::passData(const Tensor &x, const Tensor &y, Ann &Model)
 {
 	Model.passValues(x, y);
 }
 
-void Ann::saveModel(Ann& Model)
+void Ann::saveModel(Ann &Model)
 {
-
 }
 
 Ann::DebugParam Ann::debugParam()
@@ -518,40 +503,41 @@ void Ann::debug(short type)
 {
 
 	auto printWeight_grad = [this]()
+	{
+		for (const auto &e : this->debug_parameters.weight_grad)
 		{
-			for (const auto& e : this->debug_parameters.weight_grad)
-			{
-				Tensor temp = e.second;
-				printf("Weight gradient for layer %d:\n", e.first);
-				print(temp.values(), 1);
-			}
-		};
-	auto printBias_grad = [this]() {
-
-
-		for (const auto& e : this->debug_parameters.bias_grad)
+			Tensor temp = e.second;
+			printf("Weight gradient for layer %d:\n", e.first);
+			print(temp.values(), 1);
+		}
+	};
+	auto printBias_grad = [this]()
+	{
+		for (const auto &e : this->debug_parameters.bias_grad)
 		{
 			Tensor temp = e.second;
 			printf("Gradient of bias for layer %d:\n", e.first);
 			print(temp.values(), 1);
 		}
-		};
-	auto printWeight_sum = [this]() {
-		for (const auto& e : this->debug_parameters.weight_sum)
+	};
+	auto printWeight_sum = [this]()
+	{
+		for (const auto &e : this->debug_parameters.weight_sum)
 		{
 			Tensor temp = e.second;
 			printf("Weight sum for layer %d:\n", e.first);
 			print(temp.values(), 1);
 		}
-		};
-	auto printActiv_value = [this]() {
-		for (const auto& e : this->debug_parameters.a_hidden)
+	};
+	auto printActiv_value = [this]()
+	{
+		for (const auto &e : this->debug_parameters.a_hidden)
 		{
 			Tensor temp = e.second;
 			printf("Activated values for layer %d:\n", e.first);
 			print(temp.values(), 1);
 		}
-		};
+	};
 
 	print("\n=============================\n");
 	switch (type)

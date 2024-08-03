@@ -26,3 +26,11 @@ CXX_FLAGS = -O3 -DNDEBUG
 
 # PCH options: CMakeFiles/NN.dir/Ann.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
+# PCH options: CMakeFiles/NN.dir/Ann2.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+
+# PCH options: CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+
+# PCH options: CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+
+# PCH options: CMakeFiles/NN.dir/Networks/BNet.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+

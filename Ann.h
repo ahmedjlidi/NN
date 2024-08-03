@@ -1,4 +1,6 @@
-#pragma once
+#ifndef ANN_H
+#define ANN_H
+
 #include "Tensor.h"
 #include "Timer.h"
 #include "Utility.h"
@@ -10,7 +12,6 @@ enum BOOL : bool
 	False,
 	True
 };
-
 
 enum PARAM
 {
@@ -35,7 +36,6 @@ private:
 	Tensor error;
 	Tensor prev_weights;
 
-
 	int getParamNum()
 	{
 		int total = 0;
@@ -43,12 +43,12 @@ private:
 		total += this->bias.getShape().first * this->bias.getShape().second;
 		return total;
 	}
+
 public:
-	Layer(int inputSize, int outputSize, bool useBias = false) :inputSize(inputSize), outputSize(outputSize), useBias(useBias)
+	Layer(int inputSize, int outputSize, bool useBias = false) : inputSize(inputSize), outputSize(outputSize), useBias(useBias)
 	{
 		this->input.values().resize(BATCH_SIZE);
 		this->input.values()[0].resize(this->inputSize);
-
 
 		float range = std::sqrt(static_cast<float>(1.f) / static_cast<float>(this->inputSize));
 		for (int i = 0; i < this->outputSize; i++)
@@ -61,13 +61,12 @@ public:
 		}
 		this->bias.values().resize(1);
 		this->bias.values()[0].resize(this->outputSize);
-
 	}
-	void passInput(std::vector<std::vector<float>>& input)
+	void passInput(std::vector<std::vector<float>> &input)
 	{
 		this->input = input;
 	}
-	void passInput(Tensor& t)
+	void passInput(Tensor &t)
 	{
 		this->input = t;
 	}
@@ -77,9 +76,8 @@ public:
 		{
 			if (actFun != "ReLU" && actFun != "Sigmoid")
 				throw std::runtime_error("Activation function \"" + actFun + "\" is not defined.\n");
-
 		}
-		catch (const std::exception& e)
+		catch (const std::exception &e)
 		{
 			std::cout << e.what();
 			exit(1);
@@ -88,14 +86,13 @@ public:
 		this->output = this->input * tempweight;
 		this->weight_sum = this->output;
 
-
 		if (this->useBias)
 		{
 			this->output = this->output + this->bias;
 		}
-		for (auto& e : this->output.values())
+		for (auto &e : this->output.values())
 		{
-			for (auto& k : e)
+			for (auto &k : e)
 			{
 				if (actFun == "ReLU")
 					k = rx::Utility::ReLU(k);
@@ -105,15 +102,11 @@ public:
 				}
 			}
 		}
-
-
-
 	}
 	bool usBias()
 	{
 		return this->useBias;
 	}
-
 	void info()
 	{
 		std::cout << "In_features = " << this->input.values()[0].size() << "\n";
@@ -121,10 +114,14 @@ public:
 	}
 	void describe()
 	{
-		std::cout << "Input:\n" << this->input.values();
-		std::cout << "Weights :\n" << this->weights.values();
-		std::cout << "Output:\n" << this->output.values();
-		std::cout << "Bias :\n" << this->bias.values();
+		std::cout << "Input:\n"
+				  << this->input.values();
+		std::cout << "Weights :\n"
+				  << this->weights.values();
+		std::cout << "Output:\n"
+				  << this->output.values();
+		std::cout << "Bias :\n"
+				  << this->bias.values();
 	}
 	Tensor getOutput()
 	{
@@ -134,7 +131,6 @@ public:
 	{
 		return std::make_pair(this->inputSize, this->outputSize);
 	}
-
 
 	void reset()
 	{
@@ -156,23 +152,27 @@ public:
 
 		this->bias.values().resize(1);
 		this->bias.values()[0].resize(this->outputSize);
-
 	}
-	Tensor& getWeights()
+	Tensor &getWeights()
 	{
 		return this->weights;
 	}
 
-	void saveToFile() {
+	void saveToFile()
+	{
 		std::ofstream file("temp.txt");
-		for (const auto& e : this->weights.values()) {
-			for (const auto& k : e) {
+		for (const auto &e : this->weights.values())
+		{
+			for (const auto &k : e)
+			{
 				file << k << " ";
 			}
 		}
 		file << "\n";
-		for (const auto& e : this->bias.values()) {
-			for (const auto& k : e) {
+		for (const auto &e : this->bias.values())
+		{
+			for (const auto &k : e)
+			{
 				file << k << " ";
 			}
 		}
@@ -203,14 +203,12 @@ public:
 	// 	file << "\n";
 	// 	file.close();
 	// }
-
-
 };
 
 class Ann
 {
 private:
-	std::vector<Layer*>layers;
+	std::vector<Layer *> layers;
 	float learning_rate;
 	float (*lossFun)(float z);
 	float (*actFun_hidden)(float z);
@@ -221,7 +219,7 @@ private:
 	std::map<int, Tensor> avg_bias;
 
 	Timer timer;
-	//Back prop temp values/////
+	// Back prop temp values/////
 
 	float currLoss;
 	int count = 0;
@@ -236,7 +234,7 @@ private:
 		float output = v1 / static_cast<float>(v2);
 		return roundTo(output, 4);
 	};
-	Tensor grad_err(float y, Tensor yHat, Tensor& input, float grad, int depth)
+	Tensor grad_err(float y, Tensor yHat, Tensor &input, float grad, int depth)
 	{
 		Tensor temp;
 		if (this->actFun_output == rx::Utility::Sigmoid)
@@ -250,17 +248,16 @@ private:
 		temp = temp * grad;
 		return temp;
 	}
-	void updateWeights(Tensor& w, Tensor& n_w)
+	void updateWeights(Tensor &w, Tensor n_w)
 	{
 		n_w = n_w * this->learning_rate;
 		w = w - n_w;
 	}
-	void updateBias(Tensor& b, Tensor& n_b)
+	void updateBias(Tensor &b, Tensor n_b)
 	{
 		n_b = n_b * this->learning_rate;
 		b = b - n_b;
 	}
-
 
 	struct parameters
 	{
@@ -283,29 +280,20 @@ private:
 	DebugParam debug_parameters;
 	parameters param;
 	void passValues(Tensor input, Tensor output);
+
 public:
-	Ann();
+	Ann() {};
 
 	void addLayer(int input, int output, bool bias = false);
 	void forward(std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 	void setWeights(float _const_);
 
+	// Functions which returns temp variables (for debug reasons)//
 
-
-	//Functions which returns temp variables (for debug reasons)//
-
-
-
-
-
-
-
-
-	//Setters////////////////////////////////////////
+	// Setters////////////////////////////////////////
 	void setWeights(int index, Tensor weights);
 	void setBias(int index, float bias);
 	///////////////////////////////////////////////
-
 
 	void train(int epochs = 1, bool debug = False, bool showAcc = False);
 	void compile(float lr, std::string actFun_hidden, std::string actFun_output);
@@ -313,30 +301,22 @@ public:
 	void backProp();
 	Tensor predict(Tensor input, std::string input_actFun = "ReLU", std::string output_actFun = "Sigmoid");
 
-
-
-	//Getters//////////////////////////////////
-	std::vector<Layer*>& getLayers();
+	// Getters//////////////////////////////////
+	std::vector<Layer *> &getLayers();
 	DebugParam debugParam();
-	Layer& getLayer(int index);
+	Layer &getLayer(int index);
 	const float getCurrLoss();
 	/////////////////////////////////////
 
-	//static function////////////////////////////////
-	static void describe(Ann& Model);
-	static void info(Ann& Model);
-	static void summary(Ann& Model);
-	static Tensor gradient(Tensor& input, Tensor& Error);
+	// static function////////////////////////////////
+	static void describe(Ann &Model);
+	static void info(Ann &Model);
+	static void summary(Ann &Model);
+	static Tensor gradient(Tensor &input, Tensor &Error);
 	static Tensor round(Tensor t, float threshold);
-	static void passData(const Tensor& x, const Tensor& y, Ann& Model);
-	static void saveModel(Ann& Model);
-	//static void summary(Ann& Model);
+	static void passData(const Tensor &x, const Tensor &y, Ann &Model);
+	static void saveModel(Ann &Model);
+	// static void summary(Ann& Model);
 	////////////////////////////////////////////////////
-
-
-
 };
-
-
-
-
+#endif

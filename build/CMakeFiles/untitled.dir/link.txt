@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/untitled.dir/main.cpp.o CMakeFiles/untitled.dir/Utility.cpp.o CMakeFiles/untitled.dir/stdafx.cpp.o CMakeFiles/untitled.dir/Timer.cpp.o CMakeFiles/untitled.dir/Tensor.cpp.o CMakeFiles/untitled.dir/Operators.cpp.o CMakeFiles/untitled.dir/Dataset.cpp.o CMakeFiles/untitled.dir/Ann.cpp.o -o untitled 

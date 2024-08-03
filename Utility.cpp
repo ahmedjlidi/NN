@@ -109,42 +109,13 @@ float rx::Utility::mean(std::vector<float>& v)
 	return total / static_cast<float>(v.size());
 }
 
-float rx::Utility::loss(float y, float yHat)
-{
-	return (y * std::log(yHat) + (1 - y) * std::log(1 - yHat)) * -1.f;
-}
+
 
 float rx::Utility::cost(std::vector<float>& losses)
 {
 	return rx::Utility::mean(losses);
 }
 
-float rx::Utility::Bce(std::vector<float>& y, std::vector<float>& yHat)
-{
-	float total = 0.f;
-	auto bce = [](float y, float yHat) 
-		{
-		float z = y * std::log(yHat) + (1 - y) * std::log(1 - yHat);
-		return z;
-		};
-	try
-	{
-		if (y.size() != yHat.size())
-			throw std::runtime_error("input and output are not the same size.\n");
-
-	}
-	catch (const std::exception& e)
-	{
-		std::cout << e.what();
-		exit(1);
-	}
-	for (int i = 0; i < y.size(); i++)
-	{
-		total += bce(y[i], yHat[i]);
-	}
-
-	return (static_cast<float>(-1.f) / y.size()) * total;
-}
 
 std::vector<float> rx::Utility::computeError(std::vector<float>& y, std::vector<float>& yHat)
 {
@@ -341,7 +312,28 @@ std::vector<std::vector<float>> rx::Utility::labelEncode(rx::SET* set)
 
 }
 
-std::vector<std::vector<float>> Utility::relu_dv(std::vector<std::vector<float>>& v)
+
+float rx::Utility::Bce(float y, float yHat)
+{
+	return (y * std::log(yHat) + (1 - y) * std::log(1 - yHat)) * -1.f;
+}
+
+float rx::Utility::Mse(float y, float yHat)
+{
+    return std::pow(yHat -y, 2);
+}
+
+float rx::Utility::bce_dv(float y, float yHat)
+{
+    return (yHat - y);
+}
+
+float rx::Utility::mse_dv(float y, float yHat)
+{
+    return (yHat - y) * 2;
+}
+
+std::vector<std::vector<float>> Utility::relu_dv(std::vector<std::vector<float>> &v)
 {
 	std::vector<std::vector<float>> temp;
 	for (const auto& e : v)

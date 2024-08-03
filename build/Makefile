@@ -153,6 +153,30 @@ Ann.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann.cpp.s
 .PHONY : Ann.cpp.s
 
+Ann2.o: Ann2.cpp.o
+.PHONY : Ann2.o
+
+# target to build an object file
+Ann2.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann2.cpp.o
+.PHONY : Ann2.cpp.o
+
+Ann2.i: Ann2.cpp.i
+.PHONY : Ann2.i
+
+# target to preprocess a source file
+Ann2.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann2.cpp.i
+.PHONY : Ann2.cpp.i
+
+Ann2.s: Ann2.cpp.s
+.PHONY : Ann2.s
+
+# target to generate assembly for a file
+Ann2.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann2.cpp.s
+.PHONY : Ann2.cpp.s
+
 Dataset.o: Dataset.cpp.o
 .PHONY : Dataset.o
 
@@ -176,6 +200,78 @@ Dataset.s: Dataset.cpp.s
 Dataset.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Dataset.cpp.s
 .PHONY : Dataset.cpp.s
+
+Networks/BNet.o: Networks/BNet.cpp.o
+.PHONY : Networks/BNet.o
+
+# target to build an object file
+Networks/BNet.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/BNet.cpp.o
+.PHONY : Networks/BNet.cpp.o
+
+Networks/BNet.i: Networks/BNet.cpp.i
+.PHONY : Networks/BNet.i
+
+# target to preprocess a source file
+Networks/BNet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/BNet.cpp.i
+.PHONY : Networks/BNet.cpp.i
+
+Networks/BNet.s: Networks/BNet.cpp.s
+.PHONY : Networks/BNet.s
+
+# target to generate assembly for a file
+Networks/BNet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/BNet.cpp.s
+.PHONY : Networks/BNet.cpp.s
+
+Networks/Resources/Layer.o: Networks/Resources/Layer.cpp.o
+.PHONY : Networks/Resources/Layer.o
+
+# target to build an object file
+Networks/Resources/Layer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o
+.PHONY : Networks/Resources/Layer.cpp.o
+
+Networks/Resources/Layer.i: Networks/Resources/Layer.cpp.i
+.PHONY : Networks/Resources/Layer.i
+
+# target to preprocess a source file
+Networks/Resources/Layer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.i
+.PHONY : Networks/Resources/Layer.cpp.i
+
+Networks/Resources/Layer.s: Networks/Resources/Layer.cpp.s
+.PHONY : Networks/Resources/Layer.s
+
+# target to generate assembly for a file
+Networks/Resources/Layer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.s
+.PHONY : Networks/Resources/Layer.cpp.s
+
+Networks/Resources/Net.o: Networks/Resources/Net.cpp.o
+.PHONY : Networks/Resources/Net.o
+
+# target to build an object file
+Networks/Resources/Net.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o
+.PHONY : Networks/Resources/Net.cpp.o
+
+Networks/Resources/Net.i: Networks/Resources/Net.cpp.i
+.PHONY : Networks/Resources/Net.i
+
+# target to preprocess a source file
+Networks/Resources/Net.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/Resources/Net.cpp.i
+.PHONY : Networks/Resources/Net.cpp.i
+
+Networks/Resources/Net.s: Networks/Resources/Net.cpp.s
+.PHONY : Networks/Resources/Net.s
+
+# target to generate assembly for a file
+Networks/Resources/Net.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/Resources/Net.cpp.s
+.PHONY : Networks/Resources/Net.cpp.s
 
 Operators.o: Operators.cpp.o
 .PHONY : Operators.o
@@ -348,9 +444,21 @@ help:
 	@echo "... Ann.o"
 	@echo "... Ann.i"
 	@echo "... Ann.s"
+	@echo "... Ann2.o"
+	@echo "... Ann2.i"
+	@echo "... Ann2.s"
 	@echo "... Dataset.o"
 	@echo "... Dataset.i"
 	@echo "... Dataset.s"
+	@echo "... Networks/BNet.o"
+	@echo "... Networks/BNet.i"
+	@echo "... Networks/BNet.s"
+	@echo "... Networks/Resources/Layer.o"
+	@echo "... Networks/Resources/Layer.i"
+	@echo "... Networks/Resources/Layer.s"
+	@echo "... Networks/Resources/Net.o"
+	@echo "... Networks/Resources/Net.i"
+	@echo "... Networks/Resources/Net.s"
 	@echo "... Operators.o"
 	@echo "... Operators.i"
 	@echo "... Operators.s"

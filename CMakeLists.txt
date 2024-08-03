@@ -23,6 +23,10 @@ set(SOURCE_FILES
         Operators.cpp
         Dataset.cpp
         Ann.cpp
+        Ann2.cpp
+        Networks/Resources/Layer.cpp
+        Networks/Resources/Net.cpp
+        Networks/BNet.cpp
 )
 
 # Add executable

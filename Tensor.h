@@ -16,7 +16,6 @@ private:
 		{
 			temp.push_back(mat[i][j]);
 		}
-
 		return temp;
 	}
 	std::vector<float> getRow(int i)
