@@ -3,7 +3,10 @@
 
 #include "Resources/Net.h"
 #include "BNet.h"
+#include "MNet.h"
+#include "CNet.h"
 #include "../stdafx.h"
+
 
 namespace rx
 {
@@ -19,6 +22,13 @@ namespace rx
 		{
 		case BINARY_CLASSIFICATION:
 			return std::make_unique<BNet>();
+			break;
+		case REGRESSION:
+			return std::make_unique<MNet>();
+			break;
+		case CROSS_CLASSIFICATION:
+			return std::make_unique<CNet>();
+			break;
 		default:
 			std::cerr << "Type is not defined.\n";
 			exit(1);

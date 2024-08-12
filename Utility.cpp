@@ -2,25 +2,28 @@
 #include "Utility.h"
 using namespace rx;
 
+#include <string>
+
 std::string Utility::cleanStr(std::string str)
 {
-	if (str[str.size() - 1] == '\n')
+	if (!str.empty() && str.back() == '\n')
+	{
 		str = str.substr(0, str.size() - 1);
-	return std::string(str);
+	}
+	return str;
 }
 
-bool Utility::isInt(const std::string& str)
+bool Utility::isInt(const std::string &str)
 {
-	for (const auto& e : str)
+	for (const auto &e : str)
 		if (e <= '0' || e >= '9')
 			return false;
 	return true;
-
 }
 
-bool Utility::isFloat(const std::string& str)
+bool Utility::isFloat(const std::string &str)
 {
-	for (const auto& e : str)
+	for (const auto &e : str)
 	{
 		if (!isdigit(e))
 			return false;
@@ -46,18 +49,18 @@ float rx::Utility::randFloat(float x, float y)
 	return dist(rng);
 }
 
-std::vector<std::pair<float, float>> rx::Utility::normalized(rx::SET& set)
+std::vector<std::pair<float, float>> rx::Utility::normalized(rx::SET &set)
 {
 	int count = 0;
-	std::vector<std::pair<float, float>>temp;
+	std::vector<std::pair<float, float>> temp;
 
 	while (count < set[0].first.size())
 	{
 		int min = 999999, max = -999999;
-		for (const auto& e : set)
+		for (const auto &e : set)
 		{
 			int localCount = 0;
-			for (const auto& row : e.first)
+			for (const auto &row : e.first)
 			{
 				if (localCount == count)
 				{
@@ -67,14 +70,12 @@ std::vector<std::pair<float, float>> rx::Utility::normalized(rx::SET& set)
 						min = atof(row.c_str());
 				}
 				localCount++;
-				
-			}	
+			}
 		}
 		temp.push_back(std::make_pair(min, max));
 		count++;
 	}
 	return temp;
-
 }
 
 float rx::Utility::normalize(float x, float min, float max)
@@ -84,7 +85,7 @@ float rx::Utility::normalize(float x, float min, float max)
 	return static_cast<float>(v1) / v2;
 }
 
-float rx::Utility::dot(std::vector<float>& v1, std::vector<float>& v2)
+float rx::Utility::dot(std::vector<float> &v1, std::vector<float> &v2)
 {
 	float total = 0.f;
 	if (v1.size() != v2.size())
@@ -99,33 +100,29 @@ float rx::Utility::dot(std::vector<float>& v1, std::vector<float>& v2)
 	return total;
 }
 
-float rx::Utility::mean(std::vector<float>& v)
+float rx::Utility::mean(std::vector<float> &v)
 {
 	float total = 0.f;
-	for (const auto& e : v) 
+	for (const auto &e : v)
 	{
 		total += e;
 	}
 	return total / static_cast<float>(v.size());
 }
 
-
-
-float rx::Utility::cost(std::vector<float>& losses)
+float rx::Utility::cost(std::vector<float> &losses)
 {
 	return rx::Utility::mean(losses);
 }
 
-
-std::vector<float> rx::Utility::computeError(std::vector<float>& y, std::vector<float>& yHat)
+std::vector<float> rx::Utility::computeError(std::vector<float> &y, std::vector<float> &yHat)
 {
 	try
 	{
 		if (y.size() != yHat.size())
 			throw std::runtime_error("input and output are not the same size.\n");
-
 	}
-	catch (const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cout << e.what();
 		exit(1);
@@ -138,28 +135,26 @@ std::vector<float> rx::Utility::computeError(std::vector<float>& y, std::vector<
 	return v;
 }
 
-float rx::Utility::sum(std::vector<float>& v)
+float rx::Utility::sum(std::vector<float> &v)
 {
 	float total = 0.f;
-	for (const auto& e : v)
+	for (const auto &e : v)
 	{
 		total += e;
-
 	}
 	return total;
 }
 
-float rx::Utility::accuracy(std::vector<std::vector<float>>* y, std::vector<std::vector<float>>* yHat)
+float rx::Utility::accuracy(std::vector<std::vector<float>> *y, std::vector<std::vector<float>> *yHat)
 {
 	try
 	{
 		if (y->size() != yHat->size() || y[0].size() != yHat[0].size())
 		{
 			throw std::runtime_error("output and predicted value are not the same size. rx::Utility::accuracy.\n");
-
 		}
 	}
-	catch (const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cout << e.what();
 		exit(1);
@@ -185,10 +180,9 @@ float rx::Utility::accuracy(std::vector<std::vector<float>> y, std::vector<std::
 		if (y.size() != yHat.size() || y[0].size() != yHat[0].size())
 		{
 			throw std::runtime_error("output and predicted value are not the same size. rx::Utility::accuracy.\n");
-
 		}
 	}
-	catch (const std::exception& e)
+	catch (const std::exception &e)
 	{
 		std::cout << e.what();
 		exit(1);
@@ -219,37 +213,90 @@ float rx::Utility::kaiming_init(int in)
 	return dis(gen);
 }
 
-void rx::Utility::normalize(std::vector<std::vector<float>>& v)
+std::map<std::string, int> rx::Utility::lexi_order(rx::SET *s)
+{
+	std::vector<std::string> flattened;
+	std::map<std::string, char> repeated;
+	for (const auto &table : *s)
+	{
+		std::string str = rx::Utility::cleanStr(table.second);
+		if (repeated.find(str) == repeated.end())
+		{
+			flattened.emplace_back(rx::Utility::cleanStr(table.second));
+			repeated[str] = 1;
+		}
+	}
+
+	auto isGreater = [](const std::string &_s1, const std::string &s2) -> bool
+	{
+		return _s1 > s2; // Returns true if _s1 is greater than s2 lexicographically
+	};
+
+	// Lambda to swap two strings
+	auto __switch = [](std::string &_s1, std::string &s2) -> void
+	{
+		std::string temp = _s1;
+		_s1 = s2;
+		s2 = temp; // Correct swap
+	};
+
+	// Lambda to sort a vector of strings in lexicographical order
+	auto sort_lexi = [isGreater, __switch](std::vector<std::string> &vec)
+	{
+		for (int i = 0; i < vec.size(); ++i)
+		{
+			for (int j = i + 1; j < vec.size(); ++j)
+			{
+				if (isGreater(vec[i], vec[j]))
+				{
+					__switch(vec[i], vec[j]);
+				}
+			}
+		}
+	};
+
+	std::vector<std::string> v;
+	sort_lexi(flattened);
+	int count = 0;
+	std::map<std::string, int> labeled;
+	for (const auto &e : flattened)
+	{
+		labeled[e] = count;
+		++count;
+	}
+	return labeled;
+}
+
+void rx::Utility::normalize(std::vector<std::vector<float>> &v)
 {
 	int count = 0;
 	while (count < v[0].size())
 	{
-		
+
 		float min = rx::Utility::min(v, count), max = rx::Utility::max(v, count);
-		
+
 		for (int i = 0; i < v.size(); i++)
-		{;
+		{
+			;
 			for (int j = 0; j <= count; j++)
 			{
 				if (j == count)
 				{
 					v[i][j] = ((v[i][j] - min) / ((static_cast<float>(max) - min) * 1.f));
 				}
-					
 			}
 		}
 		count++;
 	}
-	
 }
 
-float rx::Utility::min(std::vector<std::vector<float>>& v, int ax)
+float rx::Utility::min(std::vector<std::vector<float>> &v, int ax)
 {
 	int min = 99999;
 	int count = 0;
-	for (const auto& e : v)
+	for (const auto &e : v)
 	{
-		for (const auto& k : e)
+		for (const auto &k : e)
 		{
 			if (count == ax)
 			{
@@ -265,13 +312,13 @@ float rx::Utility::min(std::vector<std::vector<float>>& v, int ax)
 	return min;
 }
 
-float rx::Utility::max(std::vector<std::vector<float>>& v, int ax)
+float rx::Utility::max(std::vector<std::vector<float>> &v, int ax)
 {
 	int max = -99999;
 	int count = 0;
-	for (const auto& e : v)
+	for (const auto &e : v)
 	{
-		for (const auto& k : e)
+		for (const auto &k : e)
 		{
 			if (count == ax)
 			{
@@ -287,31 +334,64 @@ float rx::Utility::max(std::vector<std::vector<float>>& v, int ax)
 	return max;
 }
 
-std::vector<std::vector<float>> rx::Utility::labelEncode(rx::SET* set)
+float rx::Utility::max(std::vector<float> &v)
 {
-	std::map<std::string, int> categories;
-	int count = 0;
-	for (const auto& Table : *set)
+	float max = -9999.f;
+	for (const auto &e : v)
 	{
-		if (categories.find(Table.second) == categories.end())
+		if (e > max)
 		{
-			categories[Table.second] = count;
-			++count;
+			max = e;
 		}
-		
 	}
-	std::vector<std::vector<float>> temp;
-
-	for (const auto& e : *set)
-	{
-		temp.push_back(std::vector<float>());
-		temp[temp.size() - 1].push_back(categories[e.second]);
-	}
-	return temp;	
-
-
+	return max;
 }
 
+std::map<std::string, int> rx::Utility::labels;
+
+std::vector<std::vector<float>> rx::Utility::labelEncode(rx::SET *set)
+{
+	std::map<std::string, int> labels = rx::Utility::lexi_order(set);
+	std::vector<std::vector<float>> temp;
+	for (const auto &e : *set)
+	{
+		temp.push_back(std::vector<float>());
+		temp[temp.size() - 1].push_back(labels[cleanStr(e.second)]);
+	}
+
+	// for(const auto& e: labels)
+	// {
+	// 	std::cout<<"Label: "<<e.first;
+	// }
+
+	return temp;
+}
+
+int rx::Utility::argmax(std::vector<float> v)
+{
+	std::vector<float> temp;
+	int count = 0;
+	float max = -9999.f;
+	for (int i = 0; i < v.size(); i++)
+	{
+		if (v[i] > max)
+		{
+			max = v[i];
+			count = i;
+		}
+	}
+	return count;
+}
+
+std::string rx::Utility::decode(int argmax)
+{
+	for (const auto &e : labels)
+	{
+		if (e.second == argmax)
+			return e.first;
+	}
+	return "Nan";
+}
 
 float rx::Utility::Bce(float y, float yHat)
 {
@@ -320,35 +400,66 @@ float rx::Utility::Bce(float y, float yHat)
 
 float rx::Utility::Mse(float y, float yHat)
 {
-    return std::pow(yHat -y, 2);
+	return std::pow(yHat - y, 2);
+}
+
+float rx::Utility::CrossEntropy(std::vector<std::vector<float>> &y, std::vector<std::vector<float>> yHat)
+{
+	float total = 0.f;
+	for (int i = 0; i < y[0].size(); i++)
+	{
+		total += y[0][i] * std::log(yHat[0][i]);
+	}
+	return total * -1.f;
+}
+
+std::vector<std::vector<float>> rx::Utility::Softmax(std::vector<std::vector<float>> &v)
+{
+	std::vector<std::vector<float>> temp;
+	float total = 0.f;
+	for (const auto &e : v)
+	{
+		for (const auto &k : e)
+		{
+			total += std::exp(k);
+		}
+	}
+	for (int i = 0; i < v.size(); i++)
+	{
+		temp.emplace_back(std::vector<float>());
+		for (int j = 0; j < v[i].size(); j++)
+		{
+			temp[i].push_back(std::exp(v[i][j]) / static_cast<float>(total));
+		}
+	}
+	return temp;
 }
 
 float rx::Utility::bce_dv(float y, float yHat)
 {
-    return (yHat - y);
+	return (yHat - y);
 }
 
 float rx::Utility::mse_dv(float y, float yHat)
 {
-    return (yHat - y) * 2;
+	return (yHat - y) * 2;
 }
 
 std::vector<std::vector<float>> Utility::relu_dv(std::vector<std::vector<float>> &v)
 {
 	std::vector<std::vector<float>> temp;
-	for (const auto& e : v)
+	for (const auto &e : v)
 	{
 		temp.push_back(std::vector<float>());
-		for (const auto& k : e)
+		for (const auto &k : e)
 		{
 			temp[temp.size() - 1].push_back(k > 0 ? 1 : 0);
 		}
 	}
 	return temp;
-
 }
 
-std::vector<std::vector<float>> Utility::sigmoid_dv(std::vector<std::vector<float>>& input, std::vector<std::vector<float>>& yHat)
+std::vector<std::vector<float>> Utility::sigmoid_dv(std::vector<std::vector<float>> &input, std::vector<std::vector<float>> &yHat)
 {
 	std::vector<std::vector<float>> temp;
 	for (int i = 0; i < yHat[0].size(); i++)
@@ -361,8 +472,3 @@ std::vector<std::vector<float>> Utility::sigmoid_dv(std::vector<std::vector<floa
 	}
 	return temp;
 }
-
-
-
-
-	

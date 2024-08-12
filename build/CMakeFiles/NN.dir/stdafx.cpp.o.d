@@ -1,7 +1,7 @@
 CMakeFiles/NN.dir/stdafx.cpp.o: \
-  /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx \
-  /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx \
-  /home/ahmed/src/stdafx.h \
+  /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx \
+  /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx \
+  /home/ahmed/NN/stdafx.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/iostream \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -263,4 +263,4 @@ CMakeFiles/NN.dir/stdafx.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/cstring \
   /usr/include/string.h /usr/include/strings.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/cassert \
-  /usr/include/assert.h /home/ahmed/src/stdafx.cpp
+  /usr/include/assert.h /home/ahmed/NN/stdafx.cpp

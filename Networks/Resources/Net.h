@@ -34,6 +34,7 @@ protected:
 	// Back prop temp values/////
 
 	float currLoss;
+	std::vector<float>losses;
 	int count = 0;
 
 	Tensor input, y;

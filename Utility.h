@@ -9,6 +9,8 @@ namespace rx
 {
 
 	#define E 2.71828
+	
+	
 
 	class Utility
 	{
@@ -192,20 +194,28 @@ namespace rx
 		static float accuracy(std::vector<std::vector<float>> y, std::vector<std::vector<float>> yHat);
 
 		static float kaiming_init(int in);
+		static std::map<std::string, int> lexi_order(rx::SET* set);
 		
-		static void normalize(std::vector<std::vector<float>>& v);
+		static void normalize(std::vector<std::vector<float>>& v );
 		static float min(std::vector<std::vector<float>>& v, int ax);
 		static float max(std::vector<std::vector<float>>& v, int ax);
+		static float max(std::vector<float>& v);
 
 		static std::vector<std::vector<float>> labelEncode(rx::SET* set);
+		static int argmax(std::vector<float> v);
+		static std::string decode(int argmax);
 
 		static float Bce(float y, float yHat);
 		static float Mse(float y, float yHat);
+		static float CrossEntropy(std::vector<std::vector<float>>& y, std::vector<std::vector<float>> yHat);
+		static std::vector<std::vector<float>> Softmax(std::vector<std::vector<float>>&v); 
 
 		//Function deriviatives
 		static float bce_dv(float y, float yHat);
 		static float mse_dv(float y, float yHat);
 		static std::vector<std::vector<float>> relu_dv(std::vector<std::vector<float>>& v);
 		static std::vector<std::vector<float>> sigmoid_dv(std::vector<std::vector<float>>& input, std::vector<std::vector<float>>& yHat);
+	private:
+		static std::map<std::string, int> labels;
 	};
 }

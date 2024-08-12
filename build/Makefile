@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ahmed/src
+CMAKE_SOURCE_DIR = /home/ahmed/NN
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ahmed/src/build
+CMAKE_BINARY_DIR = /home/ahmed/NN/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahmed/src/build/CMakeFiles /home/ahmed/src/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahmed/NN/build/CMakeFiles /home/ahmed/NN/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahmed/src/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ahmed/NN/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -128,54 +128,6 @@ NN: cmake_check_build_system
 NN/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/build
 .PHONY : NN/fast
-
-Ann.o: Ann.cpp.o
-.PHONY : Ann.o
-
-# target to build an object file
-Ann.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann.cpp.o
-.PHONY : Ann.cpp.o
-
-Ann.i: Ann.cpp.i
-.PHONY : Ann.i
-
-# target to preprocess a source file
-Ann.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann.cpp.i
-.PHONY : Ann.cpp.i
-
-Ann.s: Ann.cpp.s
-.PHONY : Ann.s
-
-# target to generate assembly for a file
-Ann.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann.cpp.s
-.PHONY : Ann.cpp.s
-
-Ann2.o: Ann2.cpp.o
-.PHONY : Ann2.o
-
-# target to build an object file
-Ann2.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann2.cpp.o
-.PHONY : Ann2.cpp.o
-
-Ann2.i: Ann2.cpp.i
-.PHONY : Ann2.i
-
-# target to preprocess a source file
-Ann2.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann2.cpp.i
-.PHONY : Ann2.cpp.i
-
-Ann2.s: Ann2.cpp.s
-.PHONY : Ann2.s
-
-# target to generate assembly for a file
-Ann2.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Ann2.cpp.s
-.PHONY : Ann2.cpp.s
 
 Dataset.o: Dataset.cpp.o
 .PHONY : Dataset.o
@@ -224,6 +176,54 @@ Networks/BNet.s: Networks/BNet.cpp.s
 Networks/BNet.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/BNet.cpp.s
 .PHONY : Networks/BNet.cpp.s
+
+Networks/CNet.o: Networks/CNet.cpp.o
+.PHONY : Networks/CNet.o
+
+# target to build an object file
+Networks/CNet.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/CNet.cpp.o
+.PHONY : Networks/CNet.cpp.o
+
+Networks/CNet.i: Networks/CNet.cpp.i
+.PHONY : Networks/CNet.i
+
+# target to preprocess a source file
+Networks/CNet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/CNet.cpp.i
+.PHONY : Networks/CNet.cpp.i
+
+Networks/CNet.s: Networks/CNet.cpp.s
+.PHONY : Networks/CNet.s
+
+# target to generate assembly for a file
+Networks/CNet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/CNet.cpp.s
+.PHONY : Networks/CNet.cpp.s
+
+Networks/MNet.o: Networks/MNet.cpp.o
+.PHONY : Networks/MNet.o
+
+# target to build an object file
+Networks/MNet.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/MNet.cpp.o
+.PHONY : Networks/MNet.cpp.o
+
+Networks/MNet.i: Networks/MNet.cpp.i
+.PHONY : Networks/MNet.i
+
+# target to preprocess a source file
+Networks/MNet.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/MNet.cpp.i
+.PHONY : Networks/MNet.cpp.i
+
+Networks/MNet.s: Networks/MNet.cpp.s
+.PHONY : Networks/MNet.s
+
+# target to generate assembly for a file
+Networks/MNet.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/NN.dir/build.make CMakeFiles/NN.dir/Networks/MNet.cpp.s
+.PHONY : Networks/MNet.cpp.s
 
 Networks/Resources/Layer.o: Networks/Resources/Layer.cpp.o
 .PHONY : Networks/Resources/Layer.o
@@ -441,18 +441,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... NN"
-	@echo "... Ann.o"
-	@echo "... Ann.i"
-	@echo "... Ann.s"
-	@echo "... Ann2.o"
-	@echo "... Ann2.i"
-	@echo "... Ann2.s"
 	@echo "... Dataset.o"
 	@echo "... Dataset.i"
 	@echo "... Dataset.s"
 	@echo "... Networks/BNet.o"
 	@echo "... Networks/BNet.i"
 	@echo "... Networks/BNet.s"
+	@echo "... Networks/CNet.o"
+	@echo "... Networks/CNet.i"
+	@echo "... Networks/CNet.s"
+	@echo "... Networks/MNet.o"
+	@echo "... Networks/MNet.i"
+	@echo "... Networks/MNet.s"
 	@echo "... Networks/Resources/Layer.o"
 	@echo "... Networks/Resources/Layer.i"
 	@echo "... Networks/Resources/Layer.s"

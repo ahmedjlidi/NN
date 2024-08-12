@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ahmed/src
+CMAKE_SOURCE_DIR = /home/ahmed/NN
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ahmed/src/build
+CMAKE_BINARY_DIR = /home/ahmed/NN/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/NN.dir/depend.make
@@ -73,208 +73,208 @@ CMakeFiles/NN.dir/cmake_pch.hxx.gch: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/cmake_pch.hxx.gch: CMakeFiles/NN.dir/cmake_pch.hxx.cxx
 CMakeFiles/NN.dir/cmake_pch.hxx.gch: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/cmake_pch.hxx.gch: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/NN.dir/cmake_pch.hxx.gch"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -x c++-header -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/cmake_pch.hxx.gch -MF CMakeFiles/NN.dir/cmake_pch.hxx.gch.d -o CMakeFiles/NN.dir/cmake_pch.hxx.gch -c /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/NN.dir/cmake_pch.hxx.gch"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -x c++-header -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/cmake_pch.hxx.gch -MF CMakeFiles/NN.dir/cmake_pch.hxx.gch.d -o CMakeFiles/NN.dir/cmake_pch.hxx.gch -c /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx
 
 CMakeFiles/NN.dir/cmake_pch.hxx.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/cmake_pch.hxx.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -x c++-header -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx > CMakeFiles/NN.dir/cmake_pch.hxx.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -x c++-header -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx > CMakeFiles/NN.dir/cmake_pch.hxx.i
 
 CMakeFiles/NN.dir/cmake_pch.hxx.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/cmake_pch.hxx.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -x c++-header -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx -o CMakeFiles/NN.dir/cmake_pch.hxx.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -x c++-header -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx -o CMakeFiles/NN.dir/cmake_pch.hxx.s
 
 CMakeFiles/NN.dir/main.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/main.cpp.o: ../main.cpp
 CMakeFiles/NN.dir/main.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/main.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/main.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/NN.dir/main.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/main.cpp.o -MF CMakeFiles/NN.dir/main.cpp.o.d -o CMakeFiles/NN.dir/main.cpp.o -c /home/ahmed/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/NN.dir/main.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/main.cpp.o -MF CMakeFiles/NN.dir/main.cpp.o.d -o CMakeFiles/NN.dir/main.cpp.o -c /home/ahmed/NN/main.cpp
 
 CMakeFiles/NN.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/main.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/main.cpp > CMakeFiles/NN.dir/main.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/main.cpp > CMakeFiles/NN.dir/main.cpp.i
 
 CMakeFiles/NN.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/main.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/main.cpp -o CMakeFiles/NN.dir/main.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/main.cpp -o CMakeFiles/NN.dir/main.cpp.s
 
 CMakeFiles/NN.dir/Utility.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/Utility.cpp.o: ../Utility.cpp
 CMakeFiles/NN.dir/Utility.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/Utility.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/Utility.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/NN.dir/Utility.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Utility.cpp.o -MF CMakeFiles/NN.dir/Utility.cpp.o.d -o CMakeFiles/NN.dir/Utility.cpp.o -c /home/ahmed/src/Utility.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/NN.dir/Utility.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Utility.cpp.o -MF CMakeFiles/NN.dir/Utility.cpp.o.d -o CMakeFiles/NN.dir/Utility.cpp.o -c /home/ahmed/NN/Utility.cpp
 
 CMakeFiles/NN.dir/Utility.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Utility.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Utility.cpp > CMakeFiles/NN.dir/Utility.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Utility.cpp > CMakeFiles/NN.dir/Utility.cpp.i
 
 CMakeFiles/NN.dir/Utility.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Utility.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Utility.cpp -o CMakeFiles/NN.dir/Utility.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Utility.cpp -o CMakeFiles/NN.dir/Utility.cpp.s
 
 CMakeFiles/NN.dir/stdafx.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/stdafx.cpp.o: ../stdafx.cpp
 CMakeFiles/NN.dir/stdafx.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/stdafx.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/stdafx.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/NN.dir/stdafx.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/stdafx.cpp.o -MF CMakeFiles/NN.dir/stdafx.cpp.o.d -o CMakeFiles/NN.dir/stdafx.cpp.o -c /home/ahmed/src/stdafx.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/NN.dir/stdafx.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/stdafx.cpp.o -MF CMakeFiles/NN.dir/stdafx.cpp.o.d -o CMakeFiles/NN.dir/stdafx.cpp.o -c /home/ahmed/NN/stdafx.cpp
 
 CMakeFiles/NN.dir/stdafx.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/stdafx.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/stdafx.cpp > CMakeFiles/NN.dir/stdafx.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/stdafx.cpp > CMakeFiles/NN.dir/stdafx.cpp.i
 
 CMakeFiles/NN.dir/stdafx.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/stdafx.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/stdafx.cpp -o CMakeFiles/NN.dir/stdafx.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/stdafx.cpp -o CMakeFiles/NN.dir/stdafx.cpp.s
 
 CMakeFiles/NN.dir/Timer.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/Timer.cpp.o: ../Timer.cpp
 CMakeFiles/NN.dir/Timer.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/Timer.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/Timer.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/NN.dir/Timer.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Timer.cpp.o -MF CMakeFiles/NN.dir/Timer.cpp.o.d -o CMakeFiles/NN.dir/Timer.cpp.o -c /home/ahmed/src/Timer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/NN.dir/Timer.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Timer.cpp.o -MF CMakeFiles/NN.dir/Timer.cpp.o.d -o CMakeFiles/NN.dir/Timer.cpp.o -c /home/ahmed/NN/Timer.cpp
 
 CMakeFiles/NN.dir/Timer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Timer.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Timer.cpp > CMakeFiles/NN.dir/Timer.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Timer.cpp > CMakeFiles/NN.dir/Timer.cpp.i
 
 CMakeFiles/NN.dir/Timer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Timer.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Timer.cpp -o CMakeFiles/NN.dir/Timer.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Timer.cpp -o CMakeFiles/NN.dir/Timer.cpp.s
 
 CMakeFiles/NN.dir/Tensor.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/Tensor.cpp.o: ../Tensor.cpp
 CMakeFiles/NN.dir/Tensor.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/Tensor.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/Tensor.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/NN.dir/Tensor.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Tensor.cpp.o -MF CMakeFiles/NN.dir/Tensor.cpp.o.d -o CMakeFiles/NN.dir/Tensor.cpp.o -c /home/ahmed/src/Tensor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/NN.dir/Tensor.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Tensor.cpp.o -MF CMakeFiles/NN.dir/Tensor.cpp.o.d -o CMakeFiles/NN.dir/Tensor.cpp.o -c /home/ahmed/NN/Tensor.cpp
 
 CMakeFiles/NN.dir/Tensor.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Tensor.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Tensor.cpp > CMakeFiles/NN.dir/Tensor.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Tensor.cpp > CMakeFiles/NN.dir/Tensor.cpp.i
 
 CMakeFiles/NN.dir/Tensor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Tensor.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Tensor.cpp -o CMakeFiles/NN.dir/Tensor.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Tensor.cpp -o CMakeFiles/NN.dir/Tensor.cpp.s
 
 CMakeFiles/NN.dir/Operators.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/Operators.cpp.o: ../Operators.cpp
 CMakeFiles/NN.dir/Operators.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/Operators.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/Operators.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/NN.dir/Operators.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Operators.cpp.o -MF CMakeFiles/NN.dir/Operators.cpp.o.d -o CMakeFiles/NN.dir/Operators.cpp.o -c /home/ahmed/src/Operators.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/NN.dir/Operators.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Operators.cpp.o -MF CMakeFiles/NN.dir/Operators.cpp.o.d -o CMakeFiles/NN.dir/Operators.cpp.o -c /home/ahmed/NN/Operators.cpp
 
 CMakeFiles/NN.dir/Operators.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Operators.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Operators.cpp > CMakeFiles/NN.dir/Operators.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Operators.cpp > CMakeFiles/NN.dir/Operators.cpp.i
 
 CMakeFiles/NN.dir/Operators.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Operators.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Operators.cpp -o CMakeFiles/NN.dir/Operators.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Operators.cpp -o CMakeFiles/NN.dir/Operators.cpp.s
 
 CMakeFiles/NN.dir/Dataset.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/Dataset.cpp.o: ../Dataset.cpp
 CMakeFiles/NN.dir/Dataset.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/Dataset.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/Dataset.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/NN.dir/Dataset.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Dataset.cpp.o -MF CMakeFiles/NN.dir/Dataset.cpp.o.d -o CMakeFiles/NN.dir/Dataset.cpp.o -c /home/ahmed/src/Dataset.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/NN.dir/Dataset.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Dataset.cpp.o -MF CMakeFiles/NN.dir/Dataset.cpp.o.d -o CMakeFiles/NN.dir/Dataset.cpp.o -c /home/ahmed/NN/Dataset.cpp
 
 CMakeFiles/NN.dir/Dataset.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Dataset.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Dataset.cpp > CMakeFiles/NN.dir/Dataset.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Dataset.cpp > CMakeFiles/NN.dir/Dataset.cpp.i
 
 CMakeFiles/NN.dir/Dataset.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Dataset.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Dataset.cpp -o CMakeFiles/NN.dir/Dataset.cpp.s
-
-CMakeFiles/NN.dir/Ann.cpp.o: CMakeFiles/NN.dir/flags.make
-CMakeFiles/NN.dir/Ann.cpp.o: ../Ann.cpp
-CMakeFiles/NN.dir/Ann.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
-CMakeFiles/NN.dir/Ann.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
-CMakeFiles/NN.dir/Ann.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/NN.dir/Ann.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Ann.cpp.o -MF CMakeFiles/NN.dir/Ann.cpp.o.d -o CMakeFiles/NN.dir/Ann.cpp.o -c /home/ahmed/src/Ann.cpp
-
-CMakeFiles/NN.dir/Ann.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Ann.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Ann.cpp > CMakeFiles/NN.dir/Ann.cpp.i
-
-CMakeFiles/NN.dir/Ann.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Ann.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Ann.cpp -o CMakeFiles/NN.dir/Ann.cpp.s
-
-CMakeFiles/NN.dir/Ann2.cpp.o: CMakeFiles/NN.dir/flags.make
-CMakeFiles/NN.dir/Ann2.cpp.o: ../Ann2.cpp
-CMakeFiles/NN.dir/Ann2.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
-CMakeFiles/NN.dir/Ann2.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
-CMakeFiles/NN.dir/Ann2.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/NN.dir/Ann2.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Ann2.cpp.o -MF CMakeFiles/NN.dir/Ann2.cpp.o.d -o CMakeFiles/NN.dir/Ann2.cpp.o -c /home/ahmed/src/Ann2.cpp
-
-CMakeFiles/NN.dir/Ann2.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Ann2.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Ann2.cpp > CMakeFiles/NN.dir/Ann2.cpp.i
-
-CMakeFiles/NN.dir/Ann2.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Ann2.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Ann2.cpp -o CMakeFiles/NN.dir/Ann2.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Dataset.cpp -o CMakeFiles/NN.dir/Dataset.cpp.s
 
 CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o: ../Networks/Resources/Layer.cpp
 CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o -MF CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o.d -o CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o -c /home/ahmed/src/Networks/Resources/Layer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o -MF CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o.d -o CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o -c /home/ahmed/NN/Networks/Resources/Layer.cpp
 
 CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Networks/Resources/Layer.cpp > CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Networks/Resources/Layer.cpp > CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.i
 
 CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Networks/Resources/Layer.cpp -o CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Networks/Resources/Layer.cpp -o CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.s
 
 CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o: ../Networks/Resources/Net.cpp
 CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o -MF CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o.d -o CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o -c /home/ahmed/src/Networks/Resources/Net.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o -MF CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o.d -o CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o -c /home/ahmed/NN/Networks/Resources/Net.cpp
 
 CMakeFiles/NN.dir/Networks/Resources/Net.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Networks/Resources/Net.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Networks/Resources/Net.cpp > CMakeFiles/NN.dir/Networks/Resources/Net.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Networks/Resources/Net.cpp > CMakeFiles/NN.dir/Networks/Resources/Net.cpp.i
 
 CMakeFiles/NN.dir/Networks/Resources/Net.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Networks/Resources/Net.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Networks/Resources/Net.cpp -o CMakeFiles/NN.dir/Networks/Resources/Net.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Networks/Resources/Net.cpp -o CMakeFiles/NN.dir/Networks/Resources/Net.cpp.s
 
 CMakeFiles/NN.dir/Networks/BNet.cpp.o: CMakeFiles/NN.dir/flags.make
 CMakeFiles/NN.dir/Networks/BNet.cpp.o: ../Networks/BNet.cpp
 CMakeFiles/NN.dir/Networks/BNet.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
 CMakeFiles/NN.dir/Networks/BNet.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
 CMakeFiles/NN.dir/Networks/BNet.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/NN.dir/Networks/BNet.cpp.o"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Networks/BNet.cpp.o -MF CMakeFiles/NN.dir/Networks/BNet.cpp.o.d -o CMakeFiles/NN.dir/Networks/BNet.cpp.o -c /home/ahmed/src/Networks/BNet.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/NN.dir/Networks/BNet.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Networks/BNet.cpp.o -MF CMakeFiles/NN.dir/Networks/BNet.cpp.o.d -o CMakeFiles/NN.dir/Networks/BNet.cpp.o -c /home/ahmed/NN/Networks/BNet.cpp
 
 CMakeFiles/NN.dir/Networks/BNet.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Networks/BNet.cpp.i"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/src/Networks/BNet.cpp > CMakeFiles/NN.dir/Networks/BNet.cpp.i
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Networks/BNet.cpp > CMakeFiles/NN.dir/Networks/BNet.cpp.i
 
 CMakeFiles/NN.dir/Networks/BNet.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Networks/BNet.cpp.s"
-	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/src/Networks/BNet.cpp -o CMakeFiles/NN.dir/Networks/BNet.cpp.s
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Networks/BNet.cpp -o CMakeFiles/NN.dir/Networks/BNet.cpp.s
+
+CMakeFiles/NN.dir/Networks/MNet.cpp.o: CMakeFiles/NN.dir/flags.make
+CMakeFiles/NN.dir/Networks/MNet.cpp.o: ../Networks/MNet.cpp
+CMakeFiles/NN.dir/Networks/MNet.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
+CMakeFiles/NN.dir/Networks/MNet.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
+CMakeFiles/NN.dir/Networks/MNet.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/NN.dir/Networks/MNet.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Networks/MNet.cpp.o -MF CMakeFiles/NN.dir/Networks/MNet.cpp.o.d -o CMakeFiles/NN.dir/Networks/MNet.cpp.o -c /home/ahmed/NN/Networks/MNet.cpp
+
+CMakeFiles/NN.dir/Networks/MNet.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Networks/MNet.cpp.i"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Networks/MNet.cpp > CMakeFiles/NN.dir/Networks/MNet.cpp.i
+
+CMakeFiles/NN.dir/Networks/MNet.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Networks/MNet.cpp.s"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Networks/MNet.cpp -o CMakeFiles/NN.dir/Networks/MNet.cpp.s
+
+CMakeFiles/NN.dir/Networks/CNet.cpp.o: CMakeFiles/NN.dir/flags.make
+CMakeFiles/NN.dir/Networks/CNet.cpp.o: ../Networks/CNet.cpp
+CMakeFiles/NN.dir/Networks/CNet.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx
+CMakeFiles/NN.dir/Networks/CNet.cpp.o: CMakeFiles/NN.dir/cmake_pch.hxx.gch
+CMakeFiles/NN.dir/Networks/CNet.cpp.o: CMakeFiles/NN.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/NN.dir/Networks/CNet.cpp.o"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -MD -MT CMakeFiles/NN.dir/Networks/CNet.cpp.o -MF CMakeFiles/NN.dir/Networks/CNet.cpp.o.d -o CMakeFiles/NN.dir/Networks/CNet.cpp.o -c /home/ahmed/NN/Networks/CNet.cpp
+
+CMakeFiles/NN.dir/Networks/CNet.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/NN.dir/Networks/CNet.cpp.i"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -E /home/ahmed/NN/Networks/CNet.cpp > CMakeFiles/NN.dir/Networks/CNet.cpp.i
+
+CMakeFiles/NN.dir/Networks/CNet.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/NN.dir/Networks/CNet.cpp.s"
+	clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -Winvalid-pch -include /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx -S /home/ahmed/NN/Networks/CNet.cpp -o CMakeFiles/NN.dir/Networks/CNet.cpp.s
 
 # Object files for target NN
 NN_OBJECTS = \
@@ -285,11 +285,11 @@ NN_OBJECTS = \
 "CMakeFiles/NN.dir/Tensor.cpp.o" \
 "CMakeFiles/NN.dir/Operators.cpp.o" \
 "CMakeFiles/NN.dir/Dataset.cpp.o" \
-"CMakeFiles/NN.dir/Ann.cpp.o" \
-"CMakeFiles/NN.dir/Ann2.cpp.o" \
 "CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o" \
 "CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o" \
-"CMakeFiles/NN.dir/Networks/BNet.cpp.o"
+"CMakeFiles/NN.dir/Networks/BNet.cpp.o" \
+"CMakeFiles/NN.dir/Networks/MNet.cpp.o" \
+"CMakeFiles/NN.dir/Networks/CNet.cpp.o"
 
 # External object files for target NN
 NN_EXTERNAL_OBJECTS =
@@ -302,14 +302,14 @@ NN: CMakeFiles/NN.dir/Timer.cpp.o
 NN: CMakeFiles/NN.dir/Tensor.cpp.o
 NN: CMakeFiles/NN.dir/Operators.cpp.o
 NN: CMakeFiles/NN.dir/Dataset.cpp.o
-NN: CMakeFiles/NN.dir/Ann.cpp.o
-NN: CMakeFiles/NN.dir/Ann2.cpp.o
 NN: CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o
 NN: CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o
 NN: CMakeFiles/NN.dir/Networks/BNet.cpp.o
+NN: CMakeFiles/NN.dir/Networks/MNet.cpp.o
+NN: CMakeFiles/NN.dir/Networks/CNet.cpp.o
 NN: CMakeFiles/NN.dir/build.make
 NN: CMakeFiles/NN.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ahmed/src/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable NN"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ahmed/NN/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable NN"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/NN.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -321,6 +321,6 @@ CMakeFiles/NN.dir/clean:
 .PHONY : CMakeFiles/NN.dir/clean
 
 CMakeFiles/NN.dir/depend:
-	cd /home/ahmed/src/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ahmed/src /home/ahmed/src /home/ahmed/src/build /home/ahmed/src/build /home/ahmed/src/build/CMakeFiles/NN.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/ahmed/NN/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ahmed/NN /home/ahmed/NN /home/ahmed/NN/build /home/ahmed/NN/build /home/ahmed/NN/build/CMakeFiles/NN.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/NN.dir/depend
 

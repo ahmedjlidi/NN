@@ -27,6 +27,8 @@ private:
 	friend class Net;
 	friend class BNet;
 	friend class MAnn;
+	friend class MNet;
+	friend class CNet;
 
 	Tensor input;
 	Tensor weights;
@@ -37,6 +39,7 @@ private:
 	int outputSize, inputSize;
 	Tensor error;
 	Tensor prev_weights;
+	
 
 	int getParamNum();
 
@@ -53,6 +56,7 @@ public:
 	std::pair<int, int> features();
 	void reset();
 	Tensor &getWeights();
+	Tensor& getWeightSum();
 
 	void saveToFile();
 	// void loadFromFile()

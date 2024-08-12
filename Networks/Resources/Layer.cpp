@@ -40,7 +40,8 @@ void Layer::forward(std::string actFun)
 	try
 	{
 
-		if (actFun != "ReLU" && actFun != "Sigmoid" && actFun != "None")
+		if (actFun != "ReLU" && actFun != "Sigmoid" &&
+			actFun != "None" && actFun != "Softmax")
 			throw std::runtime_error("Activation function \"" + actFun + "\" is defined.\n");
 	}
 	catch (const std::exception &e)
@@ -54,6 +55,13 @@ void Layer::forward(std::string actFun)
 	if (this->useBias)
 	{
 		this->output = this->output + this->bias;
+	}
+	if (actFun == "Softmax")
+	{
+		// float max = rx::Utility::max(this->output.values()[0]);
+		// this->output = this->output - max;
+		this->output.values() = rx::Utility::Softmax(this->output.values());
+		return;
 	}
 	if (actFun == "None")
 	{
@@ -149,4 +157,9 @@ void Layer::saveToFile()
 	file << "\n";
 	file << "\n";
 	file.close();
+}
+
+Tensor &Layer::getWeightSum()
+{
+	return this->weight_sum;
 }

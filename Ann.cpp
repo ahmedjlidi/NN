@@ -153,141 +153,142 @@ Tensor Ann::gradient(Tensor &input, Tensor &Error)
 
 void Ann::backProp()
 {
-	Layer prev_layer = *this->layers[this->layers.size() - 1];
-	for (int i = this->layers.size() - 1; i >= 0; i--)
-	{
+	std::cout<<"Ann function was called.\n";
+	// Layer prev_layer = *this->layers[this->layers.size() - 1];
+	// for (int i = this->layers.size() - 1; i >= 0; i--)
+	// {
 
-		Layer &layer = *this->layers[i];
-		auto err = [](Tensor yHat, float y) -> Tensor
-		{
-			return yHat - y;
-		};
+	// 	Layer &layer = *this->layers[i];
+	// 	auto err = [](Tensor yHat, float y) -> Tensor
+	// 	{
+	// 		return yHat - y;
+	// 	};
 
-		static Tensor error;
-		float gradient = gradi(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
+	// 	static Tensor error;
+	// 	float gradient = gradi(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
 
-		// Backrop the output layer
-		if (i == this->layers.size() - 1)
-		{
+	// 	// Backrop the output layer
+	// 	if (i == this->layers.size() - 1)
+	// 	{
 
-			Tensor g = grad_err(this->y.values()[0][this->count], layer.getOutput(), layer.input, gradient, i);
-			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
-			this->layers[i - 1]->prev_weights = layer.weights;
-			this->debug_parameters.weight_grad[i] = g;
+	// 		Tensor g = grad_err(this->y.values()[0][this->count], layer.getOutput(), layer.input, gradient, i);
+	// 		error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
+	// 		this->layers[i - 1]->prev_weights = layer.weights;
+	// 		this->debug_parameters.weight_grad[i] = g;
 
-			if (!this->avg_gradient[i].empty())
-				this->avg_gradient[i] = this->avg_gradient[i] + g;
-			else
-				this->avg_gradient[i] = g;
+	// 		if (!this->avg_gradient[i].empty())
+	// 			this->avg_gradient[i] = this->avg_gradient[i] + g;
+	// 		else
+	// 			this->avg_gradient[i] = g;
 
-			this->currLoss = rx::Utility::Bce(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
-		}
-		// Backprop hidden layer
-		else
-		{
-			Tensor dv_actFun_values;
-			if (this->actFun_hidden == rx::Utility::ReLU)
-			{
-				dv_actFun_values.values() = rx::Utility::relu_dv(layer.weight_sum.values());
-			}
+	// 		this->currLoss = rx::Utility::Bce(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
+	// 	}
+	// 	// Backprop hidden layer
+	// 	else
+	// 	{
+	// 		Tensor dv_actFun_values;
+	// 		if (this->actFun_hidden == rx::Utility::ReLU)
+	// 		{
+	// 			dv_actFun_values.values() = rx::Utility::relu_dv(layer.weight_sum.values());
+	// 		}
 
-			if (i + 1 >= this->layers.size() - 1)
-			{
-				layer.error = error;
-			}
-			else
-			{
-				layer.error = this->layers[i + 1]->error;
-			}
+	// 		if (i + 1 >= this->layers.size() - 1)
+	// 		{
+	// 			layer.error = error;
+	// 		}
+	// 		else
+	// 		{
+	// 			layer.error = this->layers[i + 1]->error;
+	// 		}
 
-			dv_actFun_values = dv_actFun_values.T();
-			Tensor T_weights = layer.prev_weights.T();
-			Tensor cur_error = T_weights * layer.error * dv_actFun_values;
+	// 		dv_actFun_values = dv_actFun_values.T();
+	// 		Tensor T_weights = layer.prev_weights.T();
+	// 		Tensor cur_error = T_weights * layer.error * dv_actFun_values;
 
-			layer.error = cur_error;
-			Tensor T_input = layer.input;
-			Tensor gradient = cur_error * T_input;
-			this->debug_parameters.weight_grad[i] = gradient;
-			if (i != 0)
-				this->layers[i - 1]->prev_weights = layer.weights;
-			// updateWeights(layer.weights, gradient);
+	// 		layer.error = cur_error;
+	// 		Tensor T_input = layer.input;
+	// 		Tensor gradient = cur_error * T_input;
+	// 		this->debug_parameters.weight_grad[i] = gradient;
+	// 		if (i != 0)
+	// 			this->layers[i - 1]->prev_weights = layer.weights;
+	// 		// updateWeights(layer.weights, gradient);
 
-			if (!this->avg_gradient[i].empty())
-				this->avg_gradient[i] = this->avg_gradient[i] + gradient;
-			else
-				this->avg_gradient[i] = gradient;
-		}
+	// 		if (!this->avg_gradient[i].empty())
+	// 			this->avg_gradient[i] = this->avg_gradient[i] + gradient;
+	// 		else
+	// 			this->avg_gradient[i] = gradient;
+	// 	}
 
-		// Backprop Bias
-		if (layer.usBias())
-		{
-			// Bias for output layer
-			if (i == this->layers.size() - 1)
-			{
+	// 	// Backprop Bias
+	// 	if (layer.usBias())
+	// 	{
+	// 		// Bias for output layer
+	// 		if (i == this->layers.size() - 1)
+	// 		{
 
-				float dv_loss;
+	// 			float dv_loss;
 
-				if (this->actFun_output == rx::Utility::Sigmoid)
-				{
-					dv_loss = gradient * this->layers[this->layers.size() - 1]->getOutput().values()[0][0] * (1 - this->layers[this->layers.size() - 1]->getOutput().values()[0][0]);
-				}
-				else if (this->actFun_output == rx::Utility::ReLU)
-				{
-					dv_loss = gradient * this->layers[this->layers.size() - 1]->weight_sum.values()[0][0] > 0 ? 1 : 0;
-				}
+	// 			if (this->actFun_output == rx::Utility::Sigmoid)
+	// 			{
+	// 				dv_loss = gradient * this->layers[this->layers.size() - 1]->getOutput().values()[0][0] * (1 - this->layers[this->layers.size() - 1]->getOutput().values()[0][0]);
+	// 			}
+	// 			else if (this->actFun_output == rx::Utility::ReLU)
+	// 			{
+	// 				dv_loss = gradient * this->layers[this->layers.size() - 1]->weight_sum.values()[0][0] > 0 ? 1 : 0;
+	// 			}
 
-				dv_loss = roundTo(dv_loss, 4);
+	// 			dv_loss = roundTo(dv_loss, 4);
 
-				Tensor temp;
-				temp.values().resize(1);
-				temp.values()[0].push_back(dv_loss);
-				this->debug_parameters.bias_grad[i] = temp;
+	// 			Tensor temp;
+	// 			temp.values().resize(1);
+	// 			temp.values()[0].push_back(dv_loss);
+	// 			this->debug_parameters.bias_grad[i] = temp;
 
-				if (!this->avg_bias[i].empty())
-					this->avg_bias[i] = this->avg_bias[i] + temp;
-				else
-					this->avg_bias[i] = temp;
-			}
-			else
-			{
-				Tensor dv_act_fun;
-				if (this->actFun_hidden == rx::Utility::ReLU)
-				{
-					dv_act_fun.values() = rx::Utility::relu_dv(layer.weight_sum.values());
-				}
-				else if (this->actFun_hidden == rx::Utility::Sigmoid)
-				{
-					Tensor &inp = layer.input;
-					Tensor &out = layer.output;
-					dv_act_fun.values() = rx::Utility::sigmoid_dv(inp.values(), out.values());
-				}
-				dv_act_fun = dv_act_fun.T();
-				Tensor T_weight = layer.prev_weights.T();
-				Tensor curr_error;
-				if (i + 1 >= this->layers.size() - 1)
-				{
-					curr_error = error;
-				}
-				else
-				{
-					curr_error = this->layers[i + 1]->error;
-				}
-				Tensor gradient = T_weight * curr_error * dv_act_fun;
-				gradient = gradient.T();
-				this->debug_parameters.bias_grad[i] = gradient;
+	// 			if (!this->avg_bias[i].empty())
+	// 				this->avg_bias[i] = this->avg_bias[i] + temp;
+	// 			else
+	// 				this->avg_bias[i] = temp;
+	// 		}
+	// 		else
+	// 		{
+	// 			Tensor dv_act_fun;
+	// 			if (this->actFun_hidden == rx::Utility::ReLU)
+	// 			{
+	// 				dv_act_fun.values() = rx::Utility::relu_dv(layer.weight_sum.values());
+	// 			}
+	// 			else if (this->actFun_hidden == rx::Utility::Sigmoid)
+	// 			{
+	// 				Tensor &inp = layer.input;
+	// 				Tensor &out = layer.output;
+	// 				dv_act_fun.values() = rx::Utility::sigmoid_dv(inp.values(), out.values());
+	// 			}
+	// 			dv_act_fun = dv_act_fun.T();
+	// 			Tensor T_weight = layer.prev_weights.T();
+	// 			Tensor curr_error;
+	// 			if (i + 1 >= this->layers.size() - 1)
+	// 			{
+	// 				curr_error = error;
+	// 			}
+	// 			else
+	// 			{
+	// 				curr_error = this->layers[i + 1]->error;
+	// 			}
+	// 			Tensor gradient = T_weight * curr_error * dv_act_fun;
+	// 			gradient = gradient.T();
+	// 			this->debug_parameters.bias_grad[i] = gradient;
 
-				if (!this->avg_bias[i].empty())
-					this->avg_bias[i] = this->avg_bias[i] + gradient;
-				else
-					this->avg_bias[i] = gradient;
-			}
-		}
+	// 			if (!this->avg_bias[i].empty())
+	// 				this->avg_bias[i] = this->avg_bias[i] + gradient;
+	// 			else
+	// 				this->avg_bias[i] = gradient;
+	// 		}
+	// 	}
 
-		if (i != this->layers.size() - 1)
-		{
-			error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
-		}
-	}
+	// 	if (i != this->layers.size() - 1)
+	// 	{
+	// 		error = err(layer.getOutput().values(), this->y.values()[0][this->count]);
+	// 	}
+	// }
 }
 
 Layer &Ann::getLayer(int index)

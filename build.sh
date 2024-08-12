@@ -21,3 +21,9 @@ make -j$(nproc)
 
 # Move the executable to the parent directory
 mv NN ..
+
+cd ..
+
+ulimit -s 500000
+
+./NN

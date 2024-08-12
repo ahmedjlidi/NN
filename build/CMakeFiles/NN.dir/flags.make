@@ -8,29 +8,29 @@ CXX_INCLUDES =
 
 CXX_FLAGS = -O3 -DNDEBUG
 
-# PCH options: CMakeFiles/NN.dir/cmake_pch.hxx.gch_OPTIONS = -Winvalid-pch;-x;c++-header;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/cmake_pch.hxx.gch_OPTIONS = -Winvalid-pch;-x;c++-header;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/main.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/main.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Utility.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Utility.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/stdafx.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/stdafx.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Timer.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Timer.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Tensor.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Tensor.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Operators.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Operators.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Dataset.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Dataset.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Ann.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Ann2.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Networks/Resources/Layer.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Networks/BNet.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Networks/Resources/Net.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Networks/MNet.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 
-# PCH options: CMakeFiles/NN.dir/Networks/BNet.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx
+# PCH options: CMakeFiles/NN.dir/Networks/CNet.cpp.o_OPTIONS = -Winvalid-pch;-include;/home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx
 

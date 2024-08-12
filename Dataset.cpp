@@ -64,7 +64,6 @@ DataSet::DataSet(std::vector<std::string> *cris)
 
 bool DataSet::loadCsvFile(std::string filename)
 {
-
 	FILE *file = fopen(filename.c_str(), "r");
 	if (!file)
 		return false;

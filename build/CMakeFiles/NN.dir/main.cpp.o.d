@@ -1,7 +1,7 @@
 CMakeFiles/NN.dir/main.cpp.o: \
-  /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx \
-  /home/ahmed/src/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx \
-  /home/ahmed/src/stdafx.h \
+  /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx \
+  /home/ahmed/NN/build/CMakeFiles/NN.dir/cmake_pch.hxx.cxx \
+  /home/ahmed/NN/stdafx.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/iostream \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11/bits/c++config.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/x86_64-linux-gnu/c++/11/bits/os_defines.h \
@@ -263,13 +263,14 @@ CMakeFiles/NN.dir/main.cpp.o: \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/cstring \
   /usr/include/string.h /usr/include/strings.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/cassert \
-  /usr/include/assert.h /home/ahmed/src/main.cpp \
-  /home/ahmed/src/Networks/Network.h \
-  /home/ahmed/src/Networks/Resources/Net.h \
-  /home/ahmed/src/Networks/Resources/Layer.h \
-  /home/ahmed/src/Networks/Resources/../../Utility.h \
-  /home/ahmed/src/DataSet.h /home/ahmed/src/Tensor.h \
-  /home/ahmed/src/Operators.h \
-  /home/ahmed/src/Networks/Resources/../../Tensor.h \
-  /home/ahmed/src/Networks/Resources/../../Timer.h \
-  /home/ahmed/src/Networks/BNet.h /home/ahmed/src/Networks/../stdafx.h
+  /usr/include/assert.h /home/ahmed/NN/main.cpp \
+  /home/ahmed/NN/Networks/Network.h \
+  /home/ahmed/NN/Networks/Resources/Net.h \
+  /home/ahmed/NN/Networks/Resources/Layer.h \
+  /home/ahmed/NN/Networks/Resources/../../Utility.h \
+  /home/ahmed/NN/DataSet.h /home/ahmed/NN/Tensor.h \
+  /home/ahmed/NN/Operators.h \
+  /home/ahmed/NN/Networks/Resources/../../Tensor.h \
+  /home/ahmed/NN/Networks/Resources/../../Timer.h \
+  /home/ahmed/NN/Networks/BNet.h /home/ahmed/NN/Networks/MNet.h \
+  /home/ahmed/NN/Networks/CNet.h /home/ahmed/NN/Networks/../stdafx.h
