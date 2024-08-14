@@ -7,14 +7,14 @@
 #include "CNet.h"
 #include "../stdafx.h"
 
-
 namespace rx
 {
 	enum TYPE : short
 	{
-		REGRESSION,
-		BINARY_CLASSIFICATION,
-		CROSS_CLASSIFICATION,
+		BINARY_CLASSIFICATION = 1,
+		CROSS_CLASSIFICATION = 2,
+		REGRESSION = 3,
+
 	};
 	std::unique_ptr<Net> initNet(short type)
 	{

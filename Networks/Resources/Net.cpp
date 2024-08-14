@@ -195,6 +195,10 @@ const float Net::getCurrLoss()
 {
 	return this->currLoss;
 }
+Tensor &Net::getInput()
+{
+	return this->input;
+}
 Net::DebugParam Net::debugParam()
 {
 	return this->debug_parameters;

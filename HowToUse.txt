@@ -1,4 +1,3 @@
-======================================================================================
 
 HOW TO IMPORT DATASETS
 1- Include "Dataset.h"
@@ -34,5 +33,21 @@ $ relu hidden activation function
 
 4- Add layers using addLayer method and pass input and output size 
 (set last parameter to False to disable bias)
+5- Pass the data to the model using Net::PassData function
+6- using setLr to set learning rate (obligated)
+7- use train method to start training (set 2nd parameter to true to see epochs and loss)
+(set last parameter to true to see current accuracy)
 
-===============================================================================================
+
+8- If using BINARY_CLASSIFICATION you can use 
+rx::Utility::accuracy(Net::round(Model.predict(x).values())) 
+to see accuracy (use (Model.predict(x).T().values())) if this does not work
+
+9- If using CROSS_CLASSIFICATION you can use 
+	Tensor output;
+	output.values().resize(1);
+	for (int i = 0; i < dataset.getSet()->size(); i++)
+	{
+		output.values()[0].push_back(rx::Utility::argmax(Model->predict(x).values()[i]));
+	}
+	printf("Model accuracy: %.2f %c \n", rx::Utility::accuracy(y.values(), output.values()),)

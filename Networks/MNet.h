@@ -5,6 +5,7 @@
 
 class MNet : public Net
 {
+	std::vector<float> losses;
 
 public:
 	MNet() {};

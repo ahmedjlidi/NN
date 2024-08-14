@@ -7,6 +7,7 @@
 class Net
 {
 	friend class BNet;
+
 protected:
 	std::vector<Layer *> layers;
 	float learning_rate;
@@ -34,7 +35,7 @@ protected:
 	// Back prop temp values/////
 
 	float currLoss;
-	std::vector<float>losses;
+	std::vector<float> losses;
 	int count = 0;
 
 	Tensor input, y;
@@ -72,6 +73,8 @@ public:
 	virtual DebugParam debugParam();
 	virtual Layer &getLayer(int index);
 	virtual const float getCurrLoss();
+	virtual Tensor &getInput();
+
 	/////////////////////////////////////
 
 	// static function////////////////////////////////

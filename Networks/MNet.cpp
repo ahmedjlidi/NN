@@ -3,13 +3,13 @@
 
 void MNet::setLR(const float _learning_rate_)
 {
-    this->learning_rate = _learning_rate_;
-    this->actFun_hidden = rx::Utility::ReLU;
-    this->actFun_output = nullptr;
-    this->param.actFun_h = "ReLU";
-    this->param.actFun_o = "None";
-    this->param.lr = _learning_rate_;
-    this->param.lossFun = "Mean-loss"; 
+	this->learning_rate = _learning_rate_;
+	this->actFun_hidden = rx::Utility::ReLU;
+	this->actFun_output = nullptr;
+	this->param.actFun_h = "ReLU";
+	this->param.actFun_o = "None";
+	this->param.lr = _learning_rate_;
+	this->param.lossFun = "Mean-loss";
 }
 
 void MNet::backProp()
@@ -39,7 +39,9 @@ void MNet::backProp()
 				this->avg_gradient[i] = gradient;
 			}
 
-			this->currLoss = rx::Utility::Mse(this->y.values()[0][this->count], layer.getOutput().values()[0][0]);
+			this->losses.push_back(
+				rx::Utility::Mse(this->y.values()[0][this->count],
+								 layer.getOutput().values()[0][0]));
 		}
 		// Backprop hidden layer
 		else
@@ -107,6 +109,8 @@ void MNet::backProp()
 			}
 		}
 	}
+	this->currLoss = rx::Utility::mean(this->losses);
+	this->losses.clear();
 }
 
 void MNet::train(int epochs, bool debug, bool showAcc)
@@ -192,4 +196,3 @@ void MNet::train(int epochs, bool debug, bool showAcc)
 		this->timer.reset();
 	}
 }
-
