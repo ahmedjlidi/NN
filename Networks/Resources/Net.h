@@ -74,6 +74,7 @@ public:
 	virtual Layer &getLayer(int index);
 	virtual const float getCurrLoss();
 	virtual Tensor &getInput();
+	virtual const float getIterationSize();
 
 	/////////////////////////////////////
 
@@ -87,7 +88,8 @@ public:
 	virtual void debug(short type = ALL);
 	// static void summary(Ann& Model);
 	////////////////////////////////////////////////////
-
+	void zero_grad();
+	void optimizer_step();
 	virtual Tensor predict(Tensor input);
 };
 #endif

@@ -24,6 +24,7 @@ set(SOURCE_FILES
         Dataset.cpp
         Networks/Resources/Layer.cpp
         Networks/Resources/Net.cpp
+        #Networks/Resources/Conv.cpp
         Networks/BNet.cpp
         Networks/MNet.cpp
         Networks/CNet.cpp

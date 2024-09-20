@@ -100,13 +100,6 @@ void Net::forward(std::string input_actFun, std::string output_actFun)
 }
 void Net::train(int epochs, bool debug, bool showAcc)
 {
-	// Function to zero the gradients to prevent accumulation
-	auto zero_grad = [this](std::map<int, Tensor> &grad_weight, std::map<int, Tensor> &grad_bias)
-	{
-		grad_weight.clear();
-		grad_bias.clear();
-	};
-
 	// Check if epochs are less or equal to 0
 	try
 	{
@@ -128,47 +121,19 @@ void Net::train(int epochs, bool debug, bool showAcc)
 		float acc = 0.f;
 		if (showAcc)
 			acc = rx::Utility::accuracy(this->y.values(), Net::round(this->predict(this->input), 0.5).values());
-		for (int i = 0; i < this->input.values().size(); i++)
+		for (int i = 0; i < this->getIterationSize(); i++)
 		{
 			// Forward propagation
 			this->forward();
 
 			// Zero the grads
-			zero_grad(this->avg_gradient, this->avg_bias);
+			this->zero_grad();
 
 			// Calculate the loss and backpropagate
 			this->backProp();
 
 			// Average the gradients (batch gradient descent)
-			auto weight_it = this->avg_gradient.begin();
-			auto bias_it = this->avg_bias.begin();
-
-			const float scaler = (1 / static_cast<float>(this->input.values().size()));
-			while (weight_it != avg_gradient.end() && bias_it != avg_bias.end())
-			{
-
-				weight_it->second = weight_it->second * scaler;
-				bias_it->second = bias_it->second * scaler;
-				++weight_it;
-				++bias_it;
-			}
-
-			// Update the weights (IF CODE WORKS DON'T TOUCH IT!!!!!)
-			for (int i = 0; i < this->layers.size(); i++)
-			{
-				if (!this->avg_gradient[i].empty())
-					updateWeights(this->layers[i]->weights, this->avg_gradient[i]);
-				if (this->layers[i]->usBias() && !this->avg_bias[i].empty())
-				{
-					updateBias(this->layers[i]->bias, this->avg_bias[i]);
-				}
-			}
-
-			// count is used to keep track of the current sample processed. Once reached the end reset it
-			if (static_cast<unsigned long long>(this->count) + 1 >= this->input.values().size())
-				this->count = 0;
-			else
-				this->count++;
+			this->optimizer_step();
 		}
 
 		// Print debug messages
@@ -198,6 +163,10 @@ const float Net::getCurrLoss()
 Tensor &Net::getInput()
 {
 	return this->input;
+}
+const float Net::getIterationSize()
+{
+	return this->input.values().size();
 }
 Net::DebugParam Net::debugParam()
 {
@@ -380,6 +349,44 @@ void Net::debug(short type)
 		return;
 	}
 	print("\n=============================\n");
+}
+
+void Net::zero_grad()
+{
+	this->avg_gradient.clear();
+	this->avg_bias.clear();
+}
+
+void Net::optimizer_step()
+{
+	auto weight_it = this->avg_gradient.begin();
+	auto bias_it = this->avg_bias.begin();
+
+	const float scaler = (1 / static_cast<float>(this->input.values().size()));
+	while (weight_it != avg_gradient.end() && bias_it != avg_bias.end())
+	{
+
+		weight_it->second = weight_it->second * scaler;
+		bias_it->second = bias_it->second * scaler;
+		++weight_it;
+		++bias_it;
+	}
+
+	// Update the weights (IF CODE WORKS DON'T TOUCH IT!!!!!)
+	for (int i = 0; i < this->layers.size(); i++)
+	{
+		if (!this->avg_gradient[i].empty())
+			updateWeights(this->layers[i]->weights, this->avg_gradient[i]);
+		if (this->layers[i]->usBias() && !this->avg_bias[i].empty())
+		{
+			updateBias(this->layers[i]->bias, this->avg_bias[i]);
+		}
+	}
+	// count is used to keep track of the current sample processed. Once reached the end reset it
+	if (static_cast<unsigned long long>(this->count) + 1 >= this->input.values().size())
+		this->count = 0;
+	else
+		this->count++;
 }
 
 Tensor Net::predict(Tensor input)
